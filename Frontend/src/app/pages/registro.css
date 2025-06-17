@@ -1,0 +1,37 @@
+.registro-form {
+  max-width: 600px;
+  margin: auto;
+  font-family: 'Orbitron', sans-serif;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .row {
+    display: flex;
+    gap: 1rem;
+
+    input {
+      flex: 1;
+    }
+  }
+
+  input, select {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 0.6rem;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: black;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,32 @@
+.auth-form {
+  max-width: 400px;
+  margin: 2rem auto;
+  text-align: left;
+  font-family: 'Orbitron', sans-serif;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    display: block;
+    margin: 0.5rem 0 0.2rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    background: black;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+}

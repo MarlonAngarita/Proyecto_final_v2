@@ -1,0 +1,109 @@
+:host {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.inicio {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+
+  font-family: 'Orbitron', sans-serif;
+  color: #fff;
+
+  background: url('/assets/Fondo.png') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.inicio::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.inicio header,
+.inicio main {
+  position: relative;
+  z-index: 2;
+}
+
+.inicio header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+}
+
+.inicio .logo {
+  height: 100px;
+  width: 170px;
+  margin-left: 30px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.inicio nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  font-weight: bold;
+  color: #f8c400;
+  transition: text-shadow 0.3s;
+  cursor: pointer;
+}
+
+.inicio nav a:hover {
+  text-shadow: 0 0 6px #f8c400;
+}
+
+.inicio main {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.inicio main button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left:40px;
+}
+
+.inicio main button img {
+  width: 220px;
+  transition: transform 0.3s;
+}
+
+.inicio main button img:hover {
+  transform: scale(1.05);
+}
+
+/* Sección blanca debajo con contenido adicional */
+.info-extra {
+  background-color: #fff;
+  color: #000;
+  padding: 4rem 2rem;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.info-extra .bloque {
+  max-width: 800px;
+  margin: 0 auto 4rem;
+  text-align: center;
+}
+
+.info-extra h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.info-extra p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
