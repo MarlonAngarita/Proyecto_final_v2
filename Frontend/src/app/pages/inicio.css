@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+body, h2, p, nav a {
+  font-family: 'VT323', monospace;
+}
+
 .inicio {
   position: relative;
   width: 100vw;
@@ -51,7 +55,7 @@
 .inicio nav a {
   margin: 0 1rem;
   text-decoration: none;
-  font-weight: bold;
+  font-size: 1.7rem;
   color: #f8c400;
   transition: text-shadow 0.3s;
   cursor: pointer;
@@ -98,12 +102,42 @@
 
 .info-extra h2 {
   font-size: 2rem;
-  color: #333;
+  color: #000000;
   margin-bottom: 1rem;
 }
 
 .info-extra p {
-  font-size: 1rem;
+  font-size: 2rem;
   line-height: 1.6;
 }
 
+.contenedor-parrafo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  text-align: justify;
+  margin-top: 2rem;
+}
+
+.contenedor-parrafo p {
+  flex: 1 1 500px;
+  font-size: 1.8rem;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.decoracion {
+  width: 100px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.decoracion.izquierda {
+  order: -1;
+}
+
+.decoracion.derecha {
+  order: 1;
+}
