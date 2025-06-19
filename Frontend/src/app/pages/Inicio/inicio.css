@@ -123,13 +123,14 @@ body, h2, p, nav a {
 
 .contenedor-parrafo p {
   flex: 1 1 500px;
+  align-items: left;
   font-size: 1.8rem;
   margin: 0;
   line-height: 1.6;
 }
 
 .decoracion {
-  width: 100px;
+  width: 350px;
   height: auto;
   flex-shrink: 0;
 }
