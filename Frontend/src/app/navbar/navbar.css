@@ -1,0 +1,48 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: #5A397C;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  padding: 0 1rem;
+}
+
+.navbar-logo {
+  color: #ededed;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Comic Neue', cursive;
+  margin-left: 3rem;
+}
+
+.navbar-logo a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-img {
+  width: 120px;
+  height: auto;
+  cursor: pointer;
+}
+
+.navbar-buttons nav a {
+  margin: 0 4.8rem;
+  margin-left: 1px;
+  text-decoration: none;
+  font-size: 1.7rem;
+  font-family: 'VT323', monospace;
+  color: #f8c400;
+  transition: text-shadow 0.3s;
+  cursor: pointer;
+}
+
+.navbar-buttons nav a:hover {
+  text-shadow: 0 0 6px #f8c400;
+}
