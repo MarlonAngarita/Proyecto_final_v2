@@ -1,10 +1,11 @@
-<section class="inicio">
+<section id="inicio" class="inicio">
   <header class="header-fijo">
-    <img src="/assets/Logo.png" alt="Logo claro" class="logo" />
+    <img src="/assets/Logo.png" alt="Logo claro" class="logo" (click)="scrollToSection('inicio')" />
+
     <nav>
-      <a routerLink="/">Inicio</a>
-      <a routerLink="/#quienes">¿Quiénes somos?</a>
-      <a routerLink="/#contacto">Contáctanos</a>
+      <a (click)="scrollToSection('inicio')">Inicio</a>
+      <a (click)="scrollToSection('quienes')">¿Quiénes somos?</a>
+      <a (click)="scrollToSection('contacto')">Contáctanos</a>
     </nav>
   </header>
 
@@ -13,12 +14,11 @@
       <img src="/assets/btn_inicio_sesion.png" alt="Botón iniciar sesión" />
     </button>
   </main>
-
 </section>
 
-<section class="info-extra">
+<section id="quienes" class="info-extra">
   <div class="bloque">
-    <h2>Quiénes somos</h2>
+    <h2>Quiénes somos<hr></h2>
 
     <div class="contenedor-parrafo">
       <img src="/assets/azul.png" alt="Decoración azul" class="decoracion izquierda" />
@@ -30,19 +30,23 @@
     </div>
   </div>
 
-  <div class="bloque">
-    <h2>Misión</h2>
+<div class="bloque">
+  <h2>Misión<hr></h2>
 
-    <p>Queremos entregar las herramientas necesarias para tener fundamentos en programación
-          trabajando sobre un contenido lúdico y preciso que permita desarrollarlas de forma
-          sencilla y que a su vez genere un pensamiento lógico, crítico y analítico.</p>
-    </div>
   <div class="contenedor-parrafo">
-      <img src="/assets/rojo.png" alt="Decoración rojo" class="decoracion derecha" />
+    <p>
+      Queremos entregar las herramientas necesarias para tener fundamentos en programación,
+      trabajando sobre un contenido lúdico y preciso que permita desarrollarlas de forma
+      sencilla y que a su vez genere un pensamiento lógico, crítico y analítico.
+    </p>
+
+    <img src="/assets/rojo.png" alt="Decoración rojo" class="decoracion derecha" />
   </div>
+</div>
+
 
   <div class="bloque">
-    <h2>Visión</h2>
+    <h2>Visión<hr></h2>
 
     <div class="contenedor-parrafo">
       <img src="/assets/verde.png" alt="Decoración verde" class="decoracion izquierda" />
@@ -54,3 +58,39 @@
     </div>
   </div>
 </section>
+
+<footer id="contacto" class="footer">
+  <div class="footer-contenido">
+    <div class="footer-logo">
+      <img src="/assets/Logo.png" alt="Logo PandaTaT" />
+    </div>
+
+    <div class="footer-titulo-centrado">
+      <h1 class="titulo-escribenos">Escríbenos<hr></h1>
+      <p class="subtexto-ansiosos">Estamos ansiosos por conocerte.</p>
+    </div>
+
+    <div class="footer-formulario">
+      <form>
+        <div class="input-group">
+          <input type="text" name="nombre" required />
+          <label>Nombre</label>
+        </div>
+
+        <div class="input-group">
+          <input type="email" name="email" required />
+          <label>Email</label>
+        </div>
+
+        <div class="input-group">
+          <textarea name="mensaje" rows="4" required></textarea>
+          <label>Mensaje</label>
+        </div>
+
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+</footer>
+
+
