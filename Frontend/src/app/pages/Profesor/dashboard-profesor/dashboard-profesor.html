@@ -1,1 +1,48 @@
-<p>dashboard-profesor works!</p>
+<section class="dashboard-profesor">
+  <div class="cabecera-profesor">
+    <img [src]="avatarURL" alt="Avatar Profesor" class="avatar" />
+    <h1>Bienvenido, {{ nombreProfesor }}</h1>
+  </div>
+
+  <div class="paneles">
+    <div class="panel" routerLink="/crear-curso">➕ Crear nuevo curso</div>
+    <div class="panel" routerLink="/crear-modulo">📚 Crear módulo</div>
+    <div class="panel" routerLink="/crear-desafio">🏆 Crear desafío</div>
+    <div class="panel" routerLink="/foro">💬 Ir al foro</div>
+  </div>
+
+  <div class="seccion">
+    <h2>Cursos asignados</h2>
+    <div class="tarjetas">
+      <div class="tarjeta" *ngFor="let curso of cursosAsignados">
+        <h3>{{ curso.nombre }}</h3>
+        <p>Estudiantes inscritos: {{ curso.estudiantes.length }}</p>
+        <button routerLink="/curso/{{curso.id}}">Ver curso</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <h2>Progreso de estudiantes</h2>
+    <div class="tabla-scrollable">
+      <table>
+        <thead>
+          <tr>
+            <th>Estudiante</th>
+            <th>Curso</th>
+            <th>Módulo</th>
+            <th>Progreso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of progresoEstudiantes">
+            <td>{{ p.nombre }}</td>
+            <td>{{ p.curso }}</td>
+            <td>{{ p.modulo }}</td>
+            <td>{{ p.porcentaje }}%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
