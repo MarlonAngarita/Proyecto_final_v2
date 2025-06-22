@@ -1,21 +1,37 @@
 <section class="registro-form">
-  
-  <!-- <img src="/assets/REGISTRODEUSUARIO.png" alt="Registro de Usuario" class="imagen-registro"> -->
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <h1>
+      Registro de Usuario
+      <hr />
+    </h1>
 
-  <form>
-    <h1>Registro de Usuario <hr></h1>
-    
     <div class="row">
-      <input type="text" placeholder="Nombre" />
-      <input type="text" placeholder="Apellido" />
+      <input type="text" name="nombre" placeholder="Nombre" ngModel required />
+      <input type="text" name="apellido" placeholder="Apellido" ngModel required />
     </div>
-    <input type="email" placeholder="Email" />
-    <input type="password" placeholder="Contraseña" />
-    <input type="password" placeholder="Confirmar Contraseña" />
-    <select>
-      <option>Tipo de Documento</option>
+
+    <input type="email" name="email" placeholder="Email" ngModel required />
+    <input type="password" name="password" placeholder="Contraseña" ngModel required />
+    <input type="password" name="confirmar" placeholder="Confirmar Contraseña" ngModel required />
+
+    <select name="tipoDocumento" ngModel>
+      <option value="" disabled disabled>Tipo de Documento</option>      <option value="cedula">Cédula</option>
+      <option value="extranjeria">Cédula de extranjería</option>
+      <option value="tarjeta">Tarjeta de identidad</option>
     </select>
-    <input type="text" placeholder="Número de Documento" />
+
+    <input type="text" name="numeroDocumento" placeholder="Número de Documento" ngModel required />
+    
     <button type="submit">Registrarse</button>
+
+    <!-- Modal de confirmación -->
+    <div class="modal-confirmacion" *ngIf="mostrarConfirmacion">
+      <div class="modal-contenido">
+        <p>¡Te has registrado de forma exitosa!</p>
+        <button type="button" (click)="cerrarModal()">Cerrar</button>
+      </div>
+    </div>
+  
+
   </form>
 </section>

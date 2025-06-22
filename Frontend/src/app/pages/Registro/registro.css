@@ -2,23 +2,27 @@ body {
   /* margin-bottom: 1000px; */
   overflow: hidden;
 }
-h1 {
+h1{
   font-size: 2.5rem;
   font-family: 'VT323', monospace;
   text-align: center;
   margin-bottom: 2rem;
+  color: #F2CA52; /* Color del texto */
 }
 
 .registro-form {
-  max-width: 600px;
-  margin: auto;
-  font-family: 'Orbitron', sans-serif;
-  text-align: center;
-  align-items: center;
-  margin-top: 120px;
-  /* margin-bottom: 1000px; */
-
+  width: 600px;               /* Ajusta el ancho a tu gusto */
+  height: 500px;              /* Ajusta el alto también */
+  margin: 120px auto  auto;
+  padding: 1rem;  /* Centrado vertical debajo del navbar */
+  background-color: #5A397C ;
+  border: 2px solid #1B1363 ;     /* Aquí le das el borde cuadrado */
+  border-radius: 10px;        /* Opcional: suaviza las esquinas */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  /* overflow-y: auto;           Por si hay mucho contenido */
 }
+
   
 
 .row {
@@ -34,25 +38,78 @@ select {
   width: 100%;
   margin: 0.5rem 0;
   padding: 0.6rem;
+  border-radius: 50px;
 }
 
 input {
   display: block;
-  width: 100%;
+  width: 96%;
   margin: 0.5rem 0;
   padding: 0.6rem;
+  border-radius: 50px;
 }
 
 button {
   width: 100%;
   margin-top: 1rem;
   padding: 0.75rem;
-  background: black;
-  color: white;
+  background: #F2CA52; /*Colores Azul #1B1363  Morado #5A397C  Amarillo #F2CA52*/
+  border: #1B1363;
+  border-radius: 50px;
+  color: #1B1363;
   border: none;
   font-weight: bold;
   cursor: pointer;
 }
+
+button:hover {
+  background: #1B1363; /* Cambia el color de fondo al pasar el mouse */
+  color: #F2CA52; /* Cambia el color del texto al pasar el mouse */
+}
+
+/*RECUADRO DE CONFIRMACION DE REGISTRO*/
+
+.modal-confirmacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-contenido {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 80%;
+  font-family: 'VT323', monospace;
+  font-size: 1.8rem;
+  color: #333;
+  box-shadow: 0 0 12px #000;
+}
+
+.modal-contenido button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  background-color: #1B1363;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-contenido button:hover {
+  background-color: #F2921D;
+}
+
 
 /* .imagen-registro {
   position: fixed;
