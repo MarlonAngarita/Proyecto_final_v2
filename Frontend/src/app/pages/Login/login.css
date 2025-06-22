@@ -19,7 +19,8 @@ body, html {
 /* Caja morada */
 .login-card {
   background-color: #4F2A77; /* morado oscuro */
-  border-radius: 10px;
+  border-radius: 15px;
+  
   padding: 2rem 2.5rem 2.5rem;
   position: relative;
   width: 400px;
@@ -47,17 +48,20 @@ body, html {
   height: 50px;
 }
 
-/* Inputs */
+/* Botones usuario y contraseña */
 form input {
-  width: 80%;
+  width: 90%;
   padding: 0.6rem;
+  font-size: 19px;
+  
+
   margin: 0.5rem 1rem   ;
   border: none;
   border-radius: 4px;
   font-family: 'VT323', monospace;
 }
 
-/* Botón */
+/* Botón iniciar secion  */
 form button {
   width: 70%;
   margin: 1rem auto 0;
@@ -66,14 +70,35 @@ form button {
   background-color: white;
   color: #000;
   border: none;
+  font-size: 19px;
   font-family: 'VT323', monospace;
   font-weight: bold;
   display: block;
   cursor: pointer;
   transition: background-color 0.3s ease;
-}
+} 
 
 form button:hover {
   background-color: #df2727;
+}
+/* Botones en transparencia*/
+.link-button {
+  background: none;
+  border: none;
+  color: #F2921D ;
+  text-decoration: underline;
+  font-family: 'VT323', monospace;
+  align-items: center;
+
+  font-size: 17px;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
+
+.link-button:hover {
+  color:#F2CA52  ;
 }
 
