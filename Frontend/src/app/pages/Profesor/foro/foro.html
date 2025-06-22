@@ -1,1 +1,28 @@
-<p>foro works!</p>
+<header>
+  <h1>Foro de Profesores</h1>
+</header>
+
+<main>
+  <!-- Sección para crear publicación -->
+  <section class="crear-post">
+    <h2>Crear una publicación</h2>
+    <input type="text" [(ngModel)]="tituloPost" placeholder="Título de la publicación" />
+    <textarea [(ngModel)]="contenidoPost" placeholder="Escribe tu publicación aquí..."></textarea>
+    <button (click)="publicarPost()">Enviar</button>
+  </section>
+
+  <!-- Sección de publicaciones -->
+  <section class="publicaciones">
+    <h2>Publicaciones de Estudiantes y Profesores</h2>
+    <div *ngFor="let post of publicaciones; let i = index" class="post">
+      <div class="post-header">
+        <img [src]="post.imagen" alt="Imagen Usuario" />
+        <p><strong>{{ post.autor }}</strong> - {{ post.tiempo }}</p>
+      </div>
+      <p class="contenido-post">{{ post.contenido }}</p>
+      <div class="acciones">
+        <button class="delete-btn" (click)="eliminarPost(i)">Eliminar</button>
+      </div>
+    </div>
+  </section>
+</main>

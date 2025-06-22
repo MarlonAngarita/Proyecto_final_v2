@@ -146,3 +146,13 @@ button:hover {
 input.error-contrasena {
   border-color: #dc3545 !important;
 }
+
+.logo-inferior {
+  position: fixed;
+  bottom: 10px;
+  right: 30px; /* Más a la izquierda que antes */
+  width: 130px;
+  opacity: 0.9; /* Corrige el valor de opacidad */
+  z-index: 10;
+}
+
