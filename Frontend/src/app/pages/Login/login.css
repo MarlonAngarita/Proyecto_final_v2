@@ -1,32 +1,79 @@
-.auth-form {
-  max-width: 400px;
-  margin: 2rem auto;
-  text-align: left;
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: 'Orbitron', sans-serif;
-
-  h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-
-  label {
-    display: block;
-    margin: 0.5rem 0 0.2rem;
-  }
-
-  input {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  button {
-    width: 100%;
-    padding: 0.75rem;
-    background: black;
-    color: white;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-  }
+  background-color: #ffffff;
 }
+
+
+
+/* Centrar todo */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Caja morada */
+.login-card {
+  background-color: #4F2A77; /* morado oscuro */
+  border-radius: 10px;
+  padding: 2rem 2.5rem 2.5rem;
+  position: relative;
+  width: 400px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  
+}
+
+/* Círculo con imagen */
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  background-color: white;
+  border: 8px solid #4F2A77;
+  border-radius: 50%;
+  position: absolute;
+  top: -35px;
+  left: -35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-circle img {
+  width: 70px;
+  height: 50px;
+}
+
+/* Inputs */
+form input {
+  width: 80%;
+  padding: 0.6rem;
+  margin: 0.5rem 1rem   ;
+  border: none;
+  border-radius: 4px;
+  font-family: 'VT323', monospace;
+}
+
+/* Botón */
+form button {
+  width: 70%;
+  margin: 1rem auto 0;
+  padding: 0.7rem;
+  border-radius: 12px;
+  background-color: white;
+  color: #000;
+  border: none;
+  font-family: 'VT323', monospace;
+  font-weight: bold;
+  display: block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #df2727;
+}
+
