@@ -5,12 +5,18 @@ import { Router } from '@angular/router';
   selector: 'app-navbar',
   standalone: true,
   templateUrl: './navbar.html',
-  styleUrl: './navbar.css'
+  styleUrl: './navbar.css',
 })
 export class navbar {
   constructor(private router: Router) {}
 
-  navegarA(ruta: string) {
-    this.router.navigate([ruta]);
+  // Redirige a la ruta 'home' con fragmento
+  irASeccion(seccion: string): void {
+    this.router.navigate(['/'], { fragment: seccion });
+  }
+  
+    scrollToSection(id: string): void {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
