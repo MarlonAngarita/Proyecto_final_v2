@@ -1,0 +1,246 @@
+body {
+  font-family: 'VT323', monospace;
+  margin: 0;
+  padding: 0;
+  background-color: #1B1363;
+  color: #ededed;
+}
+
+.navbar {
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #5A397C;
+  color: #F2CA52;
+  text-align: center;
+  font-size: 1.7rem;
+  font-weight: bold;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+
+.mis-cursos-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+  max-width: 1600px;
+  margin: 130px auto 0;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+.mis-cursos-container > .curso-card,
+.mis-cursos-container > .crear-curso {
+  flex: 1 1 220px;
+  max-width: 250px;
+  min-width: 200px;
+  box-sizing: border-box;
+}
+
+.crear-curso,
+.curso-card {
+  background-color: #5A397C;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  color: #F2CA52;
+  height: auto;
+}
+
+.crear-curso {
+  border: 2px dashed #F2CA52;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.crear-curso:hover {
+  background-color: #6b4891;
+  transform: scale(1.05);
+}
+
+.btn-crear-curso {
+  font-size: 48px;
+  color: #F2CA52;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.curso-card h3 {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #F2CA52;
+  margin-bottom: 1rem;
+}
+
+.botones-curso {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-detalles,
+.btn-eliminar {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  min-width: 90px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-detalles {
+  background-color: #F2CA52;
+  color: #1B1363;
+}
+
+.btn-detalles:hover {
+  background-color: #e0b242;
+}
+
+.btn-eliminar {
+  background-color: #ca1d1d;
+  color: white;
+}
+
+.btn-eliminar:hover {
+  background-color: #e53535;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-contenido {
+  background: #5A397C;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  color: #F2CA52;
+  font-size: 1.2rem;
+  box-shadow: 0 0 12px #000;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-cerrar {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #F2CA52;
+  background: none;
+  border: none;
+}
+
+.modal-cerrar:hover {
+  color: #fff;
+}
+
+.modal-titulo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  font-weight: bold;
+  color: #F2CA52;
+}
+
+textarea,
+input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #F2CA52;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #1B1363;
+  font-family: inherit;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+  border-color: #1B1363;
+}
+
+.modal-botones {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.modal-button {
+  background-color: #F2CA52;
+  color: #1B1363;
+  padding: 10px 16px;
+  border: none;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-button:hover {
+  background-color: #e0b242;
+}
+
+.btn-cerrar {
+  background-color: #ca1d1d;
+  color: white;
+}
+
+.btn-cerrar:hover {
+  background-color: #e53535;
+}
+
+/* 📱 Responsive */
+@media (max-width: 1024px) {
+  .mis-cursos-container > .curso-card,
+  .mis-cursos-container > .crear-curso {
+    flex: 1 1 45%;
+    max-width: 48%;
+  }
+}
+
+@media (max-width: 600px) {
+  .mis-cursos-container > .curso-card,
+  .mis-cursos-container > .crear-curso {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
