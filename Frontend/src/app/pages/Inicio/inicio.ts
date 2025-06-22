@@ -13,14 +13,25 @@ import { FormsModule, NgForm } from '@angular/forms';
 export class Inicio {
   mostrarConfirmacion = false;
 
+  formulario = {
+    nombre: '',
+    email: '',
+    mensaje: ''
+  };
+
   scrollToSection(id: string): void {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   onSubmit(form: NgForm): void {
+    if (!form.valid) return;
+
     this.mostrarConfirmacion = true;
+
+    // Resetea el formulario y el modelo
     form.resetForm();
+    this.formulario = { nombre: '', email: '', mensaje: '' };
 
     setTimeout(() => {
       this.mostrarConfirmacion = false;
@@ -31,3 +42,4 @@ export class Inicio {
     this.mostrarConfirmacion = false;
   }
 }
+

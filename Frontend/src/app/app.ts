@@ -1,22 +1,24 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-// Update the import path to the correct relative location of NavbarComponent
-import { navbar } from './navbar/navbar'; 
+import { navbar } from './navbar/navbar';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, CommonModule, navbar],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   mostrarNavbar = true;
 
-  constructor () {
-    if (typeof window !== 'undefined') {
-      const rutasConNavbar = [ '/login', '/registro'];
-      this.mostrarNavbar = rutasConNavbar.includes(window.location.pathname);
-    }
+  constructor(private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const rutasConNavbar = ['/login', '/registro'];
+        this.mostrarNavbar = rutasConNavbar.includes(event.urlAfterRedirects);
+      }
+    });
   }
 }
