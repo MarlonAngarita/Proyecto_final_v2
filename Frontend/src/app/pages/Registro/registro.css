@@ -32,18 +32,19 @@ h1 {
 .row {
   display: flex;
   gap: 1rem;
+  input {
+    flex: 1;
+}
 }
 
-.row input {
-  flex: 1;
-}
+
 
 /* ========== INPUTS Y SELECTS ========== */
 select,
 input
  {
   display: block;
-  width: 100%;
+  width: 96%;
   margin: 0.5rem auto;
   padding: 0.6rem;
   border-radius: 50px;
