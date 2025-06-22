@@ -1,74 +1,84 @@
+/* ========== ESTRUCTURA GENERAL ========== */
 body {
-  /* margin-bottom: 1000px; */
   overflow: hidden;
-}
-h1{
-  font-size: 2.5rem;
   font-family: 'VT323', monospace;
+  background-color: #1B1363;
+  margin: 0;
+}
+
+/* ========== TÍTULO ========== */
+h1 {
+  font-size: 2.5rem;
   text-align: center;
   margin-bottom: 1rem;
-  color: #F2CA52; /* Color del texto */
+  color: #F2CA52;
 }
 
+/* ========== CONTENEDOR DEL FORMULARIO ========== */
 .registro-form {
-  width: 600px;               /* Ajusta el ancho a tu gusto */
-  height: 500px;              /* Ajusta el alto también */
-  margin: 120px auto  auto;
-  padding: 1rem;  /* Centrado vertical debajo del navbar */
-  background-color: #5A397C ;
-  border: 2px solid #1B1363 ;     /* Aquí le das el borde cuadrado */
-  border-radius: 10px;        /* Opcional: suaviza las esquinas */
+  width: 600px;
+  height: 520px;
+  margin: 115px auto auto;
+  padding: 0.4rem;
+  background-color: #5A397C;
+  border: 2px solid #1B1363;
+  border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
   box-sizing: border-box;
-  /* overflow-y: auto;           Por si hay mucho contenido */
 }
 
-  
-
+/* ========== FILAS CON DOS INPUTS ========== */
 .row {
   display: flex;
   gap: 1rem;
-  input {
-    flex: 1;
-  }
 }
 
-select {
+.row input {
+  flex: 1;
+}
+
+/* ========== INPUTS Y SELECTS ========== */
+select,
+input
+ {
   display: block;
   width: 100%;
-  margin: 0.5rem 0;
+  margin: 0.5rem auto;
   padding: 0.6rem;
   border-radius: 50px;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
 }
 
-input {
-  display: block;
-  width: 96%;
-  margin: 0.5rem 0;
-  padding: 0.6rem;
-  border-radius: 50px;
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched,
+input.error-contrasena {
+  border-color: #dc3545;
 }
 
+/* ========== BOTÓN DE ENVÍO ========== */
 button {
   width: 100%;
   margin-top: 1rem;
   padding: 0.75rem;
-  background: #F2CA52; /*Colores Azul #1B1363  Morado #5A397C  Amarillo #F2CA52*/
-  border: #1B1363;
-  border-radius: 50px;
+  background: #F2CA52;
   color: #1B1363;
   border: none;
+  border-radius: 50px;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 button:hover {
-  background: #1B1363; /* Cambia el color de fondo al pasar el mouse */
-  color: #F2CA52; /* Cambia el color del texto al pasar el mouse */
+  background: #1B1363;
+  color: #F2CA52;
 }
 
-/*RECUADRO DE CONFIRMACION DE REGISTRO*/
-
+/* ========== MODAL DE CONFIRMACIÓN ========== */
 .modal-confirmacion {
   position: fixed;
   top: 0;
@@ -89,7 +99,6 @@ button:hover {
   text-align: center;
   max-width: 400px;
   width: 80%;
-  font-family: 'VT323', monospace;
   font-size: 1.8rem;
   color: #333;
   box-shadow: 0 0 12px #000;
@@ -97,32 +106,42 @@ button:hover {
 
 .modal-contenido button {
   margin-top: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.5rem;
   font-size: 1.5rem;
   background-color: #1B1363;
   color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .modal-contenido button:hover {
   background-color: #F2921D;
 }
 
+/* ========== VALIDACIONES Y MENSAJES DE ERROR ========== */
+/* Mensajes de error generales */
+.error-campo {
+  display: block;
+  min-height: 1.2rem;
+  font-size: 0.85rem;
+  color: #F2CA52;
+  margin: 0.2rem 0 0.6rem 0.5rem;
+  text-align: left;
+  visibility: hidden;
+}
 
-/* .imagen-registro {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/assets/images/registro.jpg');
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
-} */
+/* Muestra errores estándar de Angular */
+.ng-invalid.ng-touched + .error-campo {
+  visibility: visible;
+}
 
-/* main {
-  margin-top: 420px;
-} */
+/* Muestra el error personalizado */
+.error-campo.ng-custom-error {
+  visibility: visible;
+}
+
+input.error-contrasena {
+  border-color: #dc3545 !important;
+}

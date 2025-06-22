@@ -6,32 +6,111 @@
     </h1>
 
     <div class="row">
-      <input type="text" name="nombre" placeholder="Nombre" ngModel required />
-      <input type="text" name="apellido" placeholder="Apellido" ngModel required />
+      <input
+        type="text"
+        name="nombre"
+        placeholder="Nombre"
+        ngModel
+        required
+        #nombre="ngModel"
+      />
+      <div *ngIf="nombre.invalid && nombre.touched" class="error-campo">
+        El nombre es obligatorio.
+      </div>
+
+      <input
+        type="text"
+        name="apellido"
+        placeholder="Apellido"
+        ngModel
+        required
+        #apellido="ngModel"
+      />
+      <div *ngIf="apellido.invalid && apellido.touched" class="error-campo">
+        El apellido es obligatorio.
+      </div>
     </div>
 
-    <input type="email" name="email" placeholder="Email" ngModel required />
-    <input type="password" name="password" placeholder="Contraseña" ngModel required />
-    <input type="password" name="confirmar" placeholder="Confirmar Contraseña" ngModel required />
+    <input
+      type="email"
+      name="email"
+      placeholder="Email"
+      ngModel
+      required
+      #email="ngModel"
+    />
+    <div *ngIf="email.invalid && email.touched" class="error-campo">
+      El correo electrónico es obligatorio.
+    </div>
 
-    <select name="tipoDocumento" ngModel>
-      <option value="" disabled disabled>Tipo de Documento</option>      <option value="cedula">Cédula</option>
+    <input
+      type="password"
+      name="password"
+      placeholder="Contraseña"
+      ngModel
+      required
+      #password="ngModel"
+    />
+    <div *ngIf="password.invalid && password.touched" class="error-campo">
+      La contraseña es obligatoria.
+    </div>
+
+    <input
+      type="password"
+      name="confirmar"
+      placeholder="Confirmar Contraseña"
+      ngModel
+      required
+      #confirmar="ngModel"
+      [class.error-contrasena]="errorConfirmacion"
+    />
+    <div *ngIf="confirmar.invalid && confirmar.touched" class="error-campo">
+      Debes confirmar tu contraseña.
+    </div>
+    <div [class.error-campo]="true" [class.ng-custom-error]="errorConfirmacion">
+      Las contraseñas no coinciden.
+    </div>
+
+    <select name="tipoDocumento" ngModel required #tipoDocumento="ngModel">
+      <option value="" disabled selected>Tipo de Documento</option>
+      <option value="cedula">Cédula</option>
       <option value="extranjeria">Cédula de extranjería</option>
       <option value="tarjeta">Tarjeta de identidad</option>
     </select>
+    <div
+      *ngIf="tipoDocumento.invalid && tipoDocumento.touched"
+      class="error-campo"
+    >
+      Selecciona un tipo de documento.
+    </div>
 
-    <input type="text" name="numeroDocumento" placeholder="Número de Documento" ngModel required />
-    
+    <input
+      type="text"
+      name="numeroDocumento"
+      placeholder="Número de Documento"
+      ngModel
+      required
+      #numeroDocumento="ngModel"
+    />
+    <div
+      *ngIf="numeroDocumento.invalid && numeroDocumento.touched"
+      class="error-campo"
+    >
+      El número de documento es obligatorio.
+    </div>
+
     <button type="submit">Registrarse</button>
 
-    <!-- Modal de confirmación -->
-    <div class="modal-confirmacion" *ngIf="mostrarConfirmacion">
-      <div class="modal-contenido">
-        <p>¡Te has registrado de forma exitosa!</p>
-        <button type="button" (click)="cerrarModal()">Cerrar</button>
-      </div>
+    <div *ngIf="form.invalid && form.submitted" class="alerta-campos">
+      ⚠️ Por favor, completa todos los campos obligatorios.
     </div>
-  
-
   </form>
+
+  <!-- Modal de confirmación -->
+  <div class="modal-confirmacion" *ngIf="mostrarConfirmacion">
+    <div class="modal-contenido">
+      <p>¡Te has registrado de forma exitosa!</p>
+      <button type="button" (click)="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
 </section>

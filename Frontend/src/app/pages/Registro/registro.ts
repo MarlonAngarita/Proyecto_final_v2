@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
@@ -12,6 +12,9 @@ import { FormsModule, NgForm } from '@angular/forms';
 })
 export class Registro {
   mostrarConfirmacion = false;
+  errorConfirmacion = false;
+
+  constructor(public router: Router) {}
 
   scrollToSection(id: string): void {
     const el = document.getElementById(id);
@@ -19,20 +22,27 @@ export class Registro {
   }
 
   onSubmit(form: NgForm): void {
-    if (form.valid) {
-      this.mostrarConfirmacion = true;
-      form.resetForm();
+    const valores = form.value;
+    const contrasena = valores.password;
+    const confirmar = valores.confirmar;
 
-      setTimeout(() => {
-        this.mostrarConfirmacion = false;
-      }, 5000);
-    } else {
-      // Marca todos los campos como tocados para que se muestren advertencias si las tienes configuradas en el HTML
+    if (!form.valid) {
       Object.values(form.controls).forEach(control => control?.markAsTouched());
+      return;
     }
+
+    if (contrasena !== confirmar) {
+      this.errorConfirmacion = true;
+      return;
+    }
+
+    this.errorConfirmacion = false;
+    this.mostrarConfirmacion = true;
+    form.resetForm();
   }
 
   cerrarModal(): void {
     this.mostrarConfirmacion = false;
+    this.router.navigate(['/login']);
   }
 }
