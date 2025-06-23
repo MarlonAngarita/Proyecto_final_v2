@@ -1,0 +1,33 @@
+<section class="dashboard-grid">
+  <div class="encabezado">
+    <a routerLink="/usuario/perfil" class="avatar-link">
+      <img [src]="avatarURL" alt="Avatar" class="avatar" />
+    </a>
+    <h1>{{ nombreUsuario }}</h1>
+    <div class="perfil-btn-wrapper">
+      <a routerLink="/usuario/perfil" class="btn-perfil">👤 Ver perfil</a>
+    </div>
+    <span class="racha-badge">🔥 {{ rachaDias }} días seguidos</span>
+  </div>
+
+  <div *ngIf="mostrarRachaRota" class="racha-rota">{{ rachaMensaje }}</div>
+
+  <div class="paneles-usuario">
+    <div class="panel" routerLink="/usuario/progreso">
+      📊 Mi progreso<span>{{ progresoCurso }}%</span>
+    </div>
+    <div class="panel" routerLink="/usuario/medallas">
+      🏅 Medallas<span>{{ medallas.length }}</span>
+    </div>
+    <div class="panel" routerLink="/usuario/desafios">
+      🎯 Desafíos<span>{{ desafiosActivos }} activos</span>
+    </div>
+    <div class="panel" routerLink="/usuario/foro">💬 Foro de comunidad</div>
+  </div>
+
+  <div class="cerrar-sesion-wrapper">
+    <button (click)="cerrarSesion()" class="btn-cerrar-sesion">
+      🚪 Cerrar sesión
+    </button>
+  </div>
+</section>

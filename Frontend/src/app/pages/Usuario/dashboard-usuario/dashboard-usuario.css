@@ -1,0 +1,169 @@
+@font-face {
+  font-family: 'Gagalin';
+  src: url('/assets/fonts/Gagalin-Regular.otf');
+}
+
+@font-face {
+  font-family: 'VT323';
+  src: url('/assets/fonts/VT323-Regular.ttf');
+}
+
+.dashboard-grid {
+  padding: 1.5rem;
+  min-height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding-bottom: 2rem;
+  color: #fff;
+  font-family: 'VT323', monospace;
+  background: linear-gradient(to right, #1B1363, #5A397C);
+}
+
+.encabezado {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.avatar-link {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.avatar-link:hover {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+.avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid #F2CA52;
+}
+
+h1 {
+  font-family: 'Gagalin';
+  font-size: 2.5rem;
+  color: #F2921D;
+}
+
+.perfil-btn-wrapper {
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem; /* espacio extra antes de la racha */
+}
+
+
+.btn-perfil {
+  background: transparent;
+  border: 2px solid #F2CA52;
+  color: #F2CA52;
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+  padding: 0.3rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.btn-perfil:hover {
+  background: #F2CA52;
+  color: #1B1363;
+}
+
+.racha-badge {
+  display: inline-block;
+  margin-top: 0.6rem;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  background: #F2CA52;
+  color: #1B1363;
+}
+
+.racha-rota {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 8px;
+  color: #1B1363;
+  background: #F2921D;
+  animation: sacudida 0.4s ease-in-out 2;
+}
+
+@keyframes sacudida {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
+
+.paneles-usuario {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.panel {
+  padding: 1.2rem;
+  text-align: center;
+  font-size: 1.3rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'VT323', monospace;
+  background: #F2CA52;
+  color: #1B1363;
+  transition: transform 0.3s;
+}
+
+.panel:hover {
+  background: #F2921D;
+  transform: translateY(-5px);
+}
+
+.panel span {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.btn-foro,
+.btn-cerrar-sesion {
+  display: block;
+  margin: 0 auto;
+  padding: 0.8rem 1.6rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'VT323', monospace;
+  transition: background 0.3s ease;
+}
+
+.btn-foro {
+  background: #5A397C;
+  color: #fff;
+}
+
+.btn-foro:hover {
+  background: #F2921D;
+  color: #1B1363;
+}
+
+.cerrar-sesion-wrapper {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.btn-cerrar-sesion {
+  background: #F2CA52;
+  color: #1B1363;
+  font-size: 1.3rem;
+}
+
+.btn-cerrar-sesion:hover {
+  background: #F2921D;
+}
