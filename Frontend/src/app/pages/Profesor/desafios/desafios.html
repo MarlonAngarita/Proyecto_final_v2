@@ -1,1 +1,128 @@
-<p>desafios works!</p>
+<section class="contenedor-desafios">
+<!-- Título de la sección de creación -->
+ <div class="encabezado-logo"> 
+    <h2>Crear nuevo desafío</h2>
+    <img src="/assets/Logo.png" alt="Logo" class="logo-proyecto"/>
+ </div>
+
+  <!-- Formulario para crear un nuevo desafío -->
+  <form (submit)="crearDesafio()" class="formulario-desafio">
+    <label>
+      Título:
+      <input
+        type="text"
+        [(ngModel)]="nuevoDesafio.titulo"
+        name="titulo"
+        required
+      />
+    </label>
+
+    <label>
+      Descripción:
+      <textarea
+        [(ngModel)]="nuevoDesafio.descripcion"
+        name="descripcion"
+      ></textarea>
+    </label>
+
+    <label>
+      Nivel:
+      <select [(ngModel)]="nuevoDesafio.nivel" name="nivel">
+        <option value="básico">Básico</option>
+        <option value="intermedio">Intermedio</option>
+        <option value="avanzado">Avanzado</option>
+      </select>
+    </label>
+
+    <label>
+      Activo:
+      <input type="checkbox" [(ngModel)]="nuevoDesafio.activo" name="activo" />
+    </label>
+
+    <button type="submit">Agregar desafío</button>
+  </form>
+
+  <!-- Título de la lista de desafíos -->
+  <h2>Lista de desafíos creados</h2>
+
+  <!-- Tabla que lista todos los desafíos creados -->
+  <table class="tabla-desafios">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Nivel</th>
+        <th>Activo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let desafio of desafios">
+        <td>{{ desafio.titulo }}</td>
+        <td>{{ desafio.nivel }}</td>
+        <td>{{ desafio.activo ? '✅' : '❌' }}</td>
+        <td>
+          <button (click)="editarDesafio(desafio)">✏️</button>
+          <button (click)="eliminarDesafio(desafio)">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal para editar un desafío existente -->
+  <div class="modal" *ngIf="desafioEditando">
+    <div class="modal-contenido">
+      <h3>Editar desafío</h3>
+
+      <div class="campo">
+        <label>Título:</label>
+        <input type="text" [(ngModel)]="desafioEditando.titulo" />
+      </div>
+
+      <div class="campo">
+        <label>Descripción:</label>
+        <textarea [(ngModel)]="desafioEditando.descripcion"></textarea>
+      </div>
+
+      <div class="campo">
+        <label>Nivel:</label>
+        <select [(ngModel)]="desafioEditando.nivel">
+          <option value="básico">Básico</option>
+          <option value="intermedio">Intermedio</option>
+          <option value="avanzado">Avanzado</option>
+        </select>
+      </div>
+
+      <label>
+        <input type="checkbox" [(ngModel)]="desafioEditando.activo" />
+        Activo
+      </label>
+
+      <div class="acciones-modal">
+        <button (click)="guardarEdicion()">Guardar</button>
+        <button (click)="cancelarEdicion()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación para eliminar -->
+  <div class="modal" *ngIf="desafioEliminar">
+    <div class="modal-contenido">
+      <h3>¿Eliminar desafío?</h3>
+      <p>
+        ¿Estás segura de eliminar <strong>{{ desafioEliminar.titulo }}</strong>?
+      </p>
+      <div class="acciones-modal">
+        <button (click)="confirmarEliminar()">Sí, eliminar</button>
+        <button (click)="cancelarEliminar()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submodal con mensaje de confirmación general -->
+  <div class="submodal" *ngIf="mensajeConfirmacion">
+    <div class="submodal-contenido">
+      <p>{{ mensajeConfirmacion }}</p>
+      <button (click)="cerrarConfirmacion()">Cerrar</button>
+    </div>
+  </div>
+</section>
