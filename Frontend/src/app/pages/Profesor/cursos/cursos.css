@@ -1,58 +1,71 @@
+/* ====== CONFIGURACIÓN GENERAL ====== */
 body {
   font-family: 'VT323', monospace;
   margin: 0;
   padding: 0;
   background-color: #1B1363;
   color: #ededed;
+  box-sizing: border-box;
 }
 
-.navbar {
-  width: 100vw;
+/* ====== ENCABEZADO CON LOGOS ====== */
+.navbar-dashboard {
+  background-color: #1B1363;
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: fixed;
+  width: 97%;
   top: 0;
-  left: 0;
-  background-color: #5A397C;
-  color: #F2CA52;
-  text-align: center;
-  font-size: 1.7rem;
-  font-weight: bold;
-  padding: 1rem;
   z-index: 1000;
 }
 
+.nav-title {
+  font-size: 1.6rem;
+  color: #F2CA52;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
 
-.mis-cursos-container {
+.nav-icon {
+  width: 50px;
+  height: 50px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+/* ====== CONTENIDO DE CURSOS ====== */
+.contenedor-cursos {
+  padding: 7rem 2rem 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  padding: 2rem 1rem;
-  max-width: 1600px;
-  margin: 130px auto 0;
   justify-content: flex-start;
-  box-sizing: border-box;
 }
 
-.mis-cursos-container > .curso-card,
-.mis-cursos-container > .crear-curso {
-  flex: 1 1 220px;
-  max-width: 250px;
-  min-width: 200px;
-  box-sizing: border-box;
-}
-
+/* ====== TARJETAS ====== */
 .crear-curso,
 .curso-card {
-  background-color: #5A397C;
+  background-color: #F2CA52;
   padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  color: #F2CA52;
+  color: #153E75;
   height: auto;
+  text-align: center;
+  font-size: 1.5rem;
+  flex: 1 1 220px;
+  max-width: 250px;
+  min-width: 200px;
 }
 
 .crear-curso {
-  border: 2px dashed #F2CA52;
+  border: 2px dashed #1B1363;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -62,12 +75,13 @@ body {
 
 .crear-curso:hover {
   background-color: #6b4891;
+  color: white;
   transform: scale(1.05);
 }
 
 .btn-crear-curso {
-  font-size: 48px;
-  color: #F2CA52;
+  font-size: 30px;
+  color: #F2921D;
   background: none;
   border: none;
   cursor: pointer;
@@ -77,10 +91,12 @@ body {
 .curso-card h3 {
   font-size: 1.3rem;
   font-weight: bold;
-  color: #F2CA52;
+  color: #153E75; /*COLOR TEXTO TARJETA*/
   margin-bottom: 1rem;
+  
 }
 
+/* ====== BOTONES DE CURSO ====== */
 .botones-curso {
   display: flex;
   justify-content: center;
@@ -101,12 +117,13 @@ body {
 }
 
 .btn-detalles {
-  background-color: #F2CA52;
-  color: #1B1363;
+  background-color: #153E75;
+  color: white;
 }
 
 .btn-detalles:hover {
-  background-color: #e0b242;
+  background-color: #5A397C;
+  color: white;
 }
 
 .btn-eliminar {
@@ -115,9 +132,10 @@ body {
 }
 
 .btn-eliminar:hover {
-  background-color: #e53535;
+  background-color: #f54f4f;
 }
 
+/* ====== MODALES ====== */
 .modal {
   position: fixed;
   top: 0;
@@ -132,7 +150,7 @@ body {
 }
 
 .modal-contenido {
-  background: #5A397C;
+  background: #1B1363;
   padding: 2rem;
   border-radius: 12px;
   width: 90%;
@@ -228,19 +246,29 @@ input:focus {
   background-color: #e53535;
 }
 
-/* 📱 Responsive */
+/* ====== RESPONSIVE ====== */
 @media (max-width: 1024px) {
-  .mis-cursos-container > .curso-card,
-  .mis-cursos-container > .crear-curso {
+  .contenedor-cursos > .curso-card,
+  .contenedor-cursos > .crear-curso {
     flex: 1 1 45%;
     max-width: 48%;
   }
 }
 
 @media (max-width: 600px) {
-  .mis-cursos-container > .curso-card,
-  .mis-cursos-container > .crear-curso {
+  .contenedor-cursos > .curso-card,
+  .contenedor-cursos > .crear-curso {
     flex: 1 1 100%;
     max-width: 100%;
+  }
+
+  .encabezado-cursos {
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .curso-logo {
+    width: 50px;
+    height: 50px;
   }
 }

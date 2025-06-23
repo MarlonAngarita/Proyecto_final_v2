@@ -1,25 +1,26 @@
-<nav class="navbar">
-  <h1>Mis Cursos</h1>
-</nav>
+<header class="navbar-dashboard">
+  <div class="nav-icon" style="background-image: url('/assets/rojo.png')"></div>
+  <span class="nav-title">👨‍🏫 Mis Cursos </span>
+  <div class="nav-icon" style="background-image: url('/assets/azul.png')"></div>
+</header>
 
-<section id="mis-cursos-section">
-  <div class="mis-cursos-container">
-    <!-- Tarjeta fija para crear curso -->
-    <div class="curso-card crear-curso" (click)="abrirModalCrear()">
-      <button class="btn-crear-curso">+</button>
-      <p>Crear Curso</p>
-    </div>
 
-    <!-- Cursos creados dinámicamente -->
-    <div *ngFor="let curso of cursosCreados" class="curso-card">
-      <h3>{{ curso.nombre }}</h3>
-      <div class="botones-curso">
-        <button class="btn-detalles" (click)="abrirModalDetalles(curso)">Detalles</button>
-        <button class="btn-eliminar" (click)="eliminarCurso(curso)">Eliminar</button>
-      </div>
+<main class="contenedor-cursos">
+  <!-- Tarjeta fija para crear curso -->
+  <div class="curso-card crear-curso" (click)="abrirModalCrear()">
+    <button class="btn-crear-curso">+</button>
+    <p>Crear Curso</p>
+  </div>
+
+  <!-- Cursos creados dinámicamente -->
+  <div *ngFor="let curso of cursosCreados" class="curso-card">
+    <h3>{{ curso.nombre }}</h3>
+    <div class="botones-curso">
+      <button class="btn-detalles" (click)="abrirModalDetalles(curso)">Detalles</button>
+      <button class="btn-eliminar" (click)="eliminarCurso(curso)">Eliminar</button>
     </div>
   </div>
-</section>
+</main>
 
 <!-- Modal de creación de curso -->
 <div class="modal" *ngIf="modalCrearActivo">
