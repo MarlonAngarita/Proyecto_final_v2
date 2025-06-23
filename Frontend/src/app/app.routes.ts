@@ -10,7 +10,7 @@ import { Foro } from './pages/Profesor/foro/foro';
 import { Modulos } from './pages/Profesor/modulos/modulos';
 // Importar las páginas del usuario 
 import { DashboardUsuario } from './pages/Usuario/dashboard-usuario/dashboard-usuario';
-import { CursosUsuario } from './pages/Usuario/cursos/cursos';
+import { Cursos as CursosUsuario } from './pages/Usuario/cursos/cursos';
 import { DesafiosUsuario } from './pages/Usuario/desafios-usuario/desafios-usuario';
 import { ForoUsuario } from './pages/Usuario/foro/foro';
 import { MedallasUsuario } from './pages/Usuario/medallas-usuario/medallas-usuario';

@@ -128,4 +128,9 @@ export class Cursos implements OnInit {
   agregarMaterial(event: any) {
     this.materialApoyo = event.target.files[0];
   }
+
+  volverAlDashboard(): void {
+  this.router.navigate(['/dashboard']);
+}
+
 }

@@ -1,148 +1,146 @@
-/* ====== CONFIGURACIÓN GENERAL ====== */
+@font-face {
+  font-family: 'Gagalin';
+  src: url('/assets/fonts/Gagalin-Regular.otf');
+}
+
+@font-face {
+  font-family: 'VT323';
+  src: url('/assets/fonts/VT323-Regular.ttf');
+}
+
 body {
   font-family: 'VT323', monospace;
   margin: 0;
   padding: 0;
-  background-color: #1B1363;
-  color: #ededed;
+  background: #ededed;
+  color: #fff;
+}
+
+.dashboard-grid {
+  padding: 1.5rem;
+  min-height: 100vh;
+  overflow-y: auto;
   box-sizing: border-box;
+  padding-bottom: 2rem;
+  color: #fff;
+  font-family: 'VT323', monospace;
+  background: linear-gradient(to right, #1B1363, #5A397C);
 }
 
-/* ====== ENCABEZADO CON LOGOS ====== */
-.navbar-dashboard {
-  background-color: #1B1363;
-  padding: 0.8rem 1.5rem;
+.encabezado {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.perfil-btn-wrapper {
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  width: 97%;
-  top: 0;
-  z-index: 1000;
+  justify-content: center;
+  gap: 10px;
 }
 
-.nav-title {
-  font-size: 1.6rem;
+.btn-perfil {
+  background: transparent;
+  border: 2px solid #F2CA52;
   color: #F2CA52;
-  font-weight: bold;
-  letter-spacing: 1px;
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+  padding: 0.3rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-.nav-icon {
-  width: 50px;
-  height: 50px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+.btn-perfil.active,
+.btn-perfil:focus,
+.btn-perfil:hover {
+  background: #F2CA52;
+  color: #1B1363;
 }
 
-
-/* ====== CONTENIDO DE CURSOS ====== */
-.contenedor-cursos {
-  padding: 7rem 2rem 2rem;
-  max-width: 1600px;
+.cursos-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: flex-start;
+  padding: 2rem 0;
 }
 
-/* ====== TARJETAS ====== */
-.crear-curso,
-.curso-card {
-  background-color: #F2CA52;
+.curso-card, .crear-curso {
+  background: #fff;
   padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  color: #153E75;
-  height: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
-  font-size: 1.5rem;
-  flex: 1 1 220px;
-  max-width: 250px;
-  min-width: 200px;
-}
-
-.crear-curso {
-  border: 2px dashed #1B1363;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  color: #1B1363;
+  font-family: 'VT323', monospace;
+  min-height: 180px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: transform 0.2s ease;
 }
 
-.crear-curso:hover {
-  background-color: #6b4891;
-  color: white;
-  transform: scale(1.05);
+.curso-card:hover, .crear-curso:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-.btn-crear-curso {
-  font-size: 30px;
-  color: #F2921D;
-  background: none;
-  border: none;
-  cursor: pointer;
+.curso-card h3, .crear-curso h3 {
+  font-size: 1.4rem;
+  color: #5A397C;
   margin-bottom: 10px;
+  font-family: 'Gagalin';
 }
 
-.curso-card h3 {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #153E75; /*COLOR TEXTO TARJETA*/
-  margin-bottom: 1rem;
-  
+.curso-card p, .crear-curso p {
+  color: #444;
+  font-size: 1rem;
+  margin-bottom: 15px;
 }
 
-/* ====== BOTONES DE CURSO ====== */
-.botones-curso {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.btn-detalles,
-.btn-eliminar {
-  padding: 0.6rem 1.2rem;
+.btn-ver-mas, .btn-crear-curso {
+  background-color: #F2CA52;
+  color: #1B1363;
   border: none;
+  padding: 10px 16px;
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 0.95rem;
-  min-width: 90px;
+  font-family: 'VT323', monospace;
   transition: background-color 0.3s ease;
+  font-size: 1.2rem;
 }
 
-.btn-detalles {
-  background-color: #153E75;
-  color: white;
+.btn-ver-mas:hover, .btn-crear-curso:hover {
+  background-color: #F2921D;
 }
 
-.btn-detalles:hover {
-  background-color: #5A397C;
-  color: white;
+.btn-crear-curso {
+  font-size: 2.5rem;
+  color: #F2921D;
+  background: none;
+  border: none;
+  margin-bottom: 10px;
+  transition: color 0.3s;
 }
 
-.btn-eliminar {
-  background-color: #ca1d1d;
-  color: white;
+.btn-crear-curso:hover {
+  color: #5A397C;
 }
 
-.btn-eliminar:hover {
-  background-color: #f54f4f;
-}
-
-/* ====== MODALES ====== */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,20 +148,54 @@ body {
 }
 
 .modal-contenido {
-  background: #1B1363;
+  background: #fff;
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: 10px;
   width: 90%;
   max-width: 500px;
   text-align: center;
-  color: #F2CA52;
-  font-size: 1.2rem;
-  box-shadow: 0 0 12px #000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   position: relative;
+  color: #1B1363;
+  font-family: 'VT323', monospace;
+}
+
+.modal-contenido h2,
+.modal-contenido p strong {
+  color: #5A397C;
+  font-weight: bold;
+}
+
+.modal-contenido p {
+  color: #444;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.modal-botones {
   display: flex;
-  flex-direction: column;
-  max-height: 80vh;
-  overflow-y: auto;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.modal-botones button {
+  background-color: #F2CA52;
+  color: #1B1363;
+  padding: 12px 20px;
+  border: none;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'VT323', monospace;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal-botones button:hover {
+  background-color: #F2921D;
+  transform: scale(1.05);
 }
 
 .modal-cerrar {
@@ -172,59 +204,18 @@ body {
   right: 15px;
   font-size: 22px;
   cursor: pointer;
-  color: #F2CA52;
+  color: #999;
   background: none;
   border: none;
 }
 
 .modal-cerrar:hover {
-  color: #fff;
+  color: #333;
 }
 
-.modal-titulo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-label {
-  font-weight: bold;
-  color: #F2CA52;
-}
-
-textarea,
-input {
-  width: 100%;
-  padding: 10px;
-  border: 2px solid #F2CA52;
-  border-radius: 6px;
-  background-color: #ffffff;
-  color: #1B1363;
-  font-family: inherit;
-}
-
-textarea:focus,
-input:focus {
-  outline: none;
-  border-color: #1B1363;
-}
-
-.modal-botones {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.modal-button {
-  background-color: #F2CA52;
-  color: #1B1363;
+.btn-cerrar {
+  background-color: #ca1d1d;
+  color: white;
   padding: 10px 16px;
   border: none;
   font-weight: bold;
@@ -233,17 +224,62 @@ input:focus {
   transition: background-color 0.3s ease;
 }
 
-.modal-button:hover {
-  background-color: #e0b242;
-}
-
-.btn-cerrar {
-  background-color: #ca1d1d;
-  color: white;
-}
-
 .btn-cerrar:hover {
   background-color: #e53535;
+}
+
+.curso-inscrito-nombre {
+  color: #5A397C;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 10px;
+  font-family: 'Gagalin';
+}
+
+h2 {
+  color: #F2921D;
+  font-family: 'Gagalin';
+  margin-bottom: 1rem;
+}
+
+.modal-contenido form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: stretch;
+}
+
+.modal-contenido label {
+  font-weight: bold;
+  color: #5A397C;
+  font-family: 'VT323', monospace;
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+.modal-contenido input[type="text"],
+.modal-contenido textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #F2CA52;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  color: #1B1363;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.modal-contenido input[type="text"]:focus,
+.modal-contenido textarea:focus {
+  outline: none;
+  border-color: #5A397C;
+}
+
+.modal-contenido input[type="file"] {
+  margin-bottom: 10px;
 }
 
 /* ====== RESPONSIVE ====== */
