@@ -8,6 +8,22 @@
   src: url('/assets/fonts/Gagalin-Regular.otf');
 }
 
+/* Encabezado con título a la izquierda y logo a la derecha */
+.encabezado-logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding: 0 1rem;
+}
+
+/* Logo en tamaño moderado */
+.logo-proyecto {
+  width: 90px;
+  height: auto;
+  object-fit: contain;
+}
+
 .contenedor-desafios-usuario {
   background: linear-gradient(#1B1363, #5A397C);
   padding: 3rem 2rem;
@@ -19,7 +35,7 @@
 
 h2 {
   font-family: 'Gagalin', cursive;
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #F2CA52;
   margin-bottom: 2rem;
   text-align: center;
