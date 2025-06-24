@@ -1,1 +1,41 @@
-<p>foro works!</p>
+<section class="foro-usuario-dashboard">
+  <div class="foro-cabecera">
+    <img src="https://img.freepik.com/vector-premium/estudiante-avatar-masculino-dibujos-animados_18591-51686.jpg?w=740" alt="Avatar Usuario" class="foro-avatar" />
+    <h1>Foro de Estudiantes</h1>
+    <button class="foro-btn-volver" (click)="volverAlDashboard()">⏎ Volver</button>
+  </div>
+
+  <div class="foro-paneles">
+    <div class="foro-panel foro-panel-activo">Publicaciones</div>
+    <div class="foro-panel" style="opacity:0.5;cursor:not-allowed;">(Próximamente)</div>
+  </div>
+
+  <main>
+    <section class="foro-crear-post">
+      <h2>Crear una publicación</h2>
+      <input type="text" [(ngModel)]="tituloPost" placeholder="Título de la publicación" />
+      <textarea [(ngModel)]="contenidoPost" placeholder="Escribe tu publicación aquí..."></textarea>
+      <button class="foro-btn-publicar" (click)="publicarPost()">Enviar</button>
+    </section>
+
+    <section class="foro-publicaciones">
+      <h2>Publicaciones recientes</h2>
+      <div class="foro-tarjetas">
+        <div *ngFor="let post of publicaciones; let i = index" class="foro-tarjeta">
+          <div class="foro-post-header">
+            <img [src]="post.imagen" alt="Imagen Usuario" />
+            <div>
+              <p class="foro-autor">{{ post.autor }}</p>
+              <span class="foro-tiempo">{{ post.tiempo }}</span>
+            </div>
+          </div>
+          <h3 class="foro-titulo">{{ post.titulo || 'Sin título' }}</h3>
+          <p class="foro-contenido">{{ post.contenido }}</p>
+          <div class="foro-acciones">
+            <!-- Eliminar botón eliminado para usuarios -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</section>

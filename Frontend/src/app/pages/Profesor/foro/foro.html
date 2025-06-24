@@ -1,28 +1,41 @@
-<header>
-  <h1>Foro de Profesores</h1>
-</header>
+<section class="foro-profesor-dashboard">
+  <div class="foro-cabecera">
+    <img src="https://img.freepik.com/vector-premium/entrenador-fitness-imagen-vectorial-icono-femenino-puede-usar-profesiones_120816-263153.jpg?w=740" alt="Avatar Profesor" class="foro-avatar" />
+    <h1>Foro de Profesores</h1>
+    <button class="foro-btn-volver" (click)="volverAlDashboard()">⏎ Volver</button>
+  </div>
 
-<main>
-  <!-- Sección para crear publicación -->
-  <section class="crear-post">
-    <h2>Crear una publicación</h2>
-    <input type="text" [(ngModel)]="tituloPost" placeholder="Título de la publicación" />
-    <textarea [(ngModel)]="contenidoPost" placeholder="Escribe tu publicación aquí..."></textarea>
-    <button (click)="publicarPost()">Enviar</button>
-  </section>
+  <div class="foro-paneles">
+    <div class="foro-panel foro-panel-activo">Publicaciones</div>
+    <div class="foro-panel" style="opacity:0.5;cursor:not-allowed;">(Próximamente)</div>
+  </div>
 
-  <!-- Sección de publicaciones -->
-  <section class="publicaciones">
-    <h2>Publicaciones de Estudiantes y Profesores</h2>
-    <div *ngFor="let post of publicaciones; let i = index" class="post">
-      <div class="post-header">
-        <img [src]="post.imagen" alt="Imagen Usuario" />
-        <p><strong>{{ post.autor }}</strong> - {{ post.tiempo }}</p>
+  <main>
+    <section class="foro-crear-post">
+      <h2>Crear una publicación</h2>
+      <input type="text" [(ngModel)]="tituloPost" placeholder="Título de la publicación" />
+      <textarea [(ngModel)]="contenidoPost" placeholder="Escribe tu publicación aquí..."></textarea>
+      <button class="foro-btn-publicar" (click)="publicarPost()">Enviar</button>
+    </section>
+
+    <section class="foro-publicaciones">
+      <h2>Publicaciones recientes</h2>
+      <div class="foro-tarjetas">
+        <div *ngFor="let post of publicaciones; let i = index" class="foro-tarjeta">
+          <div class="foro-post-header">
+            <img [src]="post.imagen" alt="Imagen Usuario" />
+            <div>
+              <p class="foro-autor">{{ post.autor }}</p>
+              <span class="foro-tiempo">{{ post.tiempo }}</span>
+            </div>
+          </div>
+          <h3 class="foro-titulo">{{ post.titulo || 'Sin título' }}</h3>
+          <p class="foro-contenido">{{ post.contenido }}</p>
+          <div class="foro-acciones">
+            <button class="foro-btn-eliminar" (click)="eliminarPost(i)">Eliminar</button>
+          </div>
+        </div>
       </div>
-      <p class="contenido-post">{{ post.contenido }}</p>
-      <div class="acciones">
-        <button class="delete-btn" (click)="eliminarPost(i)">Eliminar</button>
-      </div>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
+</section>
