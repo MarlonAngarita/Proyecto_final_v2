@@ -76,4 +76,8 @@ export class DesafiosUsuario {
     this.desafioEditando = null;
     this.desafioEliminar = null;
   }
+
+  volverAlDashboard() {
+    window.location.href = '/usuario/dashboard-usuario';
+  }
 }

@@ -221,6 +221,27 @@ h2 {
   background: #F2921D;
 }
 
+/* Estilos para el botón de volver en desafíos */
+.btn-volver-desafios {
+  background: transparent;
+  border: 2px solid #F2CA52;
+  color: #F2CA52;
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  padding: 0.3rem 1.2rem;
+  border-radius: 6px;
+  margin-left: 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  height: 40px;
+  align-self: center;
+}
+
+.btn-volver-desafios:hover {
+  background: #F2CA52;
+  color: #1B1363;
+}
+
 /* Ajustes responsivos */
 @media (max-width: 768px) {
   .formulario-desafio {
@@ -252,5 +273,11 @@ h2 {
 
   .formulario-desafio button {
     font-size: 1rem;
+  }
+
+  .btn-volver-desafios {
+    font-size: 1rem;
+    padding: 0.2rem 0.7rem;
+    height: 32px;
   }
 }

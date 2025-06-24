@@ -94,3 +94,31 @@ h2 {
 .tarjeta-desafio button:hover {
   background: #F2921D;
 }
+
+.btn-volver-desafios-usuario {
+  background: transparent;
+  border: 2px solid #F2CA52;
+  color: #F2CA52;
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  padding: 0.3rem 1.2rem;
+  border-radius: 6px;
+  margin-left: 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  height: 40px;
+  align-self: center;
+}
+
+.btn-volver-desafios-usuario:hover {
+  background: #F2CA52;
+  color: #1B1363;
+}
+
+@media (max-width: 768px) {
+  .btn-volver-desafios-usuario {
+    font-size: 1rem;
+    padding: 0.2rem 0.7rem;
+    height: 32px;
+  }
+}

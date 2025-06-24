@@ -93,4 +93,9 @@ export class Desafios {
     this.desafioEditando = null;
     this.desafioEliminar = null;
   }
+
+  volverAlDashboard(): void {
+    // Redirige al dashboard del profesor
+    window.location.href = '/profesor/dashboard-profesor';
+  }
 }
