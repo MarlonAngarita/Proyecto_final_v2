@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-// import { AuthService } from '../../../services/auth';
+import { CursosService } from '../../../services/cursos.service';
 
 @Component({
   selector: 'app-cursos-profesor',
@@ -19,44 +19,35 @@ export class Cursos implements OnInit {
   cursoSeleccionado: any = null;
   materialApoyo: File | null = null;
 
-  userRole: string = ''; /* ✅ Variable para validar el rol */
-  mostrarSidebar = false; /* ✅ Control para mostrar sidebar */
-  mostrarFooter = false; /* ✅ Control para mostrar footer */
+  userRole: string = '';
+  mostrarSidebar = false;
+  mostrarFooter = false;
 
-  cursosCreados = [
-    {
-      nombre: 'Angular Avanzado',
-      descripcion: 'Curso sobre servicios y módulos.',
-      contenido: 'Inyección de dependencias, Lazy Loading.',
-    },
-    {
-      nombre: 'Optimización CSS',
-      descripcion: 'Mejores prácticas en rendimiento CSS.',
-      contenido: 'Metodologías como BEM y Tailwind.',
-    },
-  ];
+  cursosCreados: any[] = [];
 
-  nuevoCurso = { nombre: '', descripcion: '', contenido: '' };
+  nuevoCurso = {
+    nombre: '',
+    descripcion: '',
+    contenido: '',
+    categoria: '',
+    activo: true,
+    modulos: [],
+    desafios: []
+  };
 
   constructor(
     private router: Router,
-    // private authService: AuthService,
+    private cursosService: CursosService
   ) {}
 
   ngOnInit() {
-    // this.userRole = this.authService.getUserRole();
-
-    // if (!this.userRole || this.userRole !== 'profesor') {
-    //   console.error('❌ Acceso denegado: No tienes permisos para esta vista.');
-    //   this.router.navigate(['/login']); /* Redirige si el usuario no es profesor */
-    // }
-
-    /* Configuración de sidebar y footer según las reglas globales */
     const paginasConNavbarFooter = ['inicio', 'registro', 'nosotros', 'login'];
-    const rutaActual = this.router.url.split('/')[1]; /* Obtiene la primera parte de la URL */
-
+    const rutaActual = this.router.url.split('/')[1];
     this.mostrarSidebar = !paginasConNavbarFooter.includes(rutaActual);
     this.mostrarFooter = paginasConNavbarFooter.includes(rutaActual);
+
+    // Cargar cursos desde el servicio
+    this.cursosCreados = this.cursosService.getTodos();
   }
 
   abrirModalCrear() {
@@ -73,11 +64,19 @@ export class Cursos implements OnInit {
       this.nuevoCurso.descripcion.trim() &&
       this.nuevoCurso.contenido.trim()
     ) {
-      const nuevoCurso = { ...this.nuevoCurso };
-      this.cursosCreados.push(nuevoCurso); // Agrega el curso a la lista correctamente
-      this.nuevoCurso = { nombre: '', descripcion: '', contenido: '' }; // Limpia el formulario
+      this.cursosService.agregar({ ...this.nuevoCurso });
+      this.cursosCreados = this.cursosService.getTodos();
+      this.nuevoCurso = {
+        nombre: '',
+        descripcion: '',
+        contenido: '',
+        categoria: '',
+        activo: true,
+        modulos: [],
+        desafios: []
+      };
       this.modalCrearActivo = false;
-      this.modalConfirmacionActivo = true; // Muestra el modal de confirmación
+      this.modalConfirmacionActivo = true;
     }
   }
 
@@ -86,7 +85,7 @@ export class Cursos implements OnInit {
   }
 
   abrirModalDetalles(curso: any) {
-    this.cursoSeleccionado = { ...curso }; // Clona el curso para evitar referencias directas
+    this.cursoSeleccionado = { ...curso };
     this.modalDetallesActivo = true;
   }
 
@@ -96,41 +95,47 @@ export class Cursos implements OnInit {
   }
 
   eliminarCurso(curso: any) {
-    this.cursosCreados = this.cursosCreados.filter((c) => c !== curso);
+    this.cursosService.eliminar(curso.id);
+    this.cursosCreados = this.cursosService.getTodos();
   }
 
   editarCurso(curso: any) {
-    this.cursoSeleccionado = JSON.parse(JSON.stringify(curso)); // Clona el objeto para evitar referencias directas
+    this.cursoSeleccionado = { ...curso };
     this.modalEdicionActivo = true;
+    this.modalDetallesActivo = false;
   }
 
   guardarEdicionCurso() {
-    const index = this.cursosCreados.findIndex((c) => c.nombre === this.cursoSeleccionado.nombre);
-    if (index !== -1) {
-      this.cursosCreados[index] = { ...this.cursoSeleccionado }; // Actualiza los datos en la lista
-      this.modalEdicionActivo = false;
-      this.modalConfirmacionActivo = true; // Activa el modal de confirmación
-    }
+    this.cursosService.actualizar(this.cursoSeleccionado);
+    this.cursosCreados = this.cursosService.getTodos();
+    this.modalEdicionActivo = false;
+    this.modalConfirmacionActivo = true;
   }
 
   cerrarModalEdicion() {
     this.modalEdicionActivo = false;
-    this.modalDetallesActivo = true; // Vuelve al modal de detalles si cancela
+    this.modalDetallesActivo = true;
   }
 
   cerrarTodosLosModales() {
     this.modalConfirmacionActivo = false;
     this.modalDetallesActivo = false;
     this.modalEdicionActivo = false;
+    this.modalCrearActivo = false;
     this.cursoSeleccionado = null;
   }
 
   agregarMaterial(event: any) {
-    this.materialApoyo = event.target.files[0];
+    const archivo = event.target.files[0];
+    if (archivo) {
+      this.materialApoyo = archivo;
+      if (this.cursoSeleccionado) {
+        this.cursoSeleccionado.material = archivo.name;
+      }
+    }
   }
 
   volverAlDashboard(): void {
-  this.router.navigate(['/dashboard']);
-}
-
+    this.router.navigate(['/dashboard']);
+  }
 }
