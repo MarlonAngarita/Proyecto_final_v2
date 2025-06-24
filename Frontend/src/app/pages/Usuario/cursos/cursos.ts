@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CursosService } from '../../../services/cursos.service';
+// import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-cursos-estudiante',
@@ -10,12 +12,17 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './cursos.html',
   styleUrls: ['./cursos.css'],
 })
-export class Cursos {
+
+export class Cursos /*implements OnInit*/ {
   vistaActual = 'disponibles';
   modalActivo = false;
   cursoSeleccionado: any = null;
   modalConfirmacionActivo = false;
   modalAlertaActivo = false;
+
+  // ngOnInit(): void {
+  //   this.cursosDisponibles = this.cursosService.getActivos();
+  // }
 
   cursosDisponibles = [
     {
@@ -37,7 +44,7 @@ export class Cursos {
 
   cursosInscritos: any[] = [];
 
-  constructor(private router: Router) {} /* Se inyecta Router para la navegación */
+  constructor(private router: Router, private cursosService: CursosService) {} /* Se inyecta Router para la navegación */
 
   mostrarDisponibles() {
     this.vistaActual = 'disponibles';
