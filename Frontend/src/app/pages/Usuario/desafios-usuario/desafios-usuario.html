@@ -1,1 +1,12 @@
-<p>desafios-usuario works!</p>
+<section class="contenedor-desafios-usuario">
+  <h2>Misiones disponibles</h2>
+
+  <div class="grid-desafios">
+    <div class="tarjeta-desafio" *ngFor="let desafio of desafios">
+      <h3>{{ desafio.titulo }}</h3>
+      <p class="nivel">Nivel: {{ desafio.nivel }}</p>
+      <p class="descripcion">{{ desafio.descripcion }}</p>
+      <button>Comenzar</button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,80 @@
+@font-face {
+  font-family: 'VT323';
+  src: url('/assets/fonts/VT323-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Gagalin';
+  src: url('/assets/fonts/Gagalin-Regular.otf');
+}
+
+.contenedor-desafios-usuario {
+  background: linear-gradient(#1B1363, #5A397C);
+  padding: 3rem 2rem;
+  font-family: 'VT323', monospace;
+  color: #fff;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+h2 {
+  font-family: 'Gagalin', cursive;
+  font-size: 2rem;
+  color: #F2CA52;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.grid-desafios {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.tarjeta-desafio {
+  background: #ffffff22;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 2px solid #F2CA52;
+  box-shadow: 0 0 8px #F2CA52;
+  transition: transform 0.2s ease;
+}
+
+.tarjeta-desafio:hover {
+  transform: scale(1.03);
+  background: #ffffff33;
+}
+
+.tarjeta-desafio h3 {
+  font-family: 'Gagalin', cursive;
+  font-size: 1.4rem;
+  color: #F2CA52;
+  margin-bottom: 0.5rem;
+}
+
+.tarjeta-desafio .nivel {
+  font-size: 1.1rem;
+  color: #F2921D;
+  margin-bottom: 0.5rem;
+}
+
+.tarjeta-desafio .descripcion {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tarjeta-desafio button {
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  background: #F2CA52;
+  color: #1B1363;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.tarjeta-desafio button:hover {
+  background: #F2921D;
+}

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DesafiosService } from '../../../services/desafios.service'; // Ruta relativa
 
 @Component({
   selector: 'app-desafios',
@@ -10,25 +11,10 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./desafios.css'],
 })
 export class Desafios {
-  // Lista inicial de desafíos simulados
-  desafios = [
-    {
-      id: 1,
-      titulo: 'Misión lógica básica',
-      descripcion: 'Resuelve el acertijo de patrones',
-      nivel: 'básico',
-      activo: true,
-    },
-    {
-      id: 2,
-      titulo: 'Operaciones retro',
-      descripcion: 'Encuentra errores en un flujo de código antiguo',
-      nivel: 'intermedio',
-      activo: false,
-    },
-  ];
+  // Lista de desafíos cargada desde el servicio
+  desafios: any[] = [];
 
-  // Modelo de formulario para crear un nuevo desafío
+  // Objeto base para crear un nuevo desafío
   nuevoDesafio = {
     titulo: '',
     descripcion: '',
@@ -36,22 +22,27 @@ export class Desafios {
     activo: false,
   };
 
-  // Referencia al desafío seleccionado para edición
+  // Referencia al desafío en edición
   desafioEditando: any = null;
 
-  // Referencia al desafío seleccionado para eliminación
+  // Referencia al desafío que se desea eliminar
   desafioEliminar: any = null;
 
-  // Texto del mensaje de confirmación (para submodal)
+  // Mensaje que se muestra en el submodal de confirmación
   mensajeConfirmacion = '';
 
-  // Agrega un nuevo desafío a la lista y limpia el formulario
-  crearDesafio() {
-    const nuevo = {
-      ...this.nuevoDesafio,
-      id: Date.now(),
-    };
-    this.desafios.push(nuevo);
+  // Inyección del servicio de desafíos
+  constructor(private desafiosService: DesafiosService) {}
+
+  // Al iniciar el componente se cargan los desafíos desde el servicio
+  ngOnInit(): void {
+    this.desafios = this.desafiosService.getTodos();
+  }
+
+  // Crea un nuevo desafío y actualiza la lista visible
+  crearDesafio(): void {
+    this.desafiosService.agregar(this.nuevoDesafio);
+    this.desafios = this.desafiosService.getTodos();
     this.nuevoDesafio = {
       titulo: '',
       descripcion: '',
@@ -60,45 +51,44 @@ export class Desafios {
     };
   }
 
-  // Carga una copia del desafío en edición
-  editarDesafio(desafio: any) {
+  // Abre el modal de edición con una copia del desafío seleccionado
+  editarDesafio(desafio: any): void {
     this.desafioEditando = { ...desafio };
   }
 
-  // Aplica los cambios editados al desafío original
-  guardarEdicion() {
-    const index = this.desafios.findIndex(d => d.id === this.desafioEditando.id);
-    if (index !== -1) {
-      this.desafios[index] = { ...this.desafioEditando };
-    }
+  // Guarda los cambios del desafío editado y actualiza la lista
+  guardarEdicion(): void {
+    this.desafiosService.actualizar(this.desafioEditando);
+    this.desafios = this.desafiosService.getTodos();
     this.desafioEditando = null;
     this.mensajeConfirmacion = 'Desafío actualizado exitosamente';
   }
 
   // Cancela la edición y cierra el modal
-  cancelarEdicion() {
+  cancelarEdicion(): void {
     this.desafioEditando = null;
   }
 
   // Abre el modal de confirmación para eliminar un desafío
-  eliminarDesafio(desafio: any) {
+  eliminarDesafio(desafio: any): void {
     this.desafioEliminar = desafio;
   }
 
-  // Elimina el desafío confirmado y muestra mensaje
-  confirmarEliminar() {
-    this.desafios = this.desafios.filter(d => d.id !== this.desafioEliminar.id);
+  // Confirma y ejecuta la eliminación del desafío
+  confirmarEliminar(): void {
+    this.desafiosService.eliminar(this.desafioEliminar.id);
+    this.desafios = this.desafiosService.getTodos();
     this.desafioEliminar = null;
     this.mensajeConfirmacion = 'Desafío eliminado exitosamente';
   }
 
-  // Cancela la eliminación
-  cancelarEliminar() {
+  // Cancela la eliminación y cierra el modal
+  cancelarEliminar(): void {
     this.desafioEliminar = null;
   }
 
-  // Cierra el submodal de confirmación y cualquier otro modal abierto
-  cerrarConfirmacion() {
+  // Cierra el submodal de confirmación y limpia estados
+  cerrarConfirmacion(): void {
     this.mensajeConfirmacion = '';
     this.desafioEditando = null;
     this.desafioEliminar = null;
