@@ -136,6 +136,6 @@ export class Cursos implements OnInit {
   }
 
   volverAlDashboard(): void {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/profesor/dashboard-profesor']);
   }
 }

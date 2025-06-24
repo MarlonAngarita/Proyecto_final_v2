@@ -17,13 +17,14 @@ body {
 }
 
 .dashboard-grid {
-  padding: 1.5rem;
+  padding: 0.2rem;
   min-height: 100vh;
   overflow-y: auto;
   box-sizing: border-box;
-  padding-bottom: 2rem;
-  color: #fff;
-  font-family: 'VT323', monospace;
+  padding-bottom: 1rem;
+  color: #F2921D;
+  font-family: 'GAGALIN', monospace;
+  font-size: 2rem;
   background: linear-gradient(to right, #1B1363, #5A397C);
 }
 
