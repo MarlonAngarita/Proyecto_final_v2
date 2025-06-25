@@ -1,1 +1,25 @@
-<p>rachas-usuario works!</p>
+<section class="contenedor-rachas-usuario">
+  <div class="encabezado-logo">
+    <h2>Mis Rachas</h2>
+    <img src="/assets/Logo.png" alt="Logo" class="logo-proyecto" />
+    <button class="btn-volver-rachas-usuario" (click)="volverAlDashboard()">⏎ Volver</button>
+  </div>
+
+  <div class="racha-actual">
+    <h3>Racha actual: <span>{{ rachaActual }}</span> días</h3>
+    <div class="barra-rachas">
+      <div class="progreso" [style.width]="(rachaActual/100*100)+'%'" [style.background]="'#F2CA52'"></div>
+    </div>
+  </div>
+
+  <div class="grid-rachas">
+    <div class="tarjeta-racha" *ngFor="let racha of rachas">
+      <div class="icono-racha">{{ racha.icono }}</div>
+      <h4>{{ racha.dias }} días</h4>
+      <p>{{ racha.descripcion }}</p>
+      <div class="estado-racha" [class.activa]="rachaActual >= racha.dias">
+        {{ rachaActual >= racha.dias ? '¡Lograda!' : 'Por lograr' }}
+      </div>
+    </div>
+  </div>
+</section>

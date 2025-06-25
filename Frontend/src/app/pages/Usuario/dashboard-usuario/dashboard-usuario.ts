@@ -29,6 +29,14 @@ export class DashboardUsuario implements OnInit {
   rachaMensaje = '';
   mostrarRachaRota = false;
 
+  rachas = [
+    { dias: 7, descripcion: '¡Una semana de actividad continua!', icono: '🔥' },
+    { dias: 14, descripcion: '¡Dos semanas seguidas aprendiendo!', icono: '💪' },
+    { dias: 30, descripcion: '¡Un mes completo de racha!', icono: '🏆' },
+    { dias: 60, descripcion: '¡Dos meses sin fallar!', icono: '🌟' },
+    { dias: 100, descripcion: '¡100 días de constancia!', icono: '🎉' }
+  ];
+
   constructor(
     private userService: UserService,
     private router: Router

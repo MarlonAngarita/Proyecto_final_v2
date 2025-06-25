@@ -167,3 +167,58 @@ h1 {
 .btn-cerrar-sesion:hover {
   background: #F2921D;
 }
+
+.mini-barra-rachas {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin: 0.7rem 0 1.2rem 0;
+}
+.mini-hito {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'VT323', monospace;
+  color: #fff;
+  opacity: 0.5;
+  transition: opacity 0.3s, transform 0.3s;
+  font-size: 1.1rem;
+}
+.mini-hito span {
+  font-size: 1.7rem;
+  margin-bottom: 0.1rem;
+}
+.mini-hito small {
+  font-size: 0.95rem;
+  color: #F2CA52;
+}
+.mini-hito.activo {
+  opacity: 1;
+  color: #F2921D;
+  transform: scale(1.15);
+}
+
+.racha-dias-exacto {
+  text-align: center;
+  color: #F2CA52;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  font-family: 'VT323', monospace;
+}
+.racha-dias-exacto strong {
+  color: #F2921D;
+  font-size: 1.2rem;
+}
+
+.link-rachas {
+  color: #F2CA52;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-family: 'VT323', monospace;
+  transition: color 0.2s;
+}
+.link-rachas:hover {
+  color: #F2921D;
+  text-decoration: underline wavy;
+}
