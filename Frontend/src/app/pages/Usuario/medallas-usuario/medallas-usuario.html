@@ -1,1 +1,19 @@
-<p>medallas-usuario works!</p>
+<section class="dashboard-grid">
+  <div class="encabezado">
+    <h1>Mis Medallas</h1>
+  </div>
+
+  <div class="medallas-grid">
+    <div
+      *ngFor="let medalla of medallas"
+      class="medalla-card"
+      [ngClass]="{ 'obtenida': medalla.obtenida, 'bloqueada': !medalla.obtenida }"
+    >
+      <div class="medalla-icono">{{ medalla.icono }}</div>
+      <div class="medalla-nombre">{{ medalla.nombre }}</div>
+      <div class="medalla-descripcion">
+        {{ medalla.descripcion }}
+      </div>
+    </div>
+  </div>
+</section>

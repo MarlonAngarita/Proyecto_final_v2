@@ -1,0 +1,94 @@
+@font-face {
+  font-family: 'VT323';
+  src: url('/assets/fonts/VT323-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Gagalin';
+  src: url('/assets/fonts/Gagalin-Regular.otf');
+}
+
+.dashboard-grid {
+  background: linear-gradient(to right, #1b1363, #5a397c);
+  padding: 2rem;
+  min-height: 100vh;
+  color: #fff;
+  font-family: 'VT323', monospace;
+  box-sizing: border-box;
+}
+
+.encabezado h1 {
+  font-family: 'Gagalin', cursive;
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #f2ca52;
+}
+
+.medallas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.medalla-card {
+  background: none;
+  text-align: center;
+  position: relative;
+  transform: none;
+  transition: none;
+  border: none;
+}
+
+.medalla-icono {
+  font-size: 4rem;
+  padding: 1.2rem;
+  border-radius: 50%;
+  display: inline-block;
+  transition: filter 0.4s ease, opacity 0.4s ease;
+  box-shadow: 0 0 0 transparent;
+}
+
+/* 🔓 Desbloqueadas: icono brillante y con glow animado */
+.obtenida .medalla-icono {
+  background: radial-gradient(circle at center, #fff9d0 10%, #f2ca52 40%, transparent 70%);
+  box-shadow:
+    0 0 12px 3px #ffe88a,
+    0 0 25px 8px #f2ca52aa;
+  filter: drop-shadow(0 0 4px #fdd36f);
+  animation: brillo 2.5s ease-in-out infinite;
+}
+
+/* 🔒 Bloqueadas: apagadas, sin brillo ni hover */
+.bloqueada .medalla-icono {
+  background: #444;
+  color: #888;
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+/* Animación sutil de destello */
+@keyframes brillo {
+  0%, 100% {
+    box-shadow: 0 0 12px 4px #f2ca52cc;
+    filter: drop-shadow(0 0 6px #f2ca52aa);
+  }
+  50% {
+    box-shadow: 0 0 18px 8px #ffe08a;
+    filter: drop-shadow(0 0 10px #ffefaf);
+  }
+}
+
+.medalla-nombre {
+  font-family: 'Gagalin', cursive;
+  margin-top: 0.6rem;
+  color: #f2ca52;
+  font-size: 1.1rem;
+}
+
+.medalla-descripcion {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 0.2rem;
+}
