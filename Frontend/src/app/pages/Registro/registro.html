@@ -1,7 +1,7 @@
 <section class="registro-form">
   <form #form="ngForm" (ngSubmit)="onSubmit(form)">
     <h1>
-      Registro de Usuario
+      {{ tituloFormulario || 'Registro de Usuario' }}
       <hr />
     </h1>
 
@@ -67,7 +67,7 @@
     <div *ngIf="confirmar.invalid && confirmar.touched" class="error-campo">
       Debes confirmar tu contraseña.
     </div>
-    <div [class.error-campo]="true" [class.ng-custom-error]="errorConfirmacion">
+    <div *ngIf="errorConfirmacion" class="error-campo">
       Las contraseñas no coinciden.
     </div>
 
@@ -99,18 +99,32 @@
       El número de documento es obligatorio.
     </div>
 
-    <button type="submit">Registrarse</button>
+    <button type="submit" [disabled]="cargando">
+      {{ cargando ? 'Registrando...' : (textoBoton || 'Registrarse') }}
+    </button>
 
     <div *ngIf="form.invalid && form.submitted" class="alerta-campos">
       ⚠️ Por favor, completa todos los campos obligatorios.
+    </div>
+
+    <div *ngIf="errorConfirmacion" class="error-campo">
+      Las contraseñas no coinciden.
+    </div>
+
+    <div *ngIf="errorRegistro" class="error-campo">
+      {{ errorRegistro }}
     </div>
   </form>
 
   <!-- Modal de confirmación -->
   <div class="modal-confirmacion" *ngIf="mostrarConfirmacion">
     <div class="modal-contenido">
-      <p>¡Te has registrado de forma exitosa!</p>
-      <button type="button" (click)="cerrarModal()">Cerrar</button>
+      <h3>¡Registro Exitoso!</h3>
+      <p>Te has registrado de forma exitosa!</p>
+      <p>Serás redirigido a tu dashboard en unos segundos...</p>
+      <button type="button" (click)="cerrarModal()" class="btn-dashboard">
+        Ir al Dashboard Ahora
+      </button>
     </div>
   </div>
   <img src="assets/Logo_claro.png" alt="Logo claro" class="logo-inferior" />

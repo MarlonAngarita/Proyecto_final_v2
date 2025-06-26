@@ -117,6 +117,54 @@ form button:hover {
   z-index: 10;
 }
 
+/* Estilos para campos con errores */
+.error-field {
+  border: 2px solid #ff4757 !important;
+  background-color: rgba(255, 71, 87, 0.1);
+}
+
+/* Mensajes de error */
+.error-message {
+  color: #ff4757;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  font-family: 'VT323', monospace;
+  text-align: center;
+}
+
+/* Estado de carga del botón */
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mejoras para el estado de carga */
+.loading {
+  opacity: 0.7;
+}
+
+/* Asegurar que los inputs tengan el estilo correcto */
+input[type="email"], 
+input[type="password"] {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: 'Orbitron', sans-serif;
+  background-color: white;
+  color: #333;
+  box-sizing: border-box;
+}
+
+input[type="email"]:focus, 
+input[type="password"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #F2CA52;
+}
+
 
 
 

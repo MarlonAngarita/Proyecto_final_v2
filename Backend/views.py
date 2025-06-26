@@ -1,26 +1,21 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import (
     Avatares, Usuarios, Cursos, Niveles, CursosNivel,
     Desafios, DesafiosUsuario, Foro, Gamificacion, Medallas, MedallasUsuario,
     Modulos, NivelesUsuario, ProgresoUsuario, Quiz, RachasUsuario
 )
 from .serializers import (
-    AvataresSerializer, UsuariosSerializer,
+    AvataresSerializer, UsuariosSerializer, RegistroUsuarioSerializer,
     CursosSerializer, NivelesSerializer, CursosNivelSerializer, DesafiosSerializer,
     DesafiosUsuarioSerializer, ForoSerializer, GamificacionSerializer, MedallasSerializer,
     MedallasUsuarioSerializer, ModulosSerializer, NivelesUsuarioSerializer,
     ProgresoUsuarioSerializer, QuizSerializer, RachasUsuarioSerializer
 )
-from rest_framework import serializers, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.contrib.auth import authenticate
-from .models import Usuarios
-from .serializers import UsuariosSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
-import re
 
 # Create your views here.
 
@@ -120,62 +115,158 @@ class RachasUsuarioViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     lookup_field = 'id_racha'
 
-class RegistroUsuarioSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, min_length=8, style={'input_type': 'password'})
-    email = serializers.EmailField()
-
-    class Meta:
-        model = Usuarios
-        fields = ['email', 'username', 'nombre', 'password']
-
-    def validate_email(self, value):
-        if Usuarios.objects.filter(email=value).exists():
-            raise serializers.ValidationError('El correo electrónico ya está registrado.')
-        return value
-
-    def validate_password(self, value):
-        # Ejemplo de validación de fortaleza de contraseña
-        if len(value) < 8:
-            raise serializers.ValidationError('La contraseña debe tener al menos 8 caracteres.')
-        if not re.search(r'[A-Z]', value):
-            raise serializers.ValidationError('La contraseña debe contener al menos una letra mayúscula.')
-        if not re.search(r'[a-z]', value):
-            raise serializers.ValidationError('La contraseña debe contener al menos una letra minúscula.')
-        if not re.search(r'\d', value):
-            raise serializers.ValidationError('La contraseña debe contener al menos un número.')
-        return value
-
-    def create(self, validated_data):
-        user = Usuarios(
-            email=validated_data['email'],
-            username=validated_data['username'],
-            nombre=validated_data['nombre']
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
-
 class RegistroUsuarioView(APIView):
-    permission_classes = []
+    permission_classes = [AllowAny]
+    
     def post(self, request):
-        serializer = RegistroUsuarioSerializer(data=request.data)
+        # Forzar rol de estudiante por defecto
+        data = request.data.copy()
+        try:
+            from .models import Roles
+            rol_estudiante = Roles.objects.get(nombre_rol='Usuario')
+            data['id_rol'] = rol_estudiante.id_rol
+        except Roles.DoesNotExist:
+            # Si no existe el rol, proceder sin asignarlo
+            pass
+        
+        serializer = RegistroUsuarioSerializer(data=data)
         if serializer.is_valid():
             user = serializer.save()
-            return Response({'detail': 'Usuario registrado correctamente.'}, status=status.HTTP_201_CREATED)
+            # Generar tokens JWT
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'detail': 'Usuario registrado correctamente.',
+                'user': {
+                    'id': user.id,
+                    'email': user.email,
+                    'username': user.username,
+                    'nombre': user.nombre,
+                    'rol': user.id_rol.nombre_rol if user.id_rol else 'Usuario'
+                },
+                'tokens': {
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token)
+                }
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class RegistroProfesorView(APIView):
+    """Registro específico para profesores - URL especial"""
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        # Forzar rol de profesor
+        data = request.data.copy()
+        try:
+            from .models import Roles
+            rol_profesor = Roles.objects.get(nombre_rol='Profesor')
+            data['id_rol'] = rol_profesor.id_rol
+        except Roles.DoesNotExist:
+            return Response({
+                'detail': 'Error en configuración de roles.'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        serializer = RegistroUsuarioSerializer(data=data)
+        if serializer.is_valid():
+            user = serializer.save()
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'detail': 'Profesor registrado correctamente.',
+                'user': {
+                    'id': user.id,
+                    'email': user.email,
+                    'username': user.username,
+                    'nombre': user.nombre,
+                    'rol': 'Profesor'
+                },
+                'tokens': {
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token)
+                }
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class RegistroAdminView(APIView):
+    """Registro específico para administradores - URL especial"""
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        # Forzar rol de administrador
+        data = request.data.copy()
+        try:
+            from .models import Roles
+            rol_admin = Roles.objects.get(nombre_rol='Administrador')
+            data['id_rol'] = rol_admin.id_rol
+        except Roles.DoesNotExist:
+            return Response({
+                'detail': 'Error en configuración de roles.'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        serializer = RegistroUsuarioSerializer(data=data)
+        if serializer.is_valid():
+            user = serializer.save()
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'detail': 'Administrador registrado correctamente.',
+                'user': {
+                    'id': user.id,
+                    'email': user.email,
+                    'username': user.username,
+                    'nombre': user.nombre,
+                    'rol': 'Administrador'
+                },
+                'tokens': {
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token)
+                }
+            }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginUsuarioView(APIView):
-    permission_classes = []
+    """Vista para login de usuarios"""
+    permission_classes = [AllowAny]
+    
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
-        user = authenticate(request, email=email, password=password)
-        if user is not None:
-            refresh = RefreshToken.for_user(user)
+        
+        if not email or not password:
             return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-                'user_id': user.id,
-                'email': user.email
-            })
-        return Response({'detail': 'Credenciales inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
+                'detail': 'Email y contraseña son requeridos.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            # Buscar usuario por email
+            usuario = Usuarios.objects.get(email=email)
+            
+            # Verificar contraseña
+            if usuario.check_password(password):
+                # Generar tokens JWT
+                refresh = RefreshToken.for_user(usuario)
+                
+                # Obtener nombre del rol
+                rol_nombre = usuario.id_rol.nombre_rol if usuario.id_rol else 'Usuario'
+                
+                return Response({
+                    'detail': 'Login exitoso.',
+                    'user': {
+                        'id': usuario.id,
+                        'email': usuario.email,
+                        'username': usuario.username,
+                        'nombre': usuario.nombre,
+                        'rol': rol_nombre
+                    },
+                    'tokens': {
+                        'refresh': str(refresh),
+                        'access': str(refresh.access_token)
+                    }
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({
+                    'detail': 'Credenciales inválidas.'
+                }, status=status.HTTP_401_UNAUTHORIZED)
+                
+        except Usuarios.DoesNotExist:
+            return Response({
+                'detail': 'Credenciales inválidas.'
+            }, status=status.HTTP_401_UNAUTHORIZED)

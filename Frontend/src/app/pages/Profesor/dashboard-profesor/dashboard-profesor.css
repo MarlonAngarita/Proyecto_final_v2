@@ -17,9 +17,13 @@
 
 .cabecera-profesor {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 1.5rem;
   margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
 }
 
 .cabecera-profesor .avatar {
@@ -129,4 +133,43 @@ td, th {
 
 tbody tr:hover {
   background-color: #ffffff22;
+}
+
+/* Estilos para la información del profesor */
+.info-profesor {
+  flex: 1;
+}
+
+.email-profesor {
+  color: #F2CA52;
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  font-style: italic;
+}
+
+.rol-profesor {
+  color: #F2921D;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.btn-logout {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.btn-logout:hover {
+  background-color: #c0392b;
+  border-color: #F2CA52;
+  transform: translateY(-2px);
 }

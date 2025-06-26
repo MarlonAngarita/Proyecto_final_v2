@@ -4,7 +4,7 @@ from .views import (
     DesafiosViewSet, DesafiosUsuarioViewSet, ForoViewSet, GamificacionViewSet, MedallasViewSet,
     MedallasUsuarioViewSet, ModulosViewSet, NivelesUsuarioViewSet, ProgresoUsuarioViewSet,
     QuizViewSet, RachasUsuarioViewSet,
-    RegistroUsuarioView, LoginUsuarioView
+    RegistroUsuarioView, RegistroProfesorView, RegistroAdminView, LoginUsuarioView
 )
 from django.urls import path, include
 
@@ -32,5 +32,7 @@ app_name = 'backend'
 urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/v1/register/', RegistroUsuarioView.as_view(), name='register'),
+    path('api/v1/register/profesor/', RegistroProfesorView.as_view(), name='register_profesor'),
+    path('api/v1/register/admin/', RegistroAdminView.as_view(), name='register_admin'),
     path('api/v1/login/', LoginUsuarioView.as_view(), name='login'),
 ]

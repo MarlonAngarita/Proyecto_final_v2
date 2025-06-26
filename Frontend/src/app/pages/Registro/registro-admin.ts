@@ -5,21 +5,21 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-registro',
+  selector: 'app-registro-admin',
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './registro.html',
   styleUrl: './registro.css'
 })
-export class Registro {
+export class RegistroAdmin {
   mostrarConfirmacion = false;
   errorConfirmacion = false;
   errorRegistro = '';
   cargando = false;
   
-  // Propiedades para personalización (con valores por defecto)
-  tituloFormulario = 'Registro de Usuario';
-  textoBoton = 'Registrarse';
+  // Personalizar el título y texto para admin
+  tituloFormulario = 'Registro de Administrador';
+  textoBoton = 'Registrar Administrador';
 
   constructor(
     public router: Router,
@@ -50,24 +50,24 @@ export class Registro {
     this.cargando = true;
     this.errorRegistro = '';
 
-    // Solo registrar como usuario normal (estudiante)
-    const nuevoUsuario = {
+    const nuevoAdmin = {
       username: valores.email, // El username será igual al email
       email: valores.email,
       nombre: `${valores.nombre} ${valores.apellido}`.trim(), // Combinar nombre y apellido
       password: contrasena
     };
 
-    this.authService.registrar(nuevoUsuario).subscribe({
+    // Usar registrarAdmin en lugar de registrar
+    this.authService.registrarAdmin(nuevoAdmin).subscribe({
       next: (response) => {
         this.cargando = false;
         this.mostrarConfirmacion = true;
         form.resetForm();
-        console.log('Usuario registrado:', response);
+        console.log('Administrador registrado:', response);
         
-        // Redirigir automáticamente al dashboard del usuario después de 2 segundos
+        // Redirigir automáticamente al inicio después de 2 segundos (hasta que se cree dashboard de admin)
         setTimeout(() => {
-          this.router.navigate(['/usuario/dashboard-usuario']);
+          this.router.navigate(['/']);
         }, 2000);
       },
       error: (error) => {
@@ -83,7 +83,7 @@ export class Registro {
           }
           this.errorRegistro = errores.join('. ');
         } else {
-          this.errorRegistro = error.error?.detail || 'Error al registrar usuario';
+          this.errorRegistro = error.error?.detail || 'Error al registrar administrador';
         }
         console.error('Error de registro:', error);
       }
@@ -92,7 +92,7 @@ export class Registro {
 
   cerrarModal(): void {
     this.mostrarConfirmacion = false;
-    // Navegar inmediatamente al dashboard del usuario cuando se cierra el modal
-    this.router.navigate(['/usuario/dashboard-usuario']);
+    // Navegar inmediatamente al inicio cuando se cierra el modal (hasta que se cree dashboard de admin)
+    this.router.navigate(['/']);
   }
 }

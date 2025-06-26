@@ -1,7 +1,12 @@
 <section class="dashboard-profesor">
   <div class="cabecera-profesor">
     <img [src]="avatarURL" alt="Avatar Profesor" class="avatar" />
-    <h1>Bienvenido, {{ nombreProfesor }}</h1>
+    <div class="info-profesor">
+      <h1>Bienvenido, {{ nombreProfesor }}</h1>
+      <p class="email-profesor" *ngIf="emailProfesor">{{ emailProfesor }}</p>
+      <p class="rol-profesor" *ngIf="currentUser?.rol">Rol: {{ currentUser.rol }}</p>
+      <button (click)="logout()" class="btn-logout" *ngIf="currentUser">Cerrar Sesión</button>
+    </div>
   </div>
 
   <div class="paneles">

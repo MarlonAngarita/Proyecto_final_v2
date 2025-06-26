@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { Inicio } from './pages/Inicio/inicio';
 import { Login } from './pages/Login/login';
 import { Registro } from './pages/Registro/registro';
+import { RegistroProfesor } from './pages/Registro/registro-profesor';
+import { RegistroAdmin } from './pages/Registro/registro-admin';
 // Importar las páginas del profesor
 import { Cursos } from './pages/Profesor/cursos/cursos';
 import { DashboardProfesor } from './pages/Profesor/dashboard-profesor/dashboard-profesor';
@@ -22,6 +24,8 @@ export const routes: Routes = [
   { path: '', component: Inicio },
   { path: 'login', component: Login },
   { path: 'registro', component: Registro },
+  { path: 'registro/profesor', component: RegistroProfesor },
+  { path: 'registro/admin', component: RegistroAdmin },
   // Rutas del profesor
   { path: 'profesor/cursos', component: Cursos },
   { path: 'profesor/dashboard-profesor', component: DashboardProfesor },

@@ -5,18 +5,46 @@
       <img src="/assets/rojo.png" alt="rojo claro" class="rojo" />
     </div>
 
-    <form>
-      <input type="text" placeholder="USUARIO" />
-      <input type="password" placeholder="CONTRASEÑA" />
-      <button type="submit">INICIAR SESIÓN</button>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+      <input 
+        type="email" 
+        name="email"
+        placeholder="EMAIL" 
+        ngModel
+        required
+        #email="ngModel"
+        [class.error-field]="email.invalid && email.touched"
+      />
+      <div *ngIf="email.invalid && email.touched" class="error-message">
+        El email es obligatorio
+      </div>
+      
+      <input 
+        type="password" 
+        name="password"
+        placeholder="CONTRASEÑA" 
+        ngModel
+        required
+        #password="ngModel"
+        [class.error-field]="password.invalid && password.touched"
+      />
+      <div *ngIf="password.invalid && password.touched" class="error-message">
+        La contraseña es obligatoria
+      </div>
+      
+      <button type="submit" [disabled]="cargando || loginForm.invalid">
+        {{ cargando ? 'INICIANDO...' : 'INICIAR SESIÓN' }}
+      </button>
+      
+      <div *ngIf="errorLogin" class="error-message">
+        {{ errorLogin }}
+      </div>
     </form>
 
     <!-- Enlaces subrayados -->
     <div class="link-container">
       <button class="link-button">¿OLVIDASTE TU CONTRASEÑA?</button>
       <button class="link-button" (click)="irARegistro()">REGÍSTRATE</button>
-
-
     </div>
   </div>
 </div>

@@ -5,6 +5,7 @@ from .models import (
     Modulos, NivelesUsuario, ProgresoUsuario, Quiz, RachasUsuario
 )
 from django.contrib.auth.hashers import make_password
+import re
 
 class RolesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,6 +21,71 @@ class AvataresSerializer(serializers.ModelSerializer):
     class Meta:
         model = Avatares
         fields = ['id_avatar', 'nombre_avatar', 'imagen_url']
+
+class RegistroUsuarioSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, min_length=8, style={'input_type': 'password'})
+    email = serializers.EmailField()
+    id_rol = serializers.PrimaryKeyRelatedField(queryset=Roles.objects.all(), required=False, allow_null=True)
+
+    class Meta:
+        model = Usuarios
+        fields = ['email', 'username', 'nombre', 'password', 'id_rol', 'id_avatar', 'id_tipo_documento']
+        extra_kwargs = {
+            'id_avatar': {'queryset': Avatares.objects.all(), 'required': False, 'allow_null': True},
+            'id_tipo_documento': {'queryset': TipoDocumento.objects.all(), 'required': False, 'allow_null': True}
+        }
+
+    def validate_email(self, value):
+        if Usuarios.objects.filter(email=value).exists():
+            raise serializers.ValidationError('El correo electrónico ya está registrado.')
+        return value
+
+    def validate_username(self, value):
+        # Permitir que username sea igual al email del mismo usuario
+        email_from_request = self.initial_data.get('email')
+        if email_from_request and value == email_from_request:
+            # Si username es igual al email del mismo request, verificar solo que no exista otro usuario con ese username
+            existing_user = Usuarios.objects.filter(username=value).first()
+            if existing_user and existing_user.email != email_from_request:
+                raise serializers.ValidationError('El nombre de usuario ya está en uso por otro usuario.')
+        else:
+            # Validación normal para usernames diferentes al email
+            if Usuarios.objects.filter(username=value).exists():
+                raise serializers.ValidationError('El nombre de usuario ya está en uso.')
+        return value
+
+    def validate_password(self, value):
+        # Validación de fortaleza de contraseña
+        if len(value) < 8:
+            raise serializers.ValidationError('La contraseña debe tener al menos 8 caracteres.')
+        if not re.search(r'[A-Z]', value):
+            raise serializers.ValidationError('La contraseña debe contener al menos una letra mayúscula.')
+        if not re.search(r'[a-z]', value):
+            raise serializers.ValidationError('La contraseña debe contener al menos una letra minúscula.')
+        if not re.search(r'\d', value):
+            raise serializers.ValidationError('La contraseña debe contener al menos un número.')
+        return value
+
+    def create(self, validated_data):
+        # Asignar rol por defecto si no se proporciona
+        if 'id_rol' not in validated_data or validated_data['id_rol'] is None:
+            try:
+                rol_usuario = Roles.objects.get(nombre_rol='usuario')
+                validated_data['id_rol'] = rol_usuario
+            except Roles.DoesNotExist:
+                pass  # Si no existe el rol 'usuario', se creará sin rol
+        
+        user = Usuarios(
+            email=validated_data['email'],
+            username=validated_data['username'],
+            nombre=validated_data['nombre'],
+            id_rol=validated_data.get('id_rol'),
+            id_avatar=validated_data.get('id_avatar'),
+            id_tipo_documento=validated_data.get('id_tipo_documento')
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 class UsuariosSerializer(serializers.ModelSerializer):
     rol_info = serializers.StringRelatedField(source='id_rol', read_only=True)

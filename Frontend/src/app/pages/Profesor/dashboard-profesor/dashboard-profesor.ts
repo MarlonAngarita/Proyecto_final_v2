@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard-profesor',
@@ -9,9 +10,45 @@ import { FormsModule, NgForm } from '@angular/forms';
   templateUrl: './dashboard-profesor.html',
   styleUrl: './dashboard-profesor.css',
 })
-export class DashboardProfesor {
+export class DashboardProfesor implements OnInit {
+  // Datos del usuario autenticado
+  currentUser: any = null;
+  emailProfesor = '';
+  
+  // Datos existentes
   nombreProfesor = 'Profe Sandra';
   avatarURL = 'https://api.dicebear.com/9.x/fun-emoji/svg';
+
+  // Constructor para inyectar AuthService
+  constructor(private authService: AuthService, private router: Router) {}
+
+  // Método ngOnInit para cargar datos del usuario
+  ngOnInit() {
+    console.log('DashboardProfesor - Inicializando componente');
+    this.loadUserData();
+  }
+
+  // Método para cargar datos del usuario autenticado
+  private loadUserData() {
+    this.currentUser = this.authService.getCurrentUser();
+    console.log('DashboardProfesor - Usuario actual:', this.currentUser);
+    
+    if (this.currentUser) {
+      this.nombreProfesor = this.currentUser.nombre || 'Profesor';
+      this.emailProfesor = this.currentUser.email || '';
+      console.log('DashboardProfesor - Nombre del profesor:', this.nombreProfesor);
+      console.log('DashboardProfesor - Email del profesor:', this.emailProfesor);
+    } else {
+      console.error('DashboardProfesor - No hay usuario autenticado');
+    }
+  }
+
+  // Método para cerrar sesión
+  logout() {
+    console.log('DashboardProfesor - Cerrando sesión');
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 
   cursosAsignados = [
     {
