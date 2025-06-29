@@ -3,18 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CursosService } from '../../../services/cursos.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { ModulosService, Modulo } from '../../../services/modulos.service';
 
 interface Curso {
   id_curso: number;
   nombre_curso: string;
-}
-
-interface Modulo {
-  nombre_modulo: string;
-  contenido_modulo: string;
-  id_curso: number | null;
 }
 
 @Component({
@@ -25,144 +18,207 @@ interface Modulo {
   styleUrl: './modulos.css'
 })
 export class Modulos implements OnInit {
+  // Propiedades del componente
+  cargando = false;
+  cargandoCursos = false;
+  cargandoModulos = false;
+  cursos: any[] = [];
+  modulosCreados: Modulo[] = [];
+  
   modulo: Modulo = {
     nombre_modulo: '',
     contenido_modulo: '',
-    id_curso: null
+    id_curso: 0
   };
 
-  // Propiedades adicionales para la conexión API
-  cargando = false;
-  modulosCreados: any[] = [];
-  private apiUrl = 'http://127.0.0.1:8000/api/v1/modulos/';
-
-  cursos: Curso[] = [
-    // Datos de respaldo
-    { id_curso: 1, nombre_curso: 'Curso de ejemplo 1' },
-    { id_curso: 2, nombre_curso: 'Curso de ejemplo 2' }
-  ];
-
   constructor(
-    private cursosService: CursosService,
-    private http: HttpClient,
-    private router: Router
-  ) {}
+    private router: Router,
+    private modulosService: ModulosService,
+    private cursosService: CursosService
+  ) {
+    // Constructor vacío, toda la inicialización en ngOnInit
+  }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    console.log('Iniciando componente de módulos...');
+    
+    // Simplificar la inicialización - eliminar try-catch problemático
     this.cargarCursos();
-    this.cargarModulos();
+    
+    // Cargar módulos después de un breve delay
+    setTimeout(() => {
+      this.cargarModulos();
+    }, 1000);
   }
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': token ? `Bearer ${token}` : ''
-    });
-  }
-
-  private getCurrentUserId(): number {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    return user.id || 1;
-  }
-
-  cargarCursos() {
-    this.cargando = true;
+  private cargarCursos(): void {
+    this.cargandoCursos = true;
     console.log('Cargando cursos para módulos...');
-
+    
     this.cursosService.getTodosAPI().subscribe({
-      next: (cursos) => {
-        this.cursos = cursos.map(curso => ({
-          id_curso: curso.id_curso || curso.id,
-          nombre_curso: curso.nombre_curso || curso.nombre
-        }));
-        console.log('Cursos cargados para módulos:', this.cursos);
-        this.cargando = false;
-      },
-      error: (error) => {
-        console.error('Error al cargar cursos, usando datos locales:', error);
-        // Los datos de respaldo ya están definidos arriba
-        this.cargando = false;
-      }
-    });
-  }
-
-  cargarModulos() {
-    this.http.get<any[]>(this.apiUrl, { headers: this.getAuthHeaders() }).subscribe({
-      next: (modulos) => {
-        this.modulosCreados = modulos;
-        console.log('Módulos cargados:', this.modulosCreados);
-      },
-      error: (error) => {
-        console.error('Error al cargar módulos:', error);
-        this.modulosCreados = [];
-      }
-    });
-  }
-
-  crearModuloAPI(modulo: Modulo): Observable<any> {
-    const moduloData = {
-      nombre_modulo: modulo.nombre_modulo,
-      contenido_modulo: modulo.contenido_modulo,
-      id_curso: modulo.id_curso,
-      fecha_creacion: new Date().toISOString().split('T')[0],
-      id_profesor: this.getCurrentUserId()
-    };
-
-    return this.http.post<any>(this.apiUrl, moduloData, { headers: this.getAuthHeaders() });
-  }
-
-  onSubmit() {
-    if (this.modulo.nombre_modulo && this.modulo.contenido_modulo && this.modulo.id_curso) {
-      this.cargando = true;
-      console.log('Creando módulo:', this.modulo);
-
-      this.crearModuloAPI(this.modulo).subscribe({
-        next: (response) => {
-          console.log('Módulo creado exitosamente:', response);
-          alert('Módulo guardado correctamente');
-          
-          // Reiniciar formulario
-          this.modulo = { 
-            nombre_modulo: '', 
-            contenido_modulo: '', 
-            id_curso: null 
-          };
-          
-          // Recargar módulos
-          this.cargarModulos();
-          this.cargando = false;
-        },
-        error: (error) => {
-          console.error('Error al crear módulo:', error);
-          alert('Error al guardar el módulo. Inténtalo de nuevo.');
-          this.cargando = false;
+      next: (cursos: any) => {
+        console.log('Cursos recibidos:', cursos);
+        
+        if (Array.isArray(cursos)) {
+          this.cursos = cursos.map((curso: any) => ({
+            ...curso,
+            id_curso: curso.id_curso || curso.id,
+            nombre_curso: curso.nombre_curso || curso.nombre
+          }));
+        } else {
+          console.warn('La respuesta de cursos no es un array:', cursos);
+          this.cursos = [];
         }
-      });
+        
+        this.cargandoCursos = false;
+        console.log('Cursos procesados correctamente:', this.cursos.length);
+      },
+      error: (error: any) => {
+        console.error('Error en API de cursos:', error);
+        this.cursos = [];
+        this.cargandoCursos = false;
+        console.log('Estableciendo cursos vacíos debido a error');
+      }
+    });
+  }
+
+  private cargarModulos(): void {
+    this.cargandoModulos = true;
+    console.log('Cargando módulos creados...');
+    
+    this.modulosService.getTodosAPI().subscribe({
+      next: (modulos: Modulo[]) => {
+        console.log('Módulos recibidos:', modulos);
+        
+        if (Array.isArray(modulos)) {
+          this.modulosCreados = modulos.map(modulo => {
+            const curso = this.cursos.find(c => c.id_curso === modulo.id_curso);
+            return {
+              ...modulo,
+              nombre_curso: curso ? curso.nombre_curso : 'Curso no encontrado'
+            };
+          });
+        } else {
+          console.warn('La respuesta de módulos no es un array:', modulos);
+          this.modulosCreados = [];
+        }
+        
+        this.cargandoModulos = false;
+        console.log('Módulos procesados correctamente:', this.modulosCreados.length);
+      },
+      error: (error: any) => {
+        console.error('Error en API de módulos:', error);
+        this.modulosCreados = [];
+        this.cargandoModulos = false;
+      }
+    });
+  }
+
+  onSubmit(): void {
+    if (!this.validarFormulario()) {
+      return;
+    }
+
+    this.cargando = true;
+    console.log('Enviando módulo:', this.modulo);
+
+    this.modulosService.agregarAPI(this.modulo).subscribe({
+      next: (response: Modulo) => {
+        console.log('Módulo creado exitosamente:', response);
+        
+        // Limpiar formulario
+        this.limpiarFormulario();
+        
+        // Recargar módulos
+        this.cargarModulos();
+        
+        this.cargando = false;
+        alert('Módulo creado exitosamente');
+      },
+      error: (error: any) => {
+        console.error('Error al crear módulo:', error);
+        this.cargando = false;
+        this.mostrarErrorCreacion(error);
+      }
+    });
+  }
+
+  private validarFormulario(): boolean {
+    if (!this.modulo.id_curso || !this.modulo.nombre_modulo.trim() || !this.modulo.contenido_modulo.trim()) {
+      alert('Por favor completa todos los campos requeridos');
+      return false;
+    }
+    return true;
+  }
+
+  private limpiarFormulario(): void {
+    this.modulo = {
+      nombre_modulo: '',
+      contenido_modulo: '',
+      id_curso: 0
+    };
+  }
+
+  private mostrarErrorCreacion(error: any): void {
+    if (error.error && typeof error.error === 'object') {
+      const errores: string[] = [];
+      for (const [campo, mensajes] of Object.entries(error.error)) {
+        if (Array.isArray(mensajes)) {
+          errores.push(...mensajes);
+        } else {
+          errores.push(mensajes as string);
+        }
+      }
+      alert('Error al crear módulo: ' + errores.join('. '));
     } else {
-      alert('Por favor completa todos los campos');
+      alert('Error al crear módulo. Por favor intenta nuevamente.');
     }
   }
 
-  eliminarModulo(modulo: any, index: number) {
-    if (confirm('¿Estás seguro de que deseas eliminar este módulo?')) {
-      const moduloId = modulo.id || modulo.id_modulo;
+  eliminarModulo(modulo: Modulo, index: number): void {
+    if (!modulo.id_modulo) {
+      console.error('No se puede eliminar: ID del módulo no encontrado');
+      alert('Error: No se puede eliminar el módulo. ID no válido.');
+      return;
+    }
+
+    if (confirm(`¿Estás seguro de que deseas eliminar el módulo "${modulo.nombre_modulo}"?`)) {
+      console.log('Eliminando módulo:', modulo);
       
-      this.http.delete(`${this.apiUrl}${moduloId}/`, { headers: this.getAuthHeaders() }).subscribe({
+      this.modulosService.eliminarAPI(modulo.id_modulo).subscribe({
         next: () => {
           console.log('Módulo eliminado exitosamente');
-          this.cargarModulos();
-        },
-        error: (error) => {
-          console.error('Error al eliminar módulo:', error);
-          // Fallback: eliminar localmente
           this.modulosCreados.splice(index, 1);
+          alert('Módulo eliminado exitosamente');
+        },
+        error: (error: any) => {
+          console.error('Error al eliminar módulo:', error);
+          alert('Error al eliminar módulo. Por favor intenta nuevamente.');
         }
       });
     }
   }
 
-  volverAlDashboard() {
+  volverAlDashboard(): void {
     this.router.navigate(['/profesor/dashboard-profesor']);
+  }
+
+  // Métodos de utilidad para debugging
+  debugEstado(): void {
+    console.log('Estados actuales:', {
+      cargando: this.cargando,
+      cargandoCursos: this.cargandoCursos,
+      cargandoModulos: this.cargandoModulos,
+      cursos: this.cursos.length,
+      modulos: this.modulosCreados.length
+    });
+  }
+
+  resetearEstados(): void {
+    console.log('Reseteando todos los estados...');
+    this.cargando = false;
+    this.cargandoCursos = false;
+    this.cargandoModulos = false;
+    console.log('Estados reseteados');
   }
 }

@@ -18,6 +18,7 @@
         <option value="">-- Selecciona un curso --</option>
         <option *ngFor="let curso of cursos" [value]="curso.id_curso">{{ curso.nombre_curso }}</option>
       </select>
+      <small *ngIf="cargandoCursos" style="color: #667eea; font-style: italic;">Cargando cursos...</small>
     </div>
     
     <div class="form-group">
@@ -56,12 +57,12 @@
   </form>
 
   <!-- Indicador de carga -->
-  <div *ngIf="cargando && modulosCreados.length === 0" class="loading-indicator">
+  <div *ngIf="cargandoModulos" class="loading-indicator">
     <p>Cargando módulos...</p>
   </div>
 
   <!-- Lista de módulos creados -->
-  <div class="modulos-creados" *ngIf="modulosCreados.length > 0">
+  <div class="modulos-creados" *ngIf="!cargandoModulos && modulosCreados.length > 0">
     <h3>Módulos Creados</h3>
     <div class="modulos-grid">
       <div *ngFor="let modulo of modulosCreados; let i = index" class="modulo-card">
@@ -81,7 +82,7 @@
   </div>
 
   <!-- Mensaje cuando no hay módulos -->
-  <div *ngIf="!cargando && modulosCreados.length === 0" class="sin-modulos">
+  <div *ngIf="!cargandoModulos && modulosCreados.length === 0" class="sin-modulos">
     <p>No has creado módulos aún.</p>
     <p>¡Crea tu primer módulo para un curso!</p>
   </div>

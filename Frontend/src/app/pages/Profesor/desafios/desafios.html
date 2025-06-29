@@ -9,12 +9,13 @@
   <!-- Formulario para crear un nuevo desafío -->
   <form (submit)="crearDesafio()" class="formulario-desafio">
     <label>
-      Título:
+      Nombre del Desafío:
       <input
         type="text"
-        [(ngModel)]="nuevoDesafio.titulo"
-        name="titulo"
+        [(ngModel)]="nuevoDesafio.nombre_desafio"
+        name="nombre_desafio"
         required
+        [disabled]="guardando"
       />
     </label>
 
@@ -23,48 +24,81 @@
       <textarea
         [(ngModel)]="nuevoDesafio.descripcion"
         name="descripcion"
+        required
+        [disabled]="guardando"
       ></textarea>
     </label>
 
     <label>
-      Nivel:
-      <select [(ngModel)]="nuevoDesafio.nivel" name="nivel">
-        <option value="básico">Básico</option>
+      Recompensa (puntos):
+      <input
+        type="number"
+        [(ngModel)]="nuevoDesafio.recompensa"
+        name="recompensa"
+        min="0"
+        required
+        [disabled]="guardando"
+      />
+    </label>
+
+    <label>
+      Dificultad:
+      <select [(ngModel)]="nuevoDesafio.dificultad" name="dificultad" [disabled]="guardando">
+        <option value="facil">Fácil</option>
         <option value="intermedio">Intermedio</option>
-        <option value="avanzado">Avanzado</option>
+        <option value="dificil">Difícil</option>
       </select>
     </label>
 
     <label>
       Activo:
-      <input type="checkbox" [(ngModel)]="nuevoDesafio.activo" name="activo" />
+      <input type="checkbox" [(ngModel)]="nuevoDesafio.activo" name="activo" [disabled]="guardando" />
     </label>
 
-    <button type="submit">Agregar desafío</button>
+    <button type="submit" [disabled]="guardando">
+      {{ guardando ? 'Guardando...' : 'Agregar desafío' }}
+    </button>
   </form>
 
   <!-- Título de la lista de desafíos -->
   <h2>Lista de desafíos creados</h2>
 
+  <!-- Indicador de carga -->
+  <div *ngIf="cargandoDesafios" class="mensaje-carga">
+    🔄 Cargando desafíos...
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="errorCarga" class="mensaje-error">
+    ⚠️ {{ errorCarga }}
+  </div>
+
   <!-- Tabla que lista todos los desafíos creados -->
-  <table class="tabla-desafios">
+  <table class="tabla-desafios" *ngIf="!cargandoDesafios">
     <thead>
       <tr>
-        <th>Título</th>
-        <th>Nivel</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Recompensa</th>
+        <th>Dificultad</th>
         <th>Activo</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let desafio of desafios">
-        <td>{{ desafio.titulo }}</td>
-        <td>{{ desafio.nivel }}</td>
+        <td>{{ desafio.nombre_desafio }}</td>
+        <td>{{ desafio.descripcion }}</td>
+        <td>{{ desafio.recompensa }} pts</td>
+        <td>{{ desafio.dificultad }}</td>
         <td>{{ desafio.activo ? '✅' : '❌' }}</td>
         <td>
-          <button (click)="editarDesafio(desafio)">✏️</button>
-          <button (click)="eliminarDesafio(desafio)">🗑️</button>
+          <button (click)="editarDesafio(desafio)" [disabled]="guardando || eliminando">✏️</button>
+          <button (click)="eliminarDesafio(desafio)" [disabled]="guardando || eliminando">🗑️</button>
         </td>
+      </tr>
+      <tr *ngIf="desafios.length === 0 && !cargandoDesafios">
+        <td colspan="6" style="text-align: center; color: #666;">No hay desafíos disponibles</td>
       </tr>
     </tbody>
   </table>
@@ -75,32 +109,39 @@
       <h3>Editar desafío</h3>
 
       <div class="campo">
-        <label>Título:</label>
-        <input type="text" [(ngModel)]="desafioEditando.titulo" />
+        <label>Nombre del Desafío:</label>
+        <input type="text" [(ngModel)]="desafioEditando.nombre_desafio" [disabled]="guardando" />
       </div>
 
       <div class="campo">
         <label>Descripción:</label>
-        <textarea [(ngModel)]="desafioEditando.descripcion"></textarea>
+        <textarea [(ngModel)]="desafioEditando.descripcion" [disabled]="guardando"></textarea>
       </div>
 
       <div class="campo">
-        <label>Nivel:</label>
-        <select [(ngModel)]="desafioEditando.nivel">
-          <option value="básico">Básico</option>
+        <label>Recompensa (puntos):</label>
+        <input type="number" [(ngModel)]="desafioEditando.recompensa" min="0" [disabled]="guardando" />
+      </div>
+
+      <div class="campo">
+        <label>Dificultad:</label>
+        <select [(ngModel)]="desafioEditando.dificultad" [disabled]="guardando">
+          <option value="facil">Fácil</option>
           <option value="intermedio">Intermedio</option>
-          <option value="avanzado">Avanzado</option>
+          <option value="dificil">Difícil</option>
         </select>
       </div>
 
       <label>
-        <input type="checkbox" [(ngModel)]="desafioEditando.activo" />
+        <input type="checkbox" [(ngModel)]="desafioEditando.activo" [disabled]="guardando" />
         Activo
       </label>
 
       <div class="acciones-modal">
-        <button (click)="guardarEdicion()">Guardar</button>
-        <button (click)="cancelarEdicion()">Cancelar</button>
+        <button (click)="guardarEdicion()" [disabled]="guardando">
+          {{ guardando ? 'Guardando...' : 'Guardar' }}
+        </button>
+        <button (click)="cancelarEdicion()" [disabled]="guardando">Cancelar</button>
       </div>
     </div>
   </div>
@@ -110,11 +151,13 @@
     <div class="modal-contenido">
       <h3>¿Eliminar desafío?</h3>
       <p>
-        ¿Estás segura de eliminar <strong>{{ desafioEliminar.titulo }}</strong>?
+        ¿Estás segura de eliminar <strong>{{ desafioEliminar.nombre_desafio }}</strong>?
       </p>
       <div class="acciones-modal">
-        <button (click)="confirmarEliminar()">Sí, eliminar</button>
-        <button (click)="cancelarEliminar()">Cancelar</button>
+        <button (click)="confirmarEliminar()" [disabled]="eliminando">
+          {{ eliminando ? 'Eliminando...' : 'Sí, eliminar' }}
+        </button>
+        <button (click)="cancelarEliminar()" [disabled]="eliminando">Cancelar</button>
       </div>
     </div>
   </div>
