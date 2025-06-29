@@ -1,0 +1,43 @@
+<div class="quiz-form-container">
+  <form class="quiz-form" (ngSubmit)="guardarQuiz()" #quizForm="ngForm">
+    <h2 class="titulo-form">Crear Quiz</h2>
+    <div class="form-group">
+      <label for="pregunta">Pregunta</label>
+      <textarea id="pregunta" [(ngModel)]="quiz.pregunta" name="pregunta" required rows="3" class="input-form"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="opcion_a">Opción A</label>
+      <input id="opcion_a" type="text" [(ngModel)]="quiz.opcion_a" name="opcion_a" required class="input-form" />
+    </div>
+    <div class="form-group">
+      <label for="opcion_b">Opción B</label>
+      <input id="opcion_b" type="text" [(ngModel)]="quiz.opcion_b" name="opcion_b" required class="input-form" />
+    </div>
+    <div class="form-group">
+      <label for="opcion_c">Opción C</label>
+      <input id="opcion_c" type="text" [(ngModel)]="quiz.opcion_c" name="opcion_c" required class="input-form" />
+    </div>
+    <div class="form-group">
+      <label for="opcion_d">Opción D</label>
+      <input id="opcion_d" type="text" [(ngModel)]="quiz.opcion_d" name="opcion_d" required class="input-form" />
+    </div>
+    <div class="form-group">
+      <label for="respuesta_correcta">Respuesta Correcta</label>
+      <select id="respuesta_correcta" [(ngModel)]="quiz.respuesta_correcta" name="respuesta_correcta" required class="input-form">
+        <option [value]="quiz.opcion_a">Opción A</option>
+        <option [value]="quiz.opcion_b">Opción B</option>
+        <option [value]="quiz.opcion_c">Opción C</option>
+        <option [value]="quiz.opcion_d">Opción D</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="id_modulo">Módulo</label>
+      <select id="id_modulo" [(ngModel)]="quiz.id_modulo" name="id_modulo" required class="input-form">
+        <option *ngFor="let modulo of modulos" [value]="modulo.id_modulo">
+          {{ modulo.nombre_modulo }}
+        </option>
+      </select>
+    </div>
+    <button type="submit" class="btn-guardar" [disabled]="!quizForm.form.valid">Guardar Quiz</button>
+  </form>
+</div>

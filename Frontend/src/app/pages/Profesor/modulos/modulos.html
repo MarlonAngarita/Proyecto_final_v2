@@ -1,1 +1,22 @@
-<p>modulos works!</p>
+<!-- Formulario para crear/editar un módulo -->
+<div class="modulo-form-container">
+  <h2 class="titulo-form">Gestión de Módulos</h2>
+  <form class="modulo-form" (ngSubmit)="onSubmit()" #moduloForm="ngForm">
+    <div class="form-group">
+      <label for="nombre_modulo">Nombre del Módulo</label>
+      <input type="text" id="nombre_modulo" name="nombre_modulo" [(ngModel)]="modulo.nombre_modulo" required maxlength="100" class="input-form" placeholder="Nombre del módulo" />
+    </div>
+    <div class="form-group">
+      <label for="contenido_modulo">Contenido del Módulo</label>
+      <textarea id="contenido_modulo" name="contenido_modulo" [(ngModel)]="modulo.contenido_modulo" required class="input-form" rows="5" placeholder="Describe el contenido del módulo..."></textarea>
+    </div>
+    <div class="form-group">
+      <label for="id_curso">Curso</label>
+      <select id="id_curso" name="id_curso" [(ngModel)]="modulo.id_curso" required class="input-form">
+        <option value="" disabled selected>Selecciona un curso</option>
+        <option *ngFor="let curso of cursos" [value]="curso.id_curso">{{ curso.nombre_curso }}</option>
+      </select>
+    </div>
+    <button type="submit" class="btn-guardar" [disabled]="!moduloForm.form.valid">Guardar Módulo</button>
+  </form>
+</div>

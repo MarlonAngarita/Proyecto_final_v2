@@ -1,3 +1,4 @@
+/* Tipografías personalizadas */
 @font-face {
   font-family: 'VT323';
   src: url('/assets/fonts/VT323-Regular.ttf');
@@ -16,8 +17,8 @@
   padding: 0;
 }
 
-/* Fondo general del módulo */
-body.modulo-bg {
+/* Fondo general del quiz */
+body.quiz-bg {
   background: linear-gradient(90deg, #1B1363, #5A397C);
   min-height: 100vh;
   font-family: 'VT323', monospace;
@@ -25,23 +26,26 @@ body.modulo-bg {
   overflow-x: hidden;
 }
 
+/* Fondo transparente para contenedores */
 #root,
 app-root,
 .app-root,
 .main-content,
-.modulo-bg,
-.modulo-form-container {
+.quiz-bg,
+.quiz-form-container {
   background: transparent;
 }
 
-.modulo-form-container {
+/* Contenedor del formulario */
+.quiz-form-container {
   background: linear-gradient(120deg, #1B1363 60%, #5A397C 100%);
   min-height: 100vh;
   padding: 3rem 0;
   font-family: 'VT323', monospace;
 }
 
-.modulo-form {
+/* Formulario */
+.quiz-form {
   background: #fff;
   max-width: 480px;
   margin: 0 auto;
@@ -53,9 +57,10 @@ app-root,
   gap: 1.2rem;
 }
 
+/* Títulos del formulario */
 .titulo-form,
-.modulo-form h2,
-.modulo-form h1 {
+.quiz-form h2,
+.quiz-form h1 {
   font-family: 'Gagalin', cursive;
   color: #F2CA52;
   text-align: center;
@@ -64,22 +69,24 @@ app-root,
   letter-spacing: 1px;
 }
 
+/* Grupos de formulario */
 .form-group {
   margin-bottom: 1.1rem;
   display: flex;
   flex-direction: column;
 }
-.modulo-form label {
+.form-group label {
   font-family: 'VT323', monospace;
   color: #1B1363;
   font-size: 1.1rem;
   margin-bottom: 0.3rem;
 }
 
+/* Estilo de inputs, textarea y selects */
 .input-form,
-.modulo-form input,
-.modulo-form textarea,
-.modulo-form select {
+.quiz-form input,
+.quiz-form textarea,
+.quiz-form select {
   width: 100%;
   padding: 0.7rem 1rem;
   border-radius: 8px;
@@ -93,22 +100,24 @@ app-root,
   box-sizing: border-box;
 }
 .input-form:focus,
-.modulo-form input:focus,
-.modulo-form textarea:focus,
-.modulo-form select:focus {
+.quiz-form input:focus,
+.quiz-form textarea:focus,
+.quiz-form select:focus {
   border-color: #5A397C;
   outline: none;
   background: #fff;
   box-shadow: 0 0 0 2px #F2CA5233;
 }
 
-.modulo-form textarea {
+/* Estilo específico para textarea */
+.quiz-form textarea {
   min-height: 90px;
   resize: vertical;
 }
 
+/* Botones */
 .btn-guardar,
-.modulo-form button[type="submit"] {
+.quiz-form button[type="submit"] {
   background: linear-gradient(90deg, #F2CA52 60%, #F2921D 100%);
   color: #1B1363;
   font-family: 'Gagalin', cursive;
@@ -123,17 +132,18 @@ app-root,
   transition: background 0.2s, transform 0.1s;
 }
 .btn-guardar:disabled,
-.modulo-form button[disabled] {
+.quiz-form button[disabled] {
   background: #bdbdbd;
   color: #fff;
   cursor: not-allowed;
 }
 .btn-guardar:not(:disabled):hover,
-.modulo-form button[type="submit"]:not(:disabled):hover {
+.quiz-form button[type="submit"]:not(:disabled):hover {
   background: linear-gradient(90deg, #F2921D 60%, #F2CA52 100%);
   transform: translateY(-2px) scale(1.03);
 }
 
+/* Mensajes de error */
 .error-campo {
   color: #F2921D;
   font-size: 0.95rem;
@@ -141,11 +151,12 @@ app-root,
   font-family: 'VT323', monospace;
 }
 
+/* Responsive */
 @media (max-width: 700px) {
-  .modulo-form {
+  .quiz-form {
     padding: 1.2rem 0.5rem;
   }
-  .modulo-form-container {
+  .quiz-form-container {
     padding: 1.5rem 0;
   }
 }

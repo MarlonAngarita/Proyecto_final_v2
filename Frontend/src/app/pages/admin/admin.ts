@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-admin',
@@ -44,17 +45,20 @@ export class AdminComponent implements OnInit, OnDestroy {
   dispositivos: any[] = [];
   ubicaciones: any[] = [];
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   ngOnInit() {
     // Desactiva scroll si el modal está abierto al recargar
-    if (this.mostrarModalCrear) {
+    if (isPlatformBrowser(this.platformId) && this.mostrarModalCrear) {
       document.body.classList.add('modal-open');
     }
     // Aquí irán las llamadas a los servicios para cargar usuarios y estadísticas
   }
 
   ngOnDestroy() {
-    // Limpia la clase al salir del componente
-    document.body.classList.remove('modal-open');
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.classList.remove('modal-open');
+    }
   }
 
   seleccionarTab(tab: 'usuarios' | 'estadisticas') {
@@ -71,16 +75,20 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   crearUsuario() {
     this.mostrarModalCrear = true;
-    setTimeout(() => {
-      document.body.classList.add('modal-open');
-    }, 0);
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => {
+        document.body.classList.add('modal-open');
+      }, 0);
+    }
   }
 
   cerrarModalCrear() {
     this.mostrarModalCrear = false;
-    setTimeout(() => {
-      document.body.classList.remove('modal-open');
-    }, 0);
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => {
+        document.body.classList.remove('modal-open');
+      }, 0);
+    }
     this.nuevoUsuario = {
       username: '', password: '', first_name: '', last_name: '', email: '', id_rol: '', id_tipo_documento: '', id_avatar: '', is_active: true
     };
