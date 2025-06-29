@@ -17,13 +17,31 @@
   </div>
 
   <div class="seccion">
-    <h2>Cursos asignados</h2>
-    <div class="tarjetas">
+    <h2>Mis Cursos Creados</h2>
+    
+    <!-- Indicador de carga -->
+    <div *ngIf="cargandoCursos" class="loading-indicator">
+      <p>Cargando cursos...</p>
+    </div>
+    
+    <!-- Lista de cursos -->
+    <div *ngIf="!cargandoCursos" class="tarjetas">
       <div class="tarjeta" *ngFor="let curso of cursosAsignados">
         <h3>{{ curso.nombre }}</h3>
-        <p>Estudiantes inscritos: {{ curso.estudiantes.length }}</p>
-        <button routerLink="/curso/{{curso.id}}">Ver curso</button>
+        <p class="curso-descripcion" *ngIf="curso.descripcion">{{ curso.descripcion }}</p>
+        <div class="curso-info" *ngIf="curso.fecha_inicio || curso.fecha_fin">
+          <p *ngIf="curso.fecha_inicio"><strong>Inicio:</strong> {{ curso.fecha_inicio }}</p>
+          <p *ngIf="curso.fecha_fin"><strong>Fin:</strong> {{ curso.fecha_fin }}</p>
+        </div>
+        <p>Estudiantes inscritos: {{ curso.estudiantes?.length || 0 }}</p>
+        <button routerLink="/profesor/cursos">Ver detalles</button>
       </div>
+    </div>
+    
+    <!-- Mensaje si no hay cursos -->
+    <div *ngIf="!cargandoCursos && cursosAsignados.length === 0" class="no-cursos">
+      <p>No tienes cursos creados aún.</p>
+      <button class="btn-crear-curso" routerLink="/profesor/cursos">Crear Primer Curso</button>
     </div>
   </div>
 

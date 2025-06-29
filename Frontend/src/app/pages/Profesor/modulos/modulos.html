@@ -1,22 +1,88 @@
 <!-- Formulario para crear/editar un módulo -->
 <div class="modulo-form-container">
-  <h2 class="titulo-form">Gestión de Módulos</h2>
+  <div class="header">
+    <h2 class="titulo-form">Gestión de Módulos</h2>
+    <button type="button" class="btn-volver" (click)="volverAlDashboard()">⏎ Volver al Dashboard</button>
+  </div>
+  
   <form class="modulo-form" (ngSubmit)="onSubmit()" #moduloForm="ngForm">
     <div class="form-group">
-      <label for="nombre_modulo">Nombre del Módulo</label>
-      <input type="text" id="nombre_modulo" name="nombre_modulo" [(ngModel)]="modulo.nombre_modulo" required maxlength="100" class="input-form" placeholder="Nombre del módulo" />
-    </div>
-    <div class="form-group">
-      <label for="contenido_modulo">Contenido del Módulo</label>
-      <textarea id="contenido_modulo" name="contenido_modulo" [(ngModel)]="modulo.contenido_modulo" required class="input-form" rows="5" placeholder="Describe el contenido del módulo..."></textarea>
-    </div>
-    <div class="form-group">
       <label for="id_curso">Curso</label>
-      <select id="id_curso" name="id_curso" [(ngModel)]="modulo.id_curso" required class="input-form">
-        <option value="" disabled selected>Selecciona un curso</option>
+      <select 
+        id="id_curso" 
+        name="id_curso" 
+        [(ngModel)]="modulo.id_curso" 
+        required 
+        class="input-form"
+        [disabled]="cargando">
+        <option value="">-- Selecciona un curso --</option>
         <option *ngFor="let curso of cursos" [value]="curso.id_curso">{{ curso.nombre_curso }}</option>
       </select>
     </div>
-    <button type="submit" class="btn-guardar" [disabled]="!moduloForm.form.valid">Guardar Módulo</button>
+    
+    <div class="form-group">
+      <label for="nombre_modulo">Nombre del Módulo</label>
+      <input 
+        type="text" 
+        id="nombre_modulo" 
+        name="nombre_modulo" 
+        [(ngModel)]="modulo.nombre_modulo" 
+        required 
+        maxlength="100" 
+        class="input-form" 
+        placeholder="Nombre del módulo"
+        [disabled]="cargando" />
+    </div>
+    
+    <div class="form-group">
+      <label for="contenido_modulo">Contenido del Módulo</label>
+      <textarea 
+        id="contenido_modulo" 
+        name="contenido_modulo" 
+        [(ngModel)]="modulo.contenido_modulo" 
+        required 
+        class="input-form" 
+        rows="5" 
+        placeholder="Describe el contenido del módulo..."
+        [disabled]="cargando"></textarea>
+    </div>
+    
+    <button 
+      type="submit" 
+      class="btn-guardar" 
+      [disabled]="!moduloForm.form.valid || cargando">
+      {{ cargando ? 'Guardando...' : 'Guardar Módulo' }}
+    </button>
   </form>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="cargando && modulosCreados.length === 0" class="loading-indicator">
+    <p>Cargando módulos...</p>
+  </div>
+
+  <!-- Lista de módulos creados -->
+  <div class="modulos-creados" *ngIf="modulosCreados.length > 0">
+    <h3>Módulos Creados</h3>
+    <div class="modulos-grid">
+      <div *ngFor="let modulo of modulosCreados; let i = index" class="modulo-card">
+        <div class="modulo-header">
+          <h4>{{ modulo.nombre_modulo }}</h4>
+          <button class="btn-eliminar" (click)="eliminarModulo(modulo, i)" title="Eliminar módulo">🗑️</button>
+        </div>
+        <p class="modulo-curso">
+          <strong>Curso:</strong> {{ modulo.nombre_curso || 'Curso no especificado' }}
+        </p>
+        <p class="modulo-contenido">{{ modulo.contenido_modulo }}</p>
+        <div class="modulo-info" *ngIf="modulo.fecha_creacion">
+          <small>Creado: {{ modulo.fecha_creacion }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensaje cuando no hay módulos -->
+  <div *ngIf="!cargando && modulosCreados.length === 0" class="sin-modulos">
+    <p>No has creado módulos aún.</p>
+    <p>¡Crea tu primer módulo para un curso!</p>
+  </div>
 </div>

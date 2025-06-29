@@ -135,152 +135,140 @@ body {
   color: #5A397C;
 }
 
+/* Estilos mejorados para modales */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: flex-start;
   z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .modal-contenido {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 500px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right, #1B1363, #5A397C);
+  border: 2px solid #F2CA52;
+  border-radius: 8px;
+  padding: 20px;
   position: relative;
-  color: #1B1363;
-  font-family: 'VT323', monospace;
+  width: 90%;
+  max-width: 600px;
+  color: #F2921D;
+  margin: auto;
+  min-height: fit-content;
 }
 
-.modal-contenido h2,
-.modal-contenido p strong {
-  color: #5A397C;
-  font-weight: bold;
-}
-
-.modal-contenido p {
-  color: #444;
-  font-size: 1rem;
-  margin-bottom: 15px;
+.modal-contenido.scrollable {
+  max-height: 85vh;
+  overflow-y: auto;
 }
 
 .modal-botones {
   display: flex;
+  gap: 10px;
   justify-content: center;
-  align-items: center;
-  gap: 15px;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
-.modal-botones button {
-  background-color: #F2CA52;
-  color: #1B1363;
-  padding: 12px 20px;
-  border: none;
-  font-weight: bold;
-  border-radius: 6px;
+.modal-button, .btn-ver-mas {
+  padding: 8px 16px;
+  border: 2px solid #F2CA52;
+  background: transparent;
+  color: #F2CA52;
   cursor: pointer;
-  font-size: 1rem;
+  border-radius: 4px;
   font-family: 'VT323', monospace;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
 }
 
-.modal-botones button:hover {
-  background-color: #F2921D;
-  transform: scale(1.05);
+.modal-button:hover, .btn-ver-mas:hover {
+  background: #F2CA52;
+  color: #1B1363;
 }
 
-.modal-cerrar {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 22px;
-  cursor: pointer;
-  color: #999;
-  background: none;
-  border: none;
+.modal-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.modal-cerrar:hover {
-  color: #333;
+.btn-crear, .btn-guardar {
+  background: #F2CA52;
+  color: #1B1363;
+  border-color: #F2CA52;
 }
 
-.btn-cerrar {
-  background-color: #ca1d1d;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  font-weight: bold;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.btn-crear:hover, .btn-guardar:hover {
+  background: #F2921D;
+  border-color: #F2921D;
 }
 
-.btn-cerrar:hover {
-  background-color: #e53535;
+.btn-eliminar {
+  border-color: #FF6B6B;
+  color: #FF6B6B;
 }
 
-.curso-inscrito-nombre {
-  color: #5A397C;
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-top: 10px;
-  font-family: 'Gagalin';
+.btn-eliminar:hover {
+  background: #FF6B6B;
+  color: #1B1363;
 }
 
-h2 {
+.btn-cancelar {
+  border-color: #888;
+  color: #888;
+}
+
+.btn-cancelar:hover {
+  background: #888;
+  color: #1B1363;
+}
+
+.loading-indicator {
+  text-align: center;
+  padding: 20px;
   color: #F2921D;
-  font-family: 'Gagalin';
-  margin-bottom: 1rem;
+  font-family: 'VT323', monospace;
+  font-size: 1.5rem;
 }
 
-.modal-contenido form {
+/* Formularios en modales */
+.modal form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  align-items: stretch;
 }
 
-.modal-contenido label {
-  font-weight: bold;
-  color: #5A397C;
+.modal form label {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  color: #F2921D;
   font-family: 'VT323', monospace;
-  margin-bottom: 4px;
-  text-align: left;
+  font-size: 1.2rem;
 }
 
-.modal-contenido input[type="text"],
-.modal-contenido textarea {
-  width: 100%;
-  padding: 10px;
-  border: 2px solid #F2CA52;
-  border-radius: 6px;
-  background-color: #f9f9f9;
-  color: #1B1363;
+.modal form input,
+.modal form textarea {
+  padding: 8px;
+  border: 1px solid #F2CA52;
+  background: rgba(27, 19, 99, 0.7);
+  color: #F2CA52;
+  border-radius: 4px;
   font-family: 'VT323', monospace;
-  font-size: 1rem;
-  margin-bottom: 8px;
-  box-sizing: border-box;
-  transition: border-color 0.2s;
+  font-size: 1.1rem;
 }
 
-.modal-contenido input[type="text"]:focus,
-.modal-contenido textarea:focus {
+.modal form input:focus,
+.modal form textarea:focus {
   outline: none;
-  border-color: #5A397C;
-}
-
-.modal-contenido input[type="file"] {
-  margin-bottom: 10px;
+  border-color: #F2921D;
+  box-shadow: 0 0 5px #F2921D;
 }
 
 /* ====== RESPONSIVE ====== */
@@ -307,5 +295,25 @@ h2 {
   .curso-logo {
     width: 50px;
     height: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal {
+    padding: 10px;
+  }
+  
+  .modal-contenido {
+    width: 95%;
+    max-height: 90vh;
+  }
+  
+  .modal-botones {
+    flex-direction: column;
+  }
+  
+  .modal-button, .btn-ver-mas {
+    width: 100%;
+    margin-bottom: 5px;
   }
 }

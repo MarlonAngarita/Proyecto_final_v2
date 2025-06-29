@@ -173,3 +173,64 @@ tbody tr:hover {
   border-color: #F2CA52;
   transform: translateY(-2px);
 }
+
+/* Estilos para el indicador de carga */
+.loading-indicator {
+  text-align: center;
+  padding: 2rem;
+  color: #F2921D;
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+}
+
+/* Estilos para la información adicional de cursos */
+.curso-descripcion {
+  color: #DDDDDD;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+}
+
+.curso-info {
+  margin: 0.8rem 0;
+  font-size: 0.8rem;
+}
+
+.curso-info p {
+  color: #F2CA52;
+  margin: 0.2rem 0;
+}
+
+/* Estilos para cuando no hay cursos */
+.no-cursos {
+  text-align: center;
+  padding: 3rem;
+  color: #F2921D;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 2px dashed #F2CA52;
+}
+
+.no-cursos p {
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.btn-crear-curso {
+  background: #F2CA52;
+  color: #1B1363;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.btn-crear-curso:hover {
+  background: #F2921D;
+  transform: scale(1.05);
+}

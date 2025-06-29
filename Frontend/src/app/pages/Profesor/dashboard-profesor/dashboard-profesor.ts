@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
+import { CursosService } from '../../../services/cursos.service';
 
 @Component({
   selector: 'app-dashboard-profesor',
@@ -18,14 +19,22 @@ export class DashboardProfesor implements OnInit {
   // Datos existentes
   nombreProfesor = 'Profe Sandra';
   avatarURL = 'https://api.dicebear.com/9.x/fun-emoji/svg';
+  
+  // Estado de carga para cursos
+  cargandoCursos = false;
 
   // Constructor para inyectar AuthService
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    private cursosService: CursosService
+  ) {}
 
   // Método ngOnInit para cargar datos del usuario
   ngOnInit() {
     console.log('DashboardProfesor - Inicializando componente');
     this.loadUserData();
+    this.loadCursosProfesor();
   }
 
   // Método para cargar datos del usuario autenticado
@@ -43,6 +52,52 @@ export class DashboardProfesor implements OnInit {
     }
   }
 
+  // Método para cargar cursos creados por el profesor
+  private loadCursosProfesor() {
+    this.cargandoCursos = true;
+    console.log('DashboardProfesor - Cargando cursos del profesor');
+
+    this.cursosService.getTodosAPI().subscribe({
+      next: (cursos) => {
+        console.log('DashboardProfesor - Cursos recibidos de la API:', cursos);
+        
+        // Verificar si la respuesta es un array
+        if (Array.isArray(cursos)) {
+          // Mapear los cursos de la API al formato del dashboard
+          this.cursosAsignados = cursos.map(curso => ({
+            id: curso.id_curso || curso.id,
+            nombre: curso.nombre_curso || curso.nombre,
+            descripcion: curso.descripcion_curso || curso.descripcion,
+            fecha_inicio: curso.fecha_inicio,
+            fecha_fin: curso.fecha_fin,
+            estudiantes: [] // Por ahora vacío, se puede llenar desde otra API
+          }));
+        } else {
+          console.warn('DashboardProfesor - La respuesta de la API no es un array:', cursos);
+          this.cursosAsignados = [];
+        }
+        
+        console.log('DashboardProfesor - Cursos procesados:', this.cursosAsignados);
+        this.cargandoCursos = false;
+      },
+      error: (error) => {
+        console.error('DashboardProfesor - Error al cargar cursos desde API:', error);
+        console.log('DashboardProfesor - Usando cursos de respaldo locales');
+        
+        // Fallback a cursos locales si falla la API
+        const cursosLocales = this.cursosService.getTodos();
+        this.cursosAsignados = cursosLocales.map(curso => ({
+          id: curso.id,
+          nombre: curso.nombre,
+          descripcion: curso.descripcion,
+          estudiantes: ['Estudiante 1', 'Estudiante 2'] // Datos de ejemplo
+        }));
+        
+        this.cargandoCursos = false;
+      }
+    });
+  }
+
   // Método para cerrar sesión
   logout() {
     console.log('DashboardProfesor - Cerrando sesión');
@@ -50,7 +105,8 @@ export class DashboardProfesor implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  cursosAsignados = [
+  cursosAsignados: any[] = [
+    // Datos de respaldo (se reemplazarán con datos de la API)
     {
       id: 1,
       nombre: 'Lógica Computacional',
@@ -67,12 +123,12 @@ export class DashboardProfesor implements OnInit {
       estudiantes: ['María', 'Pedro'],
     },
     {
-      id: 3,
+      id: 4,
       nombre: 'Pensamiento Algorítmico',
       estudiantes: ['María', 'Pedro'],
     },
     {
-      id: 4,
+      id: 5,
       nombre: 'Pensamiento Algorítmico',
       estudiantes: ['María', 'Pedro'],
     },

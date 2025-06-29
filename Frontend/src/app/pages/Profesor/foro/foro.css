@@ -303,7 +303,13 @@ main {
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-bottom: 1rem;
 }
+
+.foro-post-header > div {
+  flex: 1;
+}
+
 .foro-post-header img {
   width: 55px;
   height: 55px;
@@ -368,6 +374,49 @@ main {
 .foro-btn-volver:hover {
   background: #F2CA52;
   color: #1B1363;
+}
+
+/* Estilos para indicador de carga */
+.foro-loading {
+  text-align: center;
+  padding: 2rem;
+  color: #F2921D;
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+}
+
+/* Estilos para cuando no hay publicaciones */
+.foro-sin-publicaciones {
+  text-align: center;
+  padding: 3rem;
+  color: #F2921D;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 2px dashed #F2CA52;
+  margin-top: 2rem;
+}
+
+.foro-sin-publicaciones p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+/* Mejorar el botón de eliminar en el header */
+.foro-btn-eliminar-header {
+  background: none;
+  border: none;
+  color: #F2921D;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: auto;
+  padding: 0.3rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.foro-btn-eliminar-header:hover {
+  background: rgba(242, 146, 29, 0.2);
+  transform: scale(1.1);
 }
 
 /* Media queries para tablets y móviles */

@@ -2,20 +2,27 @@
   <div class="encabezado">
     <h1>Cursos</h1>
     <div class="perfil-btn-wrapper">
-      <button class="btn-perfil" (click)="abrirModalCrear()">Crear Curso</button>
-      <button class="btn-perfil" (click)="volverAlDashboard()">⏎ Volver</button>
+      <button type="button" class="btn-perfil" (click)="abrirModalCrear()">Crear Curso</button>
+      <button type="button" class="btn-perfil" (click)="volverAlDashboard()">⏎ Volver</button>
     </div>
   </div>
 
   <main>
+    <div *ngIf="cargando" class="loading-indicator">
+      <p>Cargando...</p>
+    </div>
+    
     <section id="cursos-creados-section">
       <div class="cursos-container">
         <div *ngFor="let curso of cursosCreados" class="curso-card">
-          <h3>{{ curso.nombre }}</h3>
-          <p class="curso-descripcion">{{ curso.descripcion }}</p>
+          <h3>{{ curso.nombre_curso || curso.nombre }}</h3>
+          <p class="curso-descripcion">{{ curso.descripcion_curso || curso.descripcion }}</p>
           <div class="modal-botones">
             <button class="btn-ver-mas" (click)="abrirModalDetalles(curso); $event.stopPropagation()">
               Detalles
+            </button>
+            <button class="btn-ver-mas" (click)="editarCurso(curso); $event.stopPropagation()">
+              Editar
             </button>
             <button class="btn-ver-mas" (click)="eliminarCurso(curso); $event.stopPropagation()">
               Eliminar
@@ -26,27 +33,32 @@
     </section>
 
     <!-- Modal de creación de curso -->
-    <div class="modal" *ngIf="modalCrearActivo">
-      <div class="modal-contenido scrollable">
-        <button class="modal-cerrar" (click)="cerrarModalCrear()">✖</button>
+    <div class="modal" *ngIf="modalCrearActivo" (click)="cerrarModalCrear()">
+      <div class="modal-contenido scrollable" (click)="$event.stopPropagation()">
+        <button type="button" class="modal-cerrar" (click)="cerrarModalCrear()">✖</button>
         <h2 class="modal-titulo">Crear Nuevo Curso</h2>
-        <form (ngSubmit)="crearCurso()">
+        <form (ngSubmit)="crearCurso()" #cursoForm="ngForm">
           <label for="curso-nombre">Nombre del Curso:</label>
-          <input type="text" [(ngModel)]="nuevoCurso.nombre" name="curso-nombre" required />
+          <input type="text" id="curso-nombre" [(ngModel)]="nuevoCurso.nombre" name="curso-nombre" required />
 
           <label for="curso-descripcion">Descripción:</label>
-          <textarea [(ngModel)]="nuevoCurso.descripcion" name="curso-descripcion" required></textarea>
+          <textarea id="curso-descripcion" [(ngModel)]="nuevoCurso.descripcion" name="curso-descripcion" required></textarea>
 
-          <label for="curso-contenido">Contenido:</label>
-          <textarea [(ngModel)]="nuevoCurso.contenido" name="curso-contenido" required></textarea>
+          <label for="fecha-inicio">Fecha de Inicio:</label>
+          <input type="date" id="fecha-inicio" [(ngModel)]="nuevoCurso.fecha_inicio" name="fecha-inicio" required />
+
+          <label for="fecha-fin">Fecha de Finalización:</label>
+          <input type="date" id="fecha-fin" [(ngModel)]="nuevoCurso.fecha_fin" name="fecha-fin" required />
 
           <label for="curso-material">Material de Apoyo:</label>
-          <input type="file" (change)="agregarMaterial($event)" />
+          <input type="file" id="curso-material" (change)="agregarMaterial($event)" />
 
           <div class="modal-botones">
-            <button type="submit" class="modal-button">Guardar</button>
-            <button type="button" class="modal-button btn-cerrar" (click)="cerrarModalCrear()">
+            <button type="button" class="modal-button btn-cancelar" (click)="cerrarModalCrear()">
               Cancelar
+            </button>
+            <button type="submit" class="modal-button btn-crear" [disabled]="cargando || !cursoForm.valid">
+              {{ cargando ? 'Creando...' : 'Crear Curso' }}
             </button>
           </div>
         </form>
@@ -56,10 +68,13 @@
     <!-- Modal de confirmación de creación de curso -->
     <div class="modal" *ngIf="modalConfirmacionActivo">
       <div class="modal-contenido">
-        <button class="modal-cerrar" (click)="cerrarModalConfirmacion()">✖</button>
-        <h2>Curso creado correctamente</h2>
+        <button type="button" class="modal-cerrar" (click)="cerrarModalConfirmacion()">✖</button>
+        <h2>¡Curso creado exitosamente!</h2>
+        <p>El curso ha sido creado correctamente y ya aparece en tu lista de cursos.</p>
         <div class="modal-botones">
-          <button class="modal-button" (click)="cerrarModalConfirmacion()">Aceptar</button>
+          <button type="button" class="modal-button btn-crear" (click)="cerrarModalConfirmacion()">
+            Aceptar
+          </button>
         </div>
       </div>
     </div>
@@ -70,10 +85,17 @@
         <button class="modal-cerrar" (click)="cerrarModalDetalles()">✖</button>
         <h2>{{ cursoSeleccionado?.nombre }}</h2>
         <p><strong>Descripción:</strong> {{ cursoSeleccionado?.descripcion }}</p>
-        <p><strong>Contenido:</strong> {{ cursoSeleccionado?.contenido }}</p>
+        <p><strong>Fecha de Inicio:</strong> {{ cursoSeleccionado?.fecha_inicio }}</p>
+        <p><strong>Fecha de Finalización:</strong> {{ cursoSeleccionado?.fecha_fin }}</p>
         <div class="modal-botones">
           <button class="modal-button btn-editar" (click)="editarCurso(cursoSeleccionado)">
             Editar
+          </button>
+          <button class="modal-button btn-eliminar" (click)="eliminarCurso(cursoSeleccionado)">
+            Eliminar
+          </button>
+          <button class="modal-button btn-cancelar" (click)="cerrarModalDetalles()">
+            Cerrar
           </button>
         </div>
       </div>
@@ -88,13 +110,6 @@
           <label for="curso-nombre">Nombre del Curso:</label>
           <input type="text" [(ngModel)]="cursoSeleccionado.nombre" name="curso-nombre" required />
 
-          <label for="curso-contenido">Contenido:</label>
-          <textarea
-            [(ngModel)]="cursoSeleccionado.contenido"
-            name="curso-contenido"
-            required
-          ></textarea>
-
           <label for="curso-descripcion">Descripción:</label>
           <textarea
             [(ngModel)]="cursoSeleccionado.descripcion"
@@ -102,13 +117,21 @@
             required
           ></textarea>
 
+          <label for="fecha-inicio-edit">Fecha de Inicio:</label>
+          <input type="date" [(ngModel)]="cursoSeleccionado.fecha_inicio" name="fecha-inicio-edit" required />
+
+          <label for="fecha-fin-edit">Fecha de Finalización:</label>
+          <input type="date" [(ngModel)]="cursoSeleccionado.fecha_fin" name="fecha-fin-edit" required />
+
           <label for="curso-material">Material de Apoyo:</label>
           <input type="file" (change)="agregarMaterial($event)" />
 
           <div class="modal-botones">
-            <button type="submit" class="modal-button">Guardar</button>
-            <button type="button" class="modal-button btn-cerrar" (click)="cerrarModalEdicion()">
+            <button type="button" class="modal-button btn-cancelar" (click)="cerrarModalEdicion()">
               Cancelar
+            </button>
+            <button type="submit" class="modal-button btn-guardar" [disabled]="cargando">
+              {{ cargando ? 'Guardando...' : 'Guardar Cambios' }}
             </button>
           </div>
         </form>

@@ -13,14 +13,39 @@
   <main>
     <section class="foro-crear-post">
       <h2>Crear una publicación</h2>
-      <input type="text" [(ngModel)]="tituloPost" placeholder="Título de la publicación" />
-      <textarea [(ngModel)]="contenidoPost" placeholder="Escribe tu publicación aquí..."></textarea>
-      <button class="foro-btn-publicar" (click)="publicarPost()">Enviar</button>
+      <input 
+        type="text" 
+        [(ngModel)]="tituloPost" 
+        placeholder="Título de la publicación"
+        [disabled]="cargando" />
+      <textarea 
+        [(ngModel)]="contenidoPost" 
+        placeholder="Escribe tu publicación aquí..."
+        [disabled]="cargando"></textarea>
+      <button 
+        class="foro-btn-publicar" 
+        (click)="publicarPost()"
+        [disabled]="cargando || !tituloPost.trim() || !contenidoPost.trim()">
+        {{ cargando ? 'Enviando...' : 'Enviar' }}
+      </button>
     </section>
 
-    <section class="foro-publicaciones">
+    <!-- Indicador de carga -->
+    <div *ngIf="cargando && publicaciones.length === 0" class="foro-loading">
+      <p>Cargando publicaciones...</p>
+    </div>
+
+    <section class="foro-publicaciones" *ngIf="!cargando || publicaciones.length > 0">
       <h2>Publicaciones recientes</h2>
-      <div class="foro-tarjetas">
+      
+      <!-- Mensaje cuando no hay publicaciones -->
+      <div *ngIf="!cargando && publicaciones.length === 0" class="foro-sin-publicaciones">
+        <p>No hay publicaciones en el foro aún.</p>
+        <p>¡Sé el primero en crear una!</p>
+      </div>
+      
+      <!-- Lista de publicaciones -->
+      <div class="foro-tarjetas" *ngIf="publicaciones.length > 0">
         <div *ngFor="let post of publicaciones; let i = index" class="foro-tarjeta">
           <div class="foro-post-header">
             <img [src]="post.imagen" alt="Imagen Usuario" />
@@ -28,12 +53,16 @@
               <p class="foro-autor">{{ post.autor }}</p>
               <span class="foro-tiempo">{{ post.tiempo }}</span>
             </div>
+            <button 
+              *ngIf="post.id_usuario === currentUser?.id || !post.id_usuario"
+              class="foro-btn-eliminar-header" 
+              (click)="eliminarPost(i)"
+              title="Eliminar publicación">
+              🗑️
+            </button>
           </div>
           <h3 class="foro-titulo">{{ post.titulo || 'Sin título' }}</h3>
           <p class="foro-contenido">{{ post.contenido }}</p>
-          <div class="foro-acciones">
-            <button class="foro-btn-eliminar" (click)="eliminarPost(i)">Eliminar</button>
-          </div>
         </div>
       </div>
     </section>
