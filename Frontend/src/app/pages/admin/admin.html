@@ -1,0 +1,121 @@
+<div class="admin-dashboard">
+  <div class="tabs">
+    <button [class.active]="selectedTab === 'usuarios'" (click)="seleccionarTab('usuarios')">Gestión de Usuarios</button>
+    <button [class.active]="selectedTab === 'estadisticas'" (click)="seleccionarTab('estadisticas')">Estadísticas</button>
+  </div>
+
+  <div *ngIf="selectedTab === 'usuarios'" class="usuarios-section">
+    <div class="acciones-usuarios">
+      <input type="text" placeholder="Buscar por nombre, correo o ID" [(ngModel)]="filtro" (input)="buscarUsuarios()">
+      <select [(ngModel)]="rolFiltro" (change)="filtrarPorRol(rolFiltro)">
+        <option value="">Todos los roles</option>
+        <option value="admin">Admin</option>
+        <option value="profesor">Profesor</option>
+        <option value="usuario">Usuario</option>
+        <option value="invitado">Invitado</option>
+      </select>
+      <button (click)="crearUsuario()">Crear Usuario</button>
+    </div>
+    <table class="tabla-usuarios">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{usuario.id}}</td>
+          <td>{{usuario.nombre}}</td>
+          <td>{{usuario.correo}}</td>
+          <td>{{usuario.rol}}</td>
+          <td>{{usuario.estado}}</td>
+          <td>
+            <button (click)="editarUsuario(usuario)">Editar</button>
+            <button (click)="eliminarUsuario(usuario)">Eliminar</button>
+            <button (click)="suspenderUsuario(usuario)">Suspender</button>
+            <button (click)="restablecerPassword(usuario)">Restablecer Contraseña</button>
+            <button (click)="verHistorial(usuario)">Historial</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="selectedTab === 'estadisticas'" class="estadisticas-section">
+    <div class="estadisticas-cards">
+      <div class="card">
+        <h3>Total Usuarios</h3>
+        <p>{{totalUsuarios}}</p>
+      </div>
+      <div class="card">
+        <h3>Usuarios Activos Hoy</h3>
+        <p>{{usuariosActivosHoy}}</p>
+      </div>
+      <div class="card">
+        <h3>Usuarios Activos Semana</h3>
+        <p>{{usuariosActivosSemana}}</p>
+      </div>
+      <div class="card">
+        <h3>Tasa de Retención</h3>
+        <p>{{tasaRetencion}}%</p>
+      </div>
+    </div>
+    <!-- Aquí puedes agregar componentes de gráficas para crecimiento, actividad, dispositivos, ubicaciones, etc. -->
+    <div class="graficas">
+      <!-- Ejemplo de gráfica de crecimiento de usuarios -->
+      <h4>Crecimiento de Usuarios</h4>
+      <!-- Aquí iría el componente de gráfica -->
+      <div class="grafica-placeholder">[Gráfica de crecimiento de usuarios]</div>
+    </div>
+  </div>
+
+  <!-- Modal Crear Usuario -->
+  <div class="modal-backdrop" *ngIf="mostrarModalCrear">
+    <div class="modal-crear-usuario">
+      <h2>Crear Usuario</h2>
+      <form (ngSubmit)="guardarNuevoUsuario()" #formCrearUsuario="ngForm">
+        <div class="form-group">
+          <label>Nombre de usuario</label>
+          <input type="text" [(ngModel)]="nuevoUsuario.username" name="username" required />
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" [(ngModel)]="nuevoUsuario.password" name="password" required />
+        </div>
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" [(ngModel)]="nuevoUsuario.first_name" name="first_name" required />
+        </div>
+        <div class="form-group">
+          <label>Apellido</label>
+          <input type="text" [(ngModel)]="nuevoUsuario.last_name" name="last_name" required />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="nuevoUsuario.email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label>Rol</label>
+          <select [(ngModel)]="nuevoUsuario.id_rol" name="id_rol" required>
+            <option *ngFor="let rol of roles" [value]="rol.id_rol">{{rol.nombre_rol}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tipo de Documento</label>
+          <select [(ngModel)]="nuevoUsuario.id_tipo_documento" name="id_tipo_documento">
+            <option *ngFor="let tipo of tiposDocumento" [value]="tipo.id_tipo_documento">{{tipo.nombre_tipo}}</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" [disabled]="!formCrearUsuario.form.valid">Guardar</button>
+          <button type="button" (click)="cerrarModalCrear()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

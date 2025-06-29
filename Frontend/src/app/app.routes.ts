@@ -19,6 +19,7 @@ import { MedallasUsuario } from './pages/Usuario/medallas-usuario/medallas-usuar
 import { ProgresoUsuario } from './pages/Usuario/progreso-usuario/progreso-usuario';
 import { RachasUsuario } from './pages/Usuario/rachas-usuario/rachas-usuario';
 import { Perfil } from './pages/Usuario/perfil/perfil';
+import { AdminComponent } from './pages/admin/admin';
 
 export const routes: Routes = [
   { path: '', component: Inicio },
@@ -40,5 +41,6 @@ export const routes: Routes = [
   { path: 'usuario/medallas', component: MedallasUsuario },
   { path: 'usuario/progreso', component: ProgresoUsuario },
   { path: 'usuario/rachas', component: RachasUsuario },
-  { path: 'usuario/perfil', component: Perfil }
+  { path: 'usuario/perfil', component: Perfil },
+  { path: 'admin', component: AdminComponent }
 ];
