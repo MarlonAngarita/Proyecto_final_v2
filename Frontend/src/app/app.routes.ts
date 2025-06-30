@@ -34,7 +34,7 @@ export const routes: Routes = [
   { path: 'profesor/desafios', component: Desafios },
   { path: 'profesor/foro', component: Foro },
   { path: 'profesor/modulos', component: Modulos },
-  { path: 'profesor/quiz', component: Quiz },
+  { path: 'profesor/quiz', component: Quiz }, 
   // Rutas del usuario
   { path: 'usuario/dashboard-usuario', component: DashboardUsuario },
   { path: 'usuario/cursos', component: CursosUsuario },

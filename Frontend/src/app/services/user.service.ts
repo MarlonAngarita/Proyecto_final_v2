@@ -8,6 +8,7 @@ export class UserService {
     nombre: 'Nombre de prueba',
     email: 'usuario@correo.com',
     ciudad: 'Bogotá',
+    avatar: 'https://api.dicebear.com/9.x/fun-emoji/svg?seed=Pixel1',
     rachaDias: 1,
     ultimaConexion: new Date()
   };
@@ -17,6 +18,10 @@ export class UserService {
 
   getUsuarioActual(): any {
     return this.usuario;
+  }
+
+  actualizarUsuario(nuevosDatos: any): void {
+    this.usuario = { ...this.usuario, ...nuevosDatos };
   }
 
   actualizarConexion(): void {

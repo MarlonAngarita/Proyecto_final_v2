@@ -1,0 +1,267 @@
+@font-face {
+  font-family: 'Gagalin';
+  src: url('/assets/fonts/Gagalin-Regular.otf');
+}
+
+@font-face {
+  font-family: 'VT323';
+  src: url('/assets/fonts/VT323-Regular.ttf');
+}
+
+.dashboard-grid {
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+  box-sizing: border-box;
+  background: linear-gradient(to right, #1B1363, #5A397C);
+  color: #fff;
+  font-family: 'VT323', monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.encabezado {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.encabezado h1 {
+  font-family: 'Gagalin';
+  font-size: 2.5rem;
+  color: #F2921D;
+  margin: 0;
+}
+
+.perfil-contenedor {
+  width: 100%;
+  max-width: 800px;
+  background: #ffffff22;
+  border: 2px solid #F2CA52;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 0 12px #F2CA52aa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.perfil-avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #F2CA52;
+  margin-bottom: 1rem;
+}
+
+.perfil-info {
+  width: 100%;
+  max-width: 500px;
+}
+
+.perfil-info p {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  color: #F2CA52;
+}
+
+.perfil-info p strong {
+  font-family: 'Gagalin', cursive;
+  color: #F2921D;
+  margin-right: 0.5rem;
+}
+
+.perfil-info p span {
+  font-family: 'VT323', monospace;
+  color: #fff;
+}
+
+.perfil-info label {
+  display: block;
+  margin-top: 1.3rem;
+  color: #F2CA52;
+  font-family: 'Gagalin', cursive;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+}
+
+.perfil-info input {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+  border: 2px solid #F2CA52;
+  border-radius: 6px;
+  background: #fff;
+  color: #1B1363;
+  margin-top: 0.3rem;
+  box-sizing: border-box;
+}
+
+.perfil-info button {
+  margin-top: 1.5rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.avatar-selector {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.avatar-selector img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.avatar-selector img:hover {
+  transform: scale(1.1);
+}
+
+.avatar-selector img.seleccionado {
+  border-color: #F2CA52;
+  box-shadow: 0 0 8px #F2CA52aa;
+}
+
+.botones-edicion {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-perfil {
+  background: transparent;
+  border: 2px solid #F2CA52;
+  color: #F2CA52;
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.btn-perfil:hover {
+  background: #F2CA52;
+  color: #1B1363;
+}
+
+.btn-cerrar {
+  background-color: #ca1d1d;
+  color: white;
+  border: none;
+}
+
+.btn-cerrar:hover {
+  background-color: #e53535;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(27, 19, 99, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-contenido {
+  background: #5A397C;
+  border: 2px solid #F2CA52;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  color: #fff;
+  font-family: 'VT323', monospace;
+  box-shadow: 0 0 12px #F2CA52aa;
+  max-width: 400px;
+  width: 90%;
+}
+
+.modal-contenido h2 {
+  font-family: 'Gagalin', cursive;
+  font-size: 2rem;
+  color: #F2CA52;
+  margin-bottom: 1rem;
+}
+
+.modal-contenido p {
+  font-size: 1.3rem;
+  color: #fff;
+  font-family: 'VT323', monospace;
+}
+
+.modal-button {
+  background: #F2CA52;
+  color: #1B1363;
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.3s ease;
+}
+
+.modal-button:hover {
+  background: #F2921D;
+}
+
+.campo-contrasena {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%; 
+}
+
+.campo-contrasena input {
+  width: 100%;
+  padding-right: 2.5rem;
+}
+
+.toggle-vision {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  color: #F2CA52;
+}
+
+.mensaje-error {
+  font-size: 0.95rem;
+  color: #F2921D;
+  margin-top: 0.3rem;
+  font-family: 'VT323', monospace;
+}
+
+.icono-vision {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #F2CA52;
+  display: flex;
+  align-items: center;
+}
+
+.icono-svg {
+  width: 22px;
+  height: 22px;
+  stroke: #F2CA52;
+}
