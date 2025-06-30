@@ -11,6 +11,7 @@ import { Desafios } from './pages/Profesor/desafios/desafios';
 import { Foro } from './pages/Profesor/foro/foro';
 import { Modulos } from './pages/Profesor/modulos/modulos';
 import { Quiz } from './pages/Profesor/quiz/quiz';
+import { PerfilProfesor } from './pages/Profesor/perfil/perfil';
 // Importar las páginas del usuario 
 import { DashboardUsuario } from './pages/Usuario/dashboard-usuario/dashboard-usuario';
 import { Cursos as CursosUsuario } from './pages/Usuario/cursos/cursos';
@@ -35,6 +36,7 @@ export const routes: Routes = [
   { path: 'profesor/foro', component: Foro },
   { path: 'profesor/modulos', component: Modulos },
   { path: 'profesor/quiz', component: Quiz }, 
+  { path: 'profesor/perfil', component: PerfilProfesor },
   // Rutas del usuario
   { path: 'usuario/dashboard-usuario', component: DashboardUsuario },
   { path: 'usuario/cursos', component: CursosUsuario },
