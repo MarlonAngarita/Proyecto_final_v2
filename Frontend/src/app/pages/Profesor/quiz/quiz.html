@@ -1,43 +1,268 @@
-<div class="quiz-form-container">
-  <form class="quiz-form" (ngSubmit)="guardarQuiz()" #quizForm="ngForm">
-    <h2 class="titulo-form">Crear Quiz</h2>
-    <div class="form-group">
-      <label for="pregunta">Pregunta</label>
-      <textarea id="pregunta" [(ngModel)]="quiz.pregunta" name="pregunta" required rows="3" class="input-form"></textarea>
+<section class="contenedor-quiz">
+  <!-- Encabezado -->
+  <div class="encabezado-logo">
+    <h2>Gestión de Quizzes</h2>
+    <img src="/assets/Logo.png" alt="Logo" class="logo-proyecto"/>
+    <button class="btn-volver-quiz" (click)="volverAlDashboard()">⏎ Volver</button>
+  </div>
+
+  <!-- Formulario para crear quiz -->
+  <div class="quiz-form-container">
+    <form class="quiz-form" (ngSubmit)="crearQuiz()" #quizForm="ngForm">
+      <h3 class="titulo-form">Crear Nuevo Quiz</h3>
+      
+      <div class="form-group">
+        <label for="pregunta">Pregunta *</label>
+        <textarea 
+          id="pregunta" 
+          [(ngModel)]="quiz.pregunta" 
+          name="pregunta" 
+          required 
+          rows="3" 
+          class="input-form"
+          [disabled]="guardando"
+          placeholder="Escribe la pregunta del quiz..."
+        ></textarea>
+      </div>
+
+      <div class="opciones-grid">
+        <div class="form-group">
+          <label for="opcion_a">Opción A *</label>
+          <input 
+            id="opcion_a" 
+            type="text" 
+            [(ngModel)]="quiz.opcion_a" 
+            name="opcion_a" 
+            required 
+            class="input-form"
+            [disabled]="guardando"
+            placeholder="Primera opción..."
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="opcion_b">Opción B *</label>
+          <input 
+            id="opcion_b" 
+            type="text" 
+            [(ngModel)]="quiz.opcion_b" 
+            name="opcion_b" 
+            required 
+            class="input-form"
+            [disabled]="guardando"
+            placeholder="Segunda opción..."
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="opcion_c">Opción C *</label>
+          <input 
+            id="opcion_c" 
+            type="text" 
+            [(ngModel)]="quiz.opcion_c" 
+            name="opcion_c" 
+            required 
+            class="input-form"
+            [disabled]="guardando"
+            placeholder="Tercera opción..."
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="opcion_d">Opción D *</label>
+          <input 
+            id="opcion_d" 
+            type="text" 
+            [(ngModel)]="quiz.opcion_d" 
+            name="opcion_d" 
+            required 
+            class="input-form"
+            [disabled]="guardando"
+            placeholder="Cuarta opción..."
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="respuesta_correcta">Respuesta Correcta *</label>
+          <select 
+            id="respuesta_correcta" 
+            [(ngModel)]="quiz.respuesta_correcta" 
+            name="respuesta_correcta" 
+            required 
+            class="input-form"
+            [disabled]="guardando"
+          >
+            <option value="A">A - {{ quiz.opcion_a || 'Opción A' }}</option>
+            <option value="B">B - {{ quiz.opcion_b || 'Opción B' }}</option>
+            <option value="C">C - {{ quiz.opcion_c || 'Opción C' }}</option>
+            <option value="D">D - {{ quiz.opcion_d || 'Opción D' }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="id_modulo">Módulo *</label>
+          <select 
+            id="id_modulo" 
+            [(ngModel)]="quiz.id_modulo" 
+            name="id_modulo" 
+            required 
+            class="input-form"
+            [disabled]="guardando || cargandoModulos"
+          >
+            <option value="0">Selecciona un módulo</option>
+            <option *ngFor="let modulo of modulos" [value]="modulo.id_modulo">
+              {{ modulo.nombre_modulo }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn-guardar" 
+        [disabled]="!quizForm.form.valid || guardando"
+      >
+        {{ guardando ? 'Guardando...' : 'Crear Quiz' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Lista de quizzes creados -->
+  <div class="quiz-lista-container">
+    <h3>Quizzes Creados</h3>
+
+    <!-- Indicador de carga -->
+    <div *ngIf="cargandoQuizzes" class="mensaje-carga">
+      🔄 Cargando quizzes...
     </div>
-    <div class="form-group">
-      <label for="opcion_a">Opción A</label>
-      <input id="opcion_a" type="text" [(ngModel)]="quiz.opcion_a" name="opcion_a" required class="input-form" />
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorCarga" class="mensaje-error">
+      ⚠️ {{ errorCarga }}
     </div>
-    <div class="form-group">
-      <label for="opcion_b">Opción B</label>
-      <input id="opcion_b" type="text" [(ngModel)]="quiz.opcion_b" name="opcion_b" required class="input-form" />
+
+    <!-- Tabla de quizzes -->
+    <table class="tabla-quiz" *ngIf="!cargandoQuizzes">
+      <thead>
+        <tr>
+          <th>Pregunta</th>
+          <th>Módulo</th>
+          <th>Respuesta Correcta</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let quizItem of quizzes">
+          <td>{{ quizItem.pregunta }}</td>
+          <td>{{ getNombreModulo(quizItem.id_modulo) }}</td>
+          <td>{{ quizItem.respuesta_correcta }}</td>
+          <td>{{ quizItem.fecha_creacion || 'Sin fecha' }}</td>
+          <td>
+            <button 
+              (click)="editarQuiz(quizItem)" 
+              [disabled]="guardando || eliminando"
+              class="btn-editar"
+            >
+              ✏️
+            </button>
+            <button 
+              (click)="eliminarQuiz(quizItem)" 
+              [disabled]="guardando || eliminando"
+              class="btn-eliminar"
+            >
+              🗑️
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="quizzes.length === 0 && !cargandoQuizzes">
+          <td colspan="5" style="text-align: center; color: #666;">No hay quizzes disponibles</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal para editar quiz -->
+  <div class="modal" *ngIf="quizEditando">
+    <div class="modal-contenido">
+      <h3>Editar Quiz</h3>
+
+      <div class="campo">
+        <label>Pregunta:</label>
+        <textarea [(ngModel)]="quizEditando.pregunta" [disabled]="guardando" rows="3"></textarea>
+      </div>
+
+      <div class="campo">
+        <label>Opción A:</label>
+        <input type="text" [(ngModel)]="quizEditando.opcion_a" [disabled]="guardando" />
+      </div>
+
+      <div class="campo">
+        <label>Opción B:</label>
+        <input type="text" [(ngModel)]="quizEditando.opcion_b" [disabled]="guardando" />
+      </div>
+
+      <div class="campo">
+        <label>Opción C:</label>
+        <input type="text" [(ngModel)]="quizEditando.opcion_c" [disabled]="guardando" />
+      </div>
+
+      <div class="campo">
+        <label>Opción D:</label>
+        <input type="text" [(ngModel)]="quizEditando.opcion_d" [disabled]="guardando" />
+      </div>
+
+      <div class="campo">
+        <label>Respuesta Correcta:</label>
+        <select [(ngModel)]="quizEditando.respuesta_correcta" [disabled]="guardando">
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Módulo:</label>
+        <select [(ngModel)]="quizEditando.id_modulo" [disabled]="guardando">
+          <option *ngFor="let modulo of modulos" [value]="modulo.id_modulo">
+            {{ modulo.nombre_modulo }}
+          </option>
+        </select>
+      </div>
+
+      <div class="acciones-modal">
+        <button (click)="guardarEdicion()" [disabled]="guardando">
+          {{ guardando ? 'Guardando...' : 'Guardar' }}
+        </button>
+        <button (click)="cancelarEdicion()" [disabled]="guardando">Cancelar</button>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="opcion_c">Opción C</label>
-      <input id="opcion_c" type="text" [(ngModel)]="quiz.opcion_c" name="opcion_c" required class="input-form" />
+  </div>
+
+  <!-- Modal de confirmación para eliminar -->
+  <div class="modal" *ngIf="quizEliminar">
+    <div class="modal-contenido">
+      <h3>¿Eliminar quiz?</h3>
+      <p>
+        ¿Estás seguro de eliminar el quiz <strong>"{{ quizEliminar.pregunta }}"</strong>?
+      </p>
+      <div class="acciones-modal">
+        <button (click)="confirmarEliminar()" [disabled]="eliminando">
+          {{ eliminando ? 'Eliminando...' : 'Sí, eliminar' }}
+        </button>
+        <button (click)="cancelarEliminar()" [disabled]="eliminando">Cancelar</button>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="opcion_d">Opción D</label>
-      <input id="opcion_d" type="text" [(ngModel)]="quiz.opcion_d" name="opcion_d" required class="input-form" />
+  </div>
+
+  <!-- Submodal con mensaje de confirmación -->
+  <div class="submodal" *ngIf="mensajeConfirmacion">
+    <div class="submodal-contenido">
+      <p>{{ mensajeConfirmacion }}</p>
+      <button (click)="cerrarConfirmacion()">Cerrar</button>
     </div>
-    <div class="form-group">
-      <label for="respuesta_correcta">Respuesta Correcta</label>
-      <select id="respuesta_correcta" [(ngModel)]="quiz.respuesta_correcta" name="respuesta_correcta" required class="input-form">
-        <option [value]="quiz.opcion_a">Opción A</option>
-        <option [value]="quiz.opcion_b">Opción B</option>
-        <option [value]="quiz.opcion_c">Opción C</option>
-        <option [value]="quiz.opcion_d">Opción D</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="id_modulo">Módulo</label>
-      <select id="id_modulo" [(ngModel)]="quiz.id_modulo" name="id_modulo" required class="input-form">
-        <option *ngFor="let modulo of modulos" [value]="modulo.id_modulo">
-          {{ modulo.nombre_modulo }}
-        </option>
-      </select>
-    </div>
-    <button type="submit" class="btn-guardar" [disabled]="!quizForm.form.valid">Guardar Quiz</button>
-  </form>
-</div>
+  </div>
+</section>

@@ -17,54 +17,72 @@
         type="text" 
         [(ngModel)]="tituloPost" 
         placeholder="Título de la publicación"
-        [disabled]="cargando" />
+        [disabled]="guardando"
+        required />
       <textarea 
         [(ngModel)]="contenidoPost" 
         placeholder="Escribe tu publicación aquí..."
-        [disabled]="cargando"></textarea>
+        [disabled]="guardando"
+        required></textarea>
       <button 
         class="foro-btn-publicar" 
         (click)="publicarPost()"
-        [disabled]="cargando || !tituloPost.trim() || !contenidoPost.trim()">
-        {{ cargando ? 'Enviando...' : 'Enviar' }}
+        [disabled]="guardando || !tituloPost.trim() || !contenidoPost.trim()">
+        {{ guardando ? 'Enviando...' : 'Enviar' }}
       </button>
     </section>
 
     <!-- Indicador de carga -->
-    <div *ngIf="cargando && publicaciones.length === 0" class="foro-loading">
-      <p>Cargando publicaciones...</p>
+    <div *ngIf="cargandoHilos" class="mensaje-carga">
+      🔄 Cargando publicaciones...
     </div>
 
-    <section class="foro-publicaciones" *ngIf="!cargando || publicaciones.length > 0">
+    <!-- Mensaje de error -->
+    <div *ngIf="errorCarga" class="mensaje-error">
+      ⚠️ {{ errorCarga }}
+    </div>
+
+    <section class="foro-publicaciones" *ngIf="!cargandoHilos">
       <h2>Publicaciones recientes</h2>
-      
-      <!-- Mensaje cuando no hay publicaciones -->
-      <div *ngIf="!cargando && publicaciones.length === 0" class="foro-sin-publicaciones">
-        <p>No hay publicaciones en el foro aún.</p>
-        <p>¡Sé el primero en crear una!</p>
-      </div>
       
       <!-- Lista de publicaciones -->
       <div class="foro-tarjetas" *ngIf="publicaciones.length > 0">
         <div *ngFor="let post of publicaciones; let i = index" class="foro-tarjeta">
           <div class="foro-post-header">
-            <img [src]="post.imagen" alt="Imagen Usuario" />
+            <img [src]="getImagenUsuario()" alt="Imagen Usuario" />
             <div>
-              <p class="foro-autor">{{ post.autor }}</p>
-              <span class="foro-tiempo">{{ post.tiempo }}</span>
+              <p class="foro-autor">{{ post.autor || 'Usuario Anónimo' }}</p>
+              <span class="foro-tiempo">{{ getTiempoRelativo(post.fecha_publicacion) }}</span>
             </div>
             <button 
-              *ngIf="post.id_usuario === currentUser?.id || !post.id_usuario"
               class="foro-btn-eliminar-header" 
-              (click)="eliminarPost(i)"
-              title="Eliminar publicación">
+              (click)="eliminarPost(post, i)"
+              title="Eliminar publicación"
+              [disabled]="eliminando">
               🗑️
             </button>
           </div>
           <h3 class="foro-titulo">{{ post.titulo || 'Sin título' }}</h3>
           <p class="foro-contenido">{{ post.contenido }}</p>
+          <div class="foro-respuestas-info">
+            <span>{{ (post.respuestas?.length || 0) }} respuestas</span>
+          </div>
         </div>
       </div>
+      
+      <!-- Mensaje cuando no hay publicaciones -->
+      <div *ngIf="publicaciones.length === 0 && !cargandoHilos" class="foro-sin-publicaciones">
+        <p>No hay publicaciones en el foro aún.</p>
+        <p>¡Sé el primero en crear una!</p>
+      </div>
     </section>
+
+    <!-- Modal de confirmación -->
+    <div class="modal" *ngIf="mensajeConfirmacion">
+      <div class="modal-contenido">
+        <p>{{ mensajeConfirmacion }}</p>
+        <button (click)="cerrarConfirmacion()">Cerrar</button>
+      </div>
+    </div>
   </main>
 </section>

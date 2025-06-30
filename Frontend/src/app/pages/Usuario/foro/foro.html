@@ -13,27 +13,67 @@
   <main>
     <section class="foro-crear-post">
       <h2>Crear una publicación</h2>
-      <input type="text" [(ngModel)]="tituloPost" placeholder="Título de la publicación" />
-      <textarea [(ngModel)]="contenidoPost" placeholder="Escribe tu publicación aquí..."></textarea>
-      <button class="foro-btn-publicar" (click)="publicarPost()">Enviar</button>
+      <input 
+        type="text" 
+        [(ngModel)]="tituloPost" 
+        placeholder="Título de la publicación" 
+        [disabled]="cargando"
+        required
+      />
+      <textarea 
+        [(ngModel)]="contenidoPost" 
+        placeholder="Escribe tu publicación aquí..."
+        [disabled]="cargando"
+        required
+      ></textarea>
+      <button 
+        class="foro-btn-publicar" 
+        (click)="publicarPost()"
+        [disabled]="cargando || !tituloPost.trim() || !contenidoPost.trim()"
+      >
+        {{ cargando ? 'Publicando...' : 'Enviar' }}
+      </button>
     </section>
 
     <section class="foro-publicaciones">
       <h2>Publicaciones recientes</h2>
-      <div class="foro-tarjetas">
+      
+      <!-- Indicador de carga -->
+      <div *ngIf="cargandoHilos" class="mensaje-carga">
+        🔄 Cargando publicaciones...
+      </div>
+
+      <!-- Mensaje de error -->
+      <div *ngIf="errorCarga" class="mensaje-error">
+        ⚠️ {{ errorCarga }}
+      </div>
+
+      <div class="foro-tarjetas" *ngIf="!cargandoHilos">
         <div *ngFor="let post of publicaciones; let i = index" class="foro-tarjeta">
           <div class="foro-post-header">
-            <img [src]="post.imagen" alt="Imagen Usuario" />
+            <img src="https://img.freepik.com/vector-premium/estudiante-avatar-masculino-dibujos-animados_18591-51686.jpg?w=740" alt="Imagen Usuario" />
             <div>
-              <p class="foro-autor">{{ post.autor }}</p>
-              <span class="foro-tiempo">{{ post.tiempo }}</span>
+              <p class="foro-autor">{{ post.autor || 'Usuario Anónimo' }}</p>
+              <span class="foro-tiempo">{{ getTiempoRelativo(post.fecha_publicacion) }}</span>
             </div>
+            <button 
+              class="foro-btn-eliminar" 
+              (click)="eliminarPost(post, i)"
+              title="Eliminar publicación"
+            >
+              🗑️
+            </button>
           </div>
           <h3 class="foro-titulo">{{ post.titulo || 'Sin título' }}</h3>
           <p class="foro-contenido">{{ post.contenido }}</p>
           <div class="foro-acciones">
-            <!-- Eliminar botón eliminado para usuarios -->
+            <span class="foro-respuestas">{{ (post.respuestas?.length || 0) }} respuestas</span>
           </div>
+        </div>
+        
+        <!-- Mensaje cuando no hay publicaciones -->
+        <div *ngIf="publicaciones.length === 0 && !cargandoHilos" class="foro-sin-publicaciones">
+          <p>No hay publicaciones aún. ¡Sé el primero en crear una!</p>
         </div>
       </div>
     </section>

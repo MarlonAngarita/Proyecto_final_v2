@@ -419,6 +419,96 @@ main {
   transform: scale(1.1);
 }
 
+/* Estilos para indicadores de estado */
+.mensaje-carga {
+  text-align: center;
+  padding: 1rem;
+  background-color: rgba(70, 130, 180, 0.2);
+  border: 2px solid #4682b4;
+  border-radius: 8px;
+  margin: 1rem 0;
+  color: #87ceeb;
+  font-size: 1.1rem;
+}
+
+.mensaje-error {
+  text-align: center;
+  padding: 1rem;
+  background-color: rgba(220, 20, 60, 0.2);
+  border: 2px solid #dc143c;
+  border-radius: 8px;
+  margin: 1rem 0;
+  color: #ffcccb;
+  font-size: 1.1rem;
+}
+
+.foro-respuestas-info {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(135, 206, 235, 0.3);
+  font-size: 0.9rem;
+  color: #87ceeb;
+  font-style: italic;
+}
+
+.foro-btn-eliminar-header:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-contenido {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 2px solid #87ceeb;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.modal-contenido p {
+  margin-bottom: 1rem;
+  color: #87ceeb;
+}
+
+.modal-contenido button {
+  background: #87ceeb;
+  color: #1a1a2e;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Estados deshabilitados */
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #666 !important;
+}
+
+input:disabled,
+textarea:disabled {
+  opacity: 0.7;
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: not-allowed;
+}
+
 /* Media queries para tablets y móviles */
 @media (max-width: 900px) {
   .foro-publicaciones, .foro-crear-post {

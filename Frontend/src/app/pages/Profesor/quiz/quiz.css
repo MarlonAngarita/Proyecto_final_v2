@@ -151,12 +151,239 @@ app-root,
   font-family: 'VT323', monospace;
 }
 
-/* Responsive */
-@media (max-width: 700px) {
-  .quiz-form {
-    padding: 1.2rem 0.5rem;
-  }
-  .quiz-form-container {
-    padding: 1.5rem 0;
-  }
+/* Estilos adicionales para gestión completa de quiz */
+.contenedor-quiz {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.encabezado-logo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border-radius: 12px;
+  border: 2px solid #87ceeb;
+}
+
+.logo-proyecto {
+  height: 50px;
+  width: auto;
+}
+
+.btn-volver-quiz {
+  background: #87ceeb;
+  color: #1a1a2e;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-volver-quiz:hover {
+  background: #5f9ea0;
+  transform: scale(1.05);
+}
+
+.opciones-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.quiz-lista-container {
+  margin-top: 2rem;
+  background: rgba(26, 26, 46, 0.8);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 2px solid #87ceeb;
+}
+
+.tabla-quiz {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tabla-quiz th,
+.tabla-quiz td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(135, 206, 235, 0.3);
+}
+
+.tabla-quiz th {
+  background: rgba(135, 206, 235, 0.2);
+  color: #87ceeb;
+  font-weight: bold;
+}
+
+.tabla-quiz tr:hover {
+  background: rgba(135, 206, 235, 0.1);
+}
+
+.btn-editar,
+.btn-eliminar {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin: 0 0.25rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.btn-editar:hover {
+  background: rgba(135, 206, 235, 0.3);
+}
+
+.btn-eliminar:hover {
+  background: rgba(220, 20, 60, 0.3);
+}
+
+/* Estilos para estados */
+.mensaje-carga {
+  text-align: center;
+  padding: 1rem;
+  background-color: rgba(70, 130, 180, 0.2);
+  border: 2px solid #4682b4;
+  border-radius: 8px;
+  margin: 1rem 0;
+  color: #87ceeb;
+  font-size: 1.1rem;
+}
+
+.mensaje-error {
+  text-align: center;
+  padding: 1rem;
+  background-color: rgba(220, 20, 60, 0.2);
+  border: 2px solid #dc143c;
+  border-radius: 8px;
+  margin: 1rem 0;
+  color: #ffcccb;
+  font-size: 1.1rem;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-contenido {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 2px solid #87ceeb;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.campo {
+  margin-bottom: 1rem;
+}
+
+.campo label {
+  display: block;
+  color: #87ceeb;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.campo input,
+.campo textarea,
+.campo select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #87ceeb;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.acciones-modal {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.acciones-modal button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.acciones-modal button:first-child {
+  background: #87ceeb;
+  color: #1a1a2e;
+}
+
+.acciones-modal button:last-child {
+  background: #dc143c;
+  color: white;
+}
+
+.submodal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+
+.submodal-contenido {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid #87ceeb;
+  text-align: center;
+}
+
+/* Estados deshabilitados */
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #666 !important;
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: 0.7;
+  background-color: rgba(255, 255, 255, 0.05);
+  cursor: not-allowed;
 }
