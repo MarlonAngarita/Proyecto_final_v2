@@ -1,48 +1,128 @@
+// ===================================================================================================
+// SERVICIO DE AUTENTICACIÓN - SISTEMA KÜTSA
+// ===================================================================================================
+
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+// ===================================================================================================
+// INTERFACES DE TIPOS DE DATOS
+// ===================================================================================================
+
+/**
+ * Interface para definir la estructura de un usuario en el sistema
+ * Contiene información básica del usuario y roles
+ */
 export interface Usuario {
+  /** ID único del usuario en la base de datos */
   id?: number;
+  /** Nombre de usuario único para login */
   username: string;
+  /** Email del usuario, también usado para login */
   email: string;
+  /** Nombre completo del usuario */
   nombre: string;
+  /** Rol del usuario en texto (admin, profesor, estudiante) */
   rol?: string;
+  /** ID del rol en la base de datos */
   id_rol?: number;
+  /** ID del avatar asignado al usuario */
   id_avatar?: number;
+  /** ID del tipo de documento del usuario */
   id_tipo_documento?: number;
 }
 
+/**
+ * Interface para la respuesta de autenticación del servidor
+ * Contiene los tokens JWT y datos del usuario
+ */
 export interface AuthResponse {
+  /** Mensaje de respuesta del servidor */
   detail: string;
+  /** Información completa del usuario autenticado */
   user: Usuario;
+  /** Tokens JWT para autenticación */
   tokens: {
+    /** Token de refresh para renovar la sesión */
     refresh: string;
+    /** Token de acceso para hacer peticiones autenticadas */
     access: string;
   };
 }
 
+/**
+ * Interface para los datos necesarios en el registro de usuarios
+ * Contiene toda la información requerida para crear una cuenta
+ */
 export interface RegistroData {
+  /** Nombre de usuario único */
   username: string;
+  /** Email del usuario */
   email: string;
+  /** Nombre completo */
   nombre: string;
+  /** Contraseña en texto plano (se hashea en el servidor) */
   password: string;
+  /** ID del rol a asignar (opcional) */
   id_rol?: number;
+  /** ID del avatar seleccionado (opcional) */
   id_avatar?: number;
+  /** ID del tipo de documento (opcional) */
   id_tipo_documento?: number;
 }
 
+// ===================================================================================================
+// SERVICIO PRINCIPAL DE AUTENTICACIÓN
+// ===================================================================================================
+
+/**
+ * Servicio de autenticación para la plataforma Kütsa
+ * 
+ * Maneja todas las operaciones relacionadas con autenticación:
+ * - Login y logout de usuarios
+ * - Registro de diferentes tipos de usuarios (estudiante, profesor, admin)
+ * - Gestión de tokens JWT (acceso y refresh)
+ * - Verificación de roles y permisos
+ * - Persistencia de datos de usuario en localStorage
+ * - Compatibilidad con SSR (Server-Side Rendering)
+ * 
+ * @author Sistema Kütsa
+ * @version 2.0 - Sistema de autenticación robusto
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  // ===================================================================================================
+  // PROPIEDADES DEL SERVICIO
+  // ===================================================================================================
+  
+  /** URL base de la API del backend */
   private apiUrl = 'http://localhost:8000/api/v1';
+  
+  /** Subject para manejar el estado reactivo del usuario actual */
   private currentUserSubject = new BehaviorSubject<Usuario | null>(null);
+  
+  /** Observable público para suscribirse a cambios del usuario actual */
   public currentUser$ = this.currentUserSubject.asObservable();
+  
+  /** Flag para verificar si estamos en el browser (compatibilidad SSR) */
   private isBrowser: boolean;
 
+  // ===================================================================================================
+  // CONSTRUCTOR E INICIALIZACIÓN
+  // ===================================================================================================
+
+  /**
+   * Constructor del servicio de autenticación
+   * Inicializa la verificación de plataforma y carga el usuario actual si existe
+   * 
+   * @param http - Cliente HTTP de Angular para peticiones a la API
+   * @param platformId - ID de la plataforma para verificar SSR
+   */
   constructor(
     private http: HttpClient,
     @Inject(PLATFORM_ID) platformId: Object
@@ -51,6 +131,17 @@ export class AuthService {
     this.loadCurrentUser();
   }
 
+  // ===================================================================================================
+  // MÉTODOS DE REGISTRO DE USUARIOS
+  // ===================================================================================================
+
+  /**
+   * Registra un nuevo usuario general en el sistema
+   * Maneja el registro estándar de estudiantes
+   * 
+   * @param userData - Datos del usuario a registrar
+   * @returns Observable con la respuesta de autenticación
+   */
   registrar(userData: RegistroData): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register/`, userData)
       .pipe(
@@ -60,7 +151,13 @@ export class AuthService {
       );
   }
 
-  // Registro específico para profesor
+  /**
+   * Registra un nuevo profesor en el sistema
+   * Endpoint específico para profesores con permisos elevados
+   * 
+   * @param userData - Datos del profesor a registrar
+   * @returns Observable con la respuesta de autenticación
+   */
   registrarProfesor(userData: any): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register/profesor/`, userData)
       .pipe(
@@ -70,7 +167,13 @@ export class AuthService {
       );
   }
 
-  // Registro específico para administrador
+  /**
+   * Registra un nuevo administrador en el sistema
+   * Endpoint específico para administradores con permisos máximos
+   * 
+   * @param userData - Datos del administrador a registrar
+   * @returns Observable con la respuesta de autenticación
+   */
   registrarAdmin(userData: any): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register/admin/`, userData)
       .pipe(
@@ -80,6 +183,17 @@ export class AuthService {
       );
   }
 
+  // ===================================================================================================
+  // MÉTODO DE LOGIN
+  // ===================================================================================================
+
+  /**
+   * Autentica un usuario en el sistema
+   * Acepta email y contraseña, retorna tokens JWT
+   * 
+   * @param credentials - Credenciales de login (email y password)
+   * @returns Observable con la respuesta de autenticación
+   */
   login(credentials: { email: string; password: string }): Observable<AuthResponse> {
     console.log('AuthService - Enviando login a:', `${this.apiUrl}/login/`);
     console.log('AuthService - Credenciales:', { email: credentials.email, password: '***masked***' });
@@ -98,6 +212,14 @@ export class AuthService {
       );
   }
 
+  // ===================================================================================================
+  // MÉTODOS DE GESTIÓN DE SESIÓN
+  // ===================================================================================================
+
+  /**
+   * Cierra la sesión del usuario actual
+   * Elimina tokens del localStorage y resetea el estado del usuario
+   */
   logout(): void {
     console.log('AuthService - Cerrando sesión');
     if (this.isBrowser) {
@@ -110,6 +232,16 @@ export class AuthService {
     console.log('AuthService - Usuario desautenticado');
   }
 
+  // ===================================================================================================
+  // MÉTODOS GETTER PARA DATOS DEL USUARIO
+  // ===================================================================================================
+
+  /**
+   * Obtiene el usuario actual desde localStorage
+   * Compatible con SSR
+   * 
+   * @returns Usuario actual o null si no hay sesión
+   */
   getCurrentUser(): Usuario | null {
     if (!this.isBrowser) {
       return null;
@@ -118,6 +250,11 @@ export class AuthService {
     return user ? JSON.parse(user) : null;
   }
 
+  /**
+   * Obtiene el token de acceso JWT desde localStorage
+   * 
+   * @returns Token de acceso o null si no existe
+   */
   getAccessToken(): string | null {
     if (!this.isBrowser) {
       return null;
@@ -125,6 +262,11 @@ export class AuthService {
     return localStorage.getItem('access_token');
   }
 
+  /**
+   * Obtiene el token de refresh JWT desde localStorage
+   * 
+   * @returns Token de refresh o null si no existe
+   */
   getRefreshToken(): string | null {
     if (!this.isBrowser) {
       return null;
@@ -132,16 +274,37 @@ export class AuthService {
     return localStorage.getItem('refresh_token');
   }
 
+  // ===================================================================================================
+  // MÉTODOS DE VERIFICACIÓN DE ESTADO Y ROLES
+  // ===================================================================================================
+
+  /**
+   * Verifica si el usuario está autenticado
+   * 
+   * @returns true si tiene token de acceso, false en caso contrario
+   */
   isAuthenticated(): boolean {
     return !!this.getAccessToken();
   }
 
+  /**
+   * Verifica si el usuario actual es administrador
+   * Soporta múltiples variaciones del rol admin
+   * 
+   * @returns true si es administrador, false en caso contrario
+   */
   isAdmin(): boolean {
     const user = this.getCurrentUser();
     console.log('AuthService - Verificando admin, usuario:', user);
     return user?.rol === 'admin' || user?.rol === 'administrador' || user?.rol === 'Administrador';
   }
 
+  /**
+   * Verifica si el usuario actual es profesor
+   * Soporta múltiples variaciones del rol profesor
+   * 
+   * @returns true si es profesor, false en caso contrario
+   */
   isProfesor(): boolean {
     const user = this.getCurrentUser();
     console.log('AuthService - Verificando profesor, usuario:', user);
@@ -149,6 +312,12 @@ export class AuthService {
     return user?.rol === 'profesor' || user?.rol === 'Profesor';
   }
 
+  /**
+   * Verifica si el usuario actual es estudiante
+   * Por defecto asume estudiante si no hay rol específico
+   * 
+   * @returns true si es estudiante, false en caso contrario
+   */
   isEstudiante(): boolean {
     const user = this.getCurrentUser();
     console.log('AuthService - Verificando estudiante, usuario:', user);
@@ -156,6 +325,16 @@ export class AuthService {
     return user?.rol === 'estudiante' || user?.rol === 'Estudiante' || !user?.rol;
   }
 
+  // ===================================================================================================
+  // MÉTODOS PRIVADOS DE UTILIDAD
+  // ===================================================================================================
+
+  /**
+   * Almacena los datos de autenticación en localStorage
+   * Actualiza el estado reactivo del usuario
+   * 
+   * @param response - Respuesta de autenticación del servidor
+   */
   private storeAuthData(response: AuthResponse): void {
     console.log('AuthService - Almacenando datos de autenticación:', response);
     console.log('AuthService - Usuario recibido:', response.user);
@@ -177,6 +356,10 @@ export class AuthService {
     console.log('AuthService - CurrentUserSubject actualizado con:', response.user);
   }
 
+  /**
+   * Carga el usuario actual desde localStorage al inicializar el servicio
+   * Se ejecuta automáticamente en el constructor
+   */
   private loadCurrentUser(): void {
     if (this.isBrowser) {
       const user = this.getCurrentUser();
@@ -190,6 +373,16 @@ export class AuthService {
     }
   }
 
+  // ===================================================================================================
+  // MÉTODOS DE UTILIDAD PARA HTTP
+  // ===================================================================================================
+
+  /**
+   * Genera headers HTTP con autenticación JWT
+   * Útil para peticiones que requieren autenticación
+   * 
+   * @returns HttpHeaders con token Bearer y Content-Type
+   */
   getAuthHeaders(): HttpHeaders {
     const token = this.getAccessToken();
     return new HttpHeaders({

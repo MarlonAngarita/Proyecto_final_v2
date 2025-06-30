@@ -1,25 +1,51 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
+# ===================================================================================================
+# MODELOS DE DATOS - SISTEMA KÜTSA
+# ===================================================================================================
+
+"""
+Modelos de datos para la plataforma educativa Kütsa
+
+Este archivo contiene todos los modelos de Django que representan las entidades
+del sistema educativo, incluyendo usuarios, cursos, gamificación, y funcionalidades
+de aprendizaje.
+
+Arquitectura:
+- Usuarios y autenticación
+- Gestión de cursos y contenido educativo
+- Sistema de gamificación (medallas, rachas, progreso)
+- Foros y comunicación
+- Quiz y evaluaciones
+
+TODO: Considerar integrar el modelo Usuarios con el sistema de autenticación de Django
+      (por ejemplo, heredando de AbstractUser o AbstractBaseUser) para un manejo
+      seguro y automático de contraseñas y otras funcionalidades de usuario.
+      ¡IMPORTANTE! Las contraseñas NUNCA deben almacenarse en texto plano.
+      Asegúrate de que se están hasheando correctamente antes de guardarlas si no usas
+      el sistema de autenticación de Django.
+
+@author Sistema Kütsa
+@version 2.0 - Modelos con documentación completa
+"""
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
-# TODO: Considerar integrar el modelo Usuarios con el sistema de autenticación de Django
-#       (por ejemplo, heredando de AbstractUser o AbstractBaseUser) para un manejo
-#       seguro y automático de contraseñas y otras funcionalidades de usuario.
-#       ¡IMPORTANTE! Las contraseñas NUNCA deben almacenarse en texto plano.
-#       Asegúrate de que se están hasheando correctamente antes de guardarlas si no usas
-#       el sistema de autenticación de Django.
+# ===================================================================================================
+# MODELOS DE CONFIGURACIÓN Y CATÁLOGOS
+# ===================================================================================================
 
 class Avatares(models.Model):
+    """
+    Modelo para gestionar avatares de usuarios
+    
+    Permite a los usuarios personalizar su perfil con imágenes
+    representativas. Los avatares son opcionales y mejoran la
+    experiencia de usuario.
+    """
     id_avatar = models.AutoField(primary_key=True)
-    nombre_avatar = models.CharField(max_length=100)
-    imagen_url = models.CharField(max_length=255)
+    nombre_avatar = models.CharField(max_length=100, help_text="Nombre descriptivo del avatar")
+    imagen_url = models.CharField(max_length=255, help_text="URL de la imagen del avatar")
 
     class Meta:
         db_table = 'avatares'
@@ -31,8 +57,16 @@ class Avatares(models.Model):
 
 
 class Roles(models.Model):
+    """
+    Modelo para definir roles de usuario en el sistema
+    
+    Define los diferentes tipos de usuarios y sus permisos:
+    - Estudiante: acceso a cursos y contenido
+    - Profesor: creación y gestión de contenido
+    - Administrador: gestión completa del sistema
+    """
     id_rol = models.AutoField(primary_key=True)
-    nombre_rol = models.CharField(unique=True, max_length=50)
+    nombre_rol = models.CharField(unique=True, max_length=50, help_text="Nombre único del rol")
 
     class Meta:
         db_table = 'roles'
@@ -44,8 +78,14 @@ class Roles(models.Model):
 
 
 class TipoDocumento(models.Model):
+    """
+    Modelo para tipos de documentos de identificación
+    
+    Permite gestionar diferentes tipos de identificación
+    según el país o región (CI, DNI, Pasaporte, etc.)
+    """
     id_tipo_documento = models.AutoField(primary_key=True)
-    nombre_tipo = models.CharField(unique=True, max_length=50)
+    nombre_tipo = models.CharField(unique=True, max_length=50, help_text="Tipo de documento de identificación")
 
     class Meta:
         db_table = 'tipo_documento'
@@ -324,17 +364,115 @@ class Quiz(models.Model):
         return f"Quiz del módulo: {self.id_modulo.nombre_modulo} - Pregunta: {self.pregunta[:50]}..."
 
 
+# ===================================================================================================
+# MODELO DE SISTEMA DE RACHAS
+# ===================================================================================================
+
 class RachasUsuario(models.Model):
-    id_racha = models.AutoField(primary_key=True)
-    # id_usuario ahora apunta al nuevo modelo Usuarios
-    id_usuario = models.OneToOneField(Usuarios, on_delete=models.CASCADE, db_column='id_usuario', related_name='racha') # Cambiado a OneToOneField
-    dias_consecutivos = models.IntegerField(default=0)
-    ultima_actividad = models.DateTimeField(blank=True, null=True)
+    """
+    Modelo que gestiona las rachas de actividad diaria de los usuarios.
+    
+    Una racha representa días consecutivos de actividad del usuario en la plataforma.
+    Este modelo es fundamental para el sistema gamificado y de motivación.
+    
+    Relaciones:
+    - OneToOne con Usuarios: Cada usuario tiene una única racha
+    
+    Funcionalidades:
+    - Tracking de días consecutivos de actividad
+    - Registro de última actividad para validación
+    - Base para sistema de objetivos y recompensas
+    
+    Consideraciones técnicas:
+    - OneToOneField garantiza que cada usuario tenga una sola racha
+    - ultima_actividad permite validar continuidad de la racha
+    - dias_consecutivos se resetea cuando se rompe la continuidad
+    
+    @author Sistema Kütsa
+    @version 1.0 - Modelo base para sistema de rachas
+    """
+    
+    id_racha = models.AutoField(
+        primary_key=True,
+        help_text="Identificador único de la racha"
+    )
+    
+    id_usuario = models.OneToOneField(
+        Usuarios, 
+        on_delete=models.CASCADE, 
+        db_column='id_usuario', 
+        related_name='racha',
+        help_text="Usuario propietario de esta racha (relación 1:1)"
+    )
+    
+    dias_consecutivos = models.IntegerField(
+        default=0,
+        help_text="Número de días consecutivos de actividad del usuario"
+    )
+    
+    ultima_actividad = models.DateTimeField(
+        blank=True, 
+        null=True,
+        help_text="Fecha y hora de la última actividad registrada"
+    )
 
     class Meta:
         db_table = 'rachas_usuario'
         verbose_name = 'Racha de Usuario'
         verbose_name_plural = 'Rachas de Usuario'
+        indexes = [
+            models.Index(fields=['ultima_actividad'], name='idx_racha_ultima_actividad'),
+            models.Index(fields=['dias_consecutivos'], name='idx_racha_dias_consecutivos'),
+        ]
 
     def __str__(self):
-        return f"Racha de {self.id_usuario}: {self.dias_consecutivos} días"
+        return f"Racha de {self.id_usuario.email}: {self.dias_consecutivos} días"
+    
+    def incrementar_racha(self):
+        """
+        Incrementa la racha en 1 día y actualiza la fecha de última actividad.
+        
+        Returns:
+            int: Nuevo valor de días consecutivos
+        """
+        from django.utils import timezone
+        
+        self.dias_consecutivos += 1
+        self.ultima_actividad = timezone.now()
+        self.save()
+        return self.dias_consecutivos
+    
+    def resetear_racha(self):
+        """
+        Resetea la racha a 0 días (cuando se rompe la continuidad).
+        
+        Returns:
+            int: Valor de días consecutivos (0)
+        """
+        self.dias_consecutivos = 0
+        self.save()
+        return self.dias_consecutivos
+    
+    def verificar_continuidad(self):
+        """
+        Verifica si la racha debe continuar, pausarse o resetearse
+        basado en la última actividad.
+        
+        Returns:
+            str: Estado de la racha ('activa', 'en_peligro', 'perdida')
+        """
+        from django.utils import timezone
+        from datetime import timedelta
+        
+        if not self.ultima_actividad:
+            return 'perdida'
+        
+        ahora = timezone.now()
+        diferencia = ahora - self.ultima_actividad
+        
+        if diferencia.days == 0:
+            return 'activa'
+        elif diferencia.days == 1:
+            return 'en_peligro'
+        else:
+            return 'perdida'

@@ -5,6 +5,18 @@
     <button class="foro-btn-volver" (click)="volverAlDashboard()">⏎ Volver</button>
   </div>
 
+  <!-- Estadísticas del foro -->
+  <div class="foro-estadisticas" *ngIf="!cargandoHilos">
+    <div class="stat-foro">
+      <span class="stat-numero">{{ getNumeroPublicaciones() }}</span>
+      <span class="stat-label">Publicaciones</span>
+    </div>
+    <div class="stat-foro">
+      <span class="stat-numero">{{ getNumeroRespuestasTotal() }}</span>
+      <span class="stat-label">Respuestas</span>
+    </div>
+  </div>
+
   <div class="foro-paneles">
     <div class="foro-panel foro-panel-activo">Publicaciones</div>
     <div class="foro-panel" style="opacity:0.5;cursor:not-allowed;">(Próximamente)</div>
@@ -31,21 +43,23 @@
         (click)="publicarPost()"
         [disabled]="cargando || !tituloPost.trim() || !contenidoPost.trim()"
       >
-        {{ cargando ? 'Publicando...' : 'Enviar' }}
+        {{ cargando ? 'Publicando...' : '📝 Enviar' }}
       </button>
     </section>
 
     <section class="foro-publicaciones">
       <h2>Publicaciones recientes</h2>
       
-      <!-- Indicador de carga -->
+      <!-- Indicador de carga mejorado -->
       <div *ngIf="cargandoHilos" class="mensaje-carga">
-        🔄 Cargando publicaciones...
+        <div class="spinner-foro"></div>
+        <p>Cargando publicaciones...</p>
       </div>
 
-      <!-- Mensaje de error -->
+      <!-- Mensaje de error mejorado -->
       <div *ngIf="errorCarga" class="mensaje-error">
-        ⚠️ {{ errorCarga }}
+        <p>⚠️ {{ errorCarga }}</p>
+        <button (click)="recargarPublicaciones()" class="btn-retry-foro">🔄 Reintentar</button>
       </div>
 
       <div class="foro-tarjetas" *ngIf="!cargandoHilos">
@@ -60,6 +74,7 @@
               class="foro-btn-eliminar" 
               (click)="eliminarPost(post, i)"
               title="Eliminar publicación"
+              [disabled]="cargando"
             >
               🗑️
             </button>
@@ -68,14 +83,116 @@
           <p class="foro-contenido">{{ post.contenido }}</p>
           <div class="foro-acciones">
             <span class="foro-respuestas">{{ (post.respuestas?.length || 0) }} respuestas</span>
+            <button 
+              class="btn-ver-respuestas" 
+              (click)="verRespuestas(post)"
+              [disabled]="cargando"
+            >
+              💬 Ver conversación
+            </button>
           </div>
         </div>
         
         <!-- Mensaje cuando no hay publicaciones -->
-        <div *ngIf="publicaciones.length === 0 && !cargandoHilos" class="foro-sin-publicaciones">
-          <p>No hay publicaciones aún. ¡Sé el primero en crear una!</p>
+        <div *ngIf="publicaciones.length === 0 && !cargandoHilos && !errorCarga" class="foro-sin-publicaciones">
+          <h3>📝 No hay publicaciones aún</h3>
+          <p>¡Sé el primero en crear una publicación!</p>
         </div>
       </div>
     </section>
   </main>
+
+  <!-- Modal de respuestas -->
+  <div class="modal-foro" *ngIf="modalRespuestasActivo">
+    <div class="modal-contenido-foro">
+      <button class="modal-cerrar-foro" (click)="cerrarModalRespuestas()">✖</button>
+      
+      <div class="modal-header-foro">
+        <h2>{{ hiloSeleccionado?.titulo }}</h2>
+        <p class="hilo-autor">Por: {{ hiloSeleccionado?.autor }}</p>
+      </div>
+
+      <div class="modal-body-foro">
+        <div class="hilo-contenido-original">
+          <p>{{ hiloSeleccionado?.contenido }}</p>
+        </div>
+
+        <div class="respuestas-seccion">
+          <h3>Respuestas ({{ respuestas.length }})</h3>
+          
+          <div class="respuestas-lista" *ngIf="respuestas.length > 0">
+            <div *ngFor="let respuesta of respuestas" class="respuesta-item">
+              <div class="respuesta-header">
+                <strong>{{ respuesta.autor }}</strong>
+                <span class="respuesta-tiempo">{{ getTiempoRelativo(respuesta.fecha_respuesta) }}</span>
+              </div>
+              <p class="respuesta-contenido">{{ respuesta.contenido }}</p>
+            </div>
+          </div>
+
+          <div *ngIf="respuestas.length === 0" class="sin-respuestas">
+            <p>Aún no hay respuestas. ¡Sé el primero en responder!</p>
+          </div>
+        </div>
+
+        <div class="nueva-respuesta-seccion">
+          <h4>Agregar respuesta</h4>
+          <textarea 
+            [(ngModel)]="nuevaRespuesta"
+            placeholder="Escribe tu respuesta..."
+            [disabled]="cargandoRespuesta"
+            class="textarea-respuesta"
+          ></textarea>
+          <button 
+            class="btn-agregar-respuesta" 
+            (click)="agregarRespuesta()"
+            [disabled]="cargandoRespuesta || !nuevaRespuesta.trim()"
+          >
+            {{ cargandoRespuesta ? 'Enviando...' : '📤 Enviar respuesta' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación de eliminación -->
+  <div class="modal-foro" *ngIf="modalEliminarActivo">
+    <div class="modal-contenido-foro confirmacion">
+      <button class="modal-cerrar-foro" (click)="cerrarModalEliminar()">✖</button>
+      
+      <div class="modal-header-foro">
+        <h2>Confirmar eliminación</h2>
+      </div>
+
+      <div class="modal-body-foro">
+        <p>¿Estás seguro de que deseas eliminar esta publicación?</p>
+        <h4 *ngIf="postAEliminar">"{{ postAEliminar.post.titulo }}"</h4>
+        <p class="advertencia">Esta acción no se puede deshacer.</p>
+      </div>
+
+      <div class="modal-footer-foro">
+        <button 
+          class="btn-cancelar-foro" 
+          (click)="cerrarModalEliminar()"
+          [disabled]="cargando"
+        >
+          ❌ Cancelar
+        </button>
+        <button 
+          class="btn-confirmar-eliminar" 
+          (click)="confirmarEliminar()"
+          [disabled]="cargando"
+        >
+          {{ cargando ? 'Eliminando...' : '🗑️ Eliminar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación de acciones -->
+  <div class="modal-foro-simple" *ngIf="modalConfirmacionActivo">
+    <div class="modal-contenido-simple">
+      <p>{{ mensajeConfirmacion }}</p>
+    </div>
+  </div>
 </section>

@@ -9,10 +9,18 @@
     </div>
     <!-- <span class="racha-badge">🔥 {{ rachaDias }} días seguidos</span> -->
     <div class="racha-dias-exacto">
-      <a routerLink="/usuario/rachas" class="link-rachas">Tienes <strong>{{ rachaDias }}</strong> días de racha actual</a>
+      <a routerLink="/usuario/rachas" class="link-rachas">
+        Tienes <strong>{{ rachaDias }}</strong> días de racha actual {{ getRachaActual() }}
+      </a>
+      <small *ngIf="getProximaMeta()" class="proxima-meta">
+        Siguiente meta: {{ getProximaMeta() }} días
+      </small>
     </div>
     <div class="mini-barra-rachas">
-      <div *ngFor="let racha of rachas" class="mini-hito" [class.activo]="rachaDias >= racha.dias">
+      <div *ngFor="let racha of rachas" 
+           class="mini-hito" 
+           [class.activo]="rachaDias >= racha.dias"
+           [title]="racha.descripcion">
         <span>{{ racha.icono }}</span>
         <small>{{ racha.dias }}d</small>
       </div>
@@ -21,12 +29,24 @@
 
   <div *ngIf="mostrarRachaRota" class="racha-rota">{{ rachaMensaje }}</div>
 
-  <div class="paneles-usuario">
+  <!-- Indicador de carga global -->
+  <div *ngIf="cargandoDatos" class="loading-dashboard">
+    <div class="spinner"></div>
+    <p>Cargando tu información...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="errorCarga" class="error-dashboard">
+    <p>{{ errorCarga }}</p>
+    <button (click)="recargarDatos()" class="btn-retry">🔄 Recargar</button>
+  </div>
+
+  <div class="paneles-usuario" *ngIf="!cargandoDatos">
     <div class="panel" routerLink="/usuario/progreso">
       📊 Mi progreso<span>{{ progresoCurso }}%</span>
     </div>
     <div class="panel" routerLink="/usuario/medallas">
-      🏅 Medallas<span>{{ medallas.length }}</span>
+      🏅 Medallas<span>{{ getMedallasObtenidas() }}/{{ medallas.length }}</span>
     </div>
     <div class="panel" routerLink="/usuario/desafios">
       🎯 Desafíos<span>{{ desafiosActivos }} activos</span>
@@ -35,7 +55,7 @@
   </div>
 
   <div class="cerrar-sesion-wrapper">
-    <button (click)="cerrarSesion()" class="btn-cerrar-sesion">
+    <button (click)="cerrarSesion()" class="btn-cerrar-sesion" [disabled]="cargandoDatos">
       🚪 Cerrar sesión
     </button>
   </div>

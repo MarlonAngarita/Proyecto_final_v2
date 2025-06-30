@@ -1,12 +1,45 @@
+// ===================================================================================================
+// SERVICIO DE CURSOS - SISTEMA KÜTSA
+// ===================================================================================================
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+/**
+ * Servicio de Cursos para la plataforma Kütsa
+ * 
+ * Funcionalidades principales:
+ * - Gestión completa de cursos (CRUD)
+ * - Integración con API REST del backend
+ * - Autenticación automática con JWT
+ * - Manejo de errores robusto
+ * - Datos de prueba para desarrollo
+ * - Filtrado y búsqueda de cursos
+ * 
+ * Este servicio actúa como intermediario entre los componentes
+ * y la API del backend, proporcionando métodos para todas las
+ * operaciones relacionadas con cursos y contenido educativo.
+ * 
+ * @author Sistema Kütsa
+ * @version 2.0 - Servicio completo con API y datos locales
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class CursosService {
+  // ===================================================================================================
+  // CONFIGURACIÓN DEL SERVICIO
+  // ===================================================================================================
+  
+  /** URL base de la API para operaciones de cursos */
   private apiUrl = 'http://127.0.0.1:8000/api/v1/cursos/';
+
+  // ===================================================================================================
+  // DATOS DE PRUEBA PARA DESARROLLO
+  // ===================================================================================================
+  
+  /** Datos locales para desarrollo y testing */
   private cursos = [
     {
       id: 1,
@@ -15,7 +48,7 @@ export class CursosService {
       categoria: 'Programación',
       activo: true,
       modulos: ['Módulo 1: Patrones clásicos', 'Módulo 2: Secuencias numéricas'],
-      desafios: [1, 2] // IDs de desafíos
+      desafios: [1, 2] // IDs de desafíos asociados
     },
     {
       id: 2,
@@ -24,12 +57,31 @@ export class CursosService {
       categoria: 'Diseño',
       activo: false,
       modulos: ['Módulo 1: Tipografías retro'],
-      desafios: [3]
+      desafios: [3] // IDs de desafíos asociados
     }
   ];
 
+  // ===================================================================================================
+  // CONSTRUCTOR E INYECCIÓN DE DEPENDENCIAS
+  // ===================================================================================================
+
+  /**
+   * Constructor del servicio de cursos
+   * 
+   * @param http - Cliente HTTP de Angular para peticiones a la API
+   */
   constructor(private http: HttpClient) {}
 
+  // ===================================================================================================
+  // MÉTODOS PRIVADOS DE UTILIDAD
+  // ===================================================================================================
+
+  /**
+   * Genera headers HTTP con autenticación JWT
+   * Obtiene el token del localStorage y lo incluye en las peticiones
+   * 
+   * @returns HttpHeaders con token de autorización y content-type
+   */
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
@@ -38,17 +90,37 @@ export class CursosService {
     });
   }
 
+  /**
+   * Obtiene el ID del usuario actual desde localStorage
+   * 
+   * @returns ID del usuario actual o 1 como valor por defecto
+   */
   private getCurrentUserId(): number {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     return user.id || 1;
   }
 
-  // Métodos API
+  // ===================================================================================================
+  // MÉTODOS DE API REST
+  // ===================================================================================================
+
+  /**
+   * Obtiene todos los cursos desde la API
+   * 
+   * @returns Observable con la lista de cursos
+   */
   getTodosAPI(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl, { headers: this.getAuthHeaders() });
   }
 
+  /**
+   * Crea un nuevo curso en la API
+   * 
+   * @param curso - Datos del curso a crear
+   * @returns Observable con el curso creado
+   */
   agregarAPI(curso: any): Observable<any> {
+    // Mapear los datos del frontend al formato esperado por el backend
     const cursoData = {
       nombre_curso: curso.nombre,
       descripcion_curso: curso.descripcion,
@@ -61,6 +133,12 @@ export class CursosService {
     return this.http.post<any>(this.apiUrl, cursoData, { headers: this.getAuthHeaders() });
   }
 
+  /**
+   * Actualiza un curso existente en la API
+   * 
+   * @param curso - Datos actualizados del curso
+   * @returns Observable con el curso actualizado
+   */
   actualizarAPI(curso: any): Observable<any> {
     const cursoData = {
       nombre_curso: curso.nombre,
@@ -75,28 +153,64 @@ export class CursosService {
     return this.http.put<any>(`${this.apiUrl}${cursoId}/`, cursoData, { headers: this.getAuthHeaders() });
   }
 
+  /**
+   * Elimina un curso de la API
+   * 
+   * @param id - ID del curso a eliminar
+   * @returns Observable con la respuesta de eliminación
+   */
   eliminarAPI(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}${id}/`, { headers: this.getAuthHeaders() });
   }
 
+  /**
+   * Obtiene un curso específico por ID desde la API
+   * 
+   * @param id - ID del curso a obtener
+   * @returns Observable con los datos del curso
+   */
   obtenerPorIdAPI(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}${id}/`, { headers: this.getAuthHeaders() });
   }
 
-  // Métodos locales existentes (mantienen la funcionalidad actual)
+  // ===================================================================================================
+  // MÉTODOS LOCALES PARA DESARROLLO Y FALLBACK
+  // ===================================================================================================
+
+  /**
+   * Obtiene todos los cursos locales
+   * Método de fallback para cuando la API no está disponible
+   * 
+   * @returns Array con todos los cursos locales
+   */
   getTodos(): any[] {
     return this.cursos;
   }
 
+  /**
+   * Obtiene solo los cursos activos
+   * 
+   * @returns Array con cursos marcados como activos
+   */
   getActivos(): any[] {
     return this.cursos.filter(c => c.activo);
   }
 
+  /**
+   * Agrega un nuevo curso al array local
+   * 
+   * @param curso - Datos del curso a agregar
+   */
   agregar(curso: any): void {
     const nuevo = { ...curso, id: Date.now(), modulos: [], desafios: [] };
     this.cursos.push(nuevo);
   }
 
+  /**
+   * Actualiza un curso en el array local
+   * 
+   * @param curso - Datos actualizados del curso
+   */
   actualizar(curso: any): void {
     const index = this.cursos.findIndex(c => c.id === curso.id);
     if (index !== -1) {
@@ -104,10 +218,21 @@ export class CursosService {
     }
   }
 
+  /**
+   * Elimina un curso del array local
+   * 
+   * @param id - ID del curso a eliminar
+   */
   eliminar(id: number): void {
     this.cursos = this.cursos.filter(c => c.id !== id);
   }
 
+  /**
+   * Asigna desafíos a un curso específico
+   * 
+   * @param cursoId - ID del curso
+   * @param desafiosIds - Array de IDs de desafíos a asignar
+   */
   asignarDesafios(cursoId: number, desafiosIds: number[]): void {
     const curso = this.cursos.find(c => c.id === cursoId);
     if (curso) {
@@ -115,6 +240,12 @@ export class CursosService {
     }
   }
 
+  /**
+   * Asigna módulos a un curso específico
+   * 
+   * @param cursoId - ID del curso
+   * @param modulos - Array de nombres de módulos a asignar
+   */
   asignarModulos(cursoId: number, modulos: string[]): void {
     const curso = this.cursos.find(c => c.id === cursoId);
     if (curso) {

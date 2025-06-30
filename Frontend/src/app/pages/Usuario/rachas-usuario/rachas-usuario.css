@@ -1,153 +1,687 @@
+/*
+===================================================================================================
+ESTILOS DEL SISTEMA DE RACHAS - COMPONENTE RACHAS-USUARIO
+===================================================================================================
+
+Este archivo contiene todos los estilos para el sistema gamificado de rachas del usuario.
+Incluye diseño responsive, animaciones, gradientes y estados visuales dinámicos.
+
+Características principales:
+- Diseño moderno con gradientes y transparencias
+- Animaciones suaves para mejorar UX
+- Responsive design para múltiples dispositivos
+- Estados visuales dinámicos para objetivos y rachas
+- Modales interactivos con backdrop blur
+
+@author Sistema Kütsa
+@version 2.0 - Interfaz gamificada avanzada
+*/
+
+/* ===========================================================================================
+   CONFIGURACIÓN DE FUENTES PERSONALIZADAS
+   =========================================================================================== */
+
 @font-face {
   font-family: 'VT323';
   src: url('/assets/fonts/VT323-Regular.ttf');
 }
+
 @font-face {
   font-family: 'Gagalin';
   src: url('/assets/fonts/Gagalin-Regular.otf');
 }
 
+/* ===========================================================================================
+   CONTENEDOR PRINCIPAL Y LAYOUT BASE
+   =========================================================================================== */
+
+/** 
+ * Contenedor principal del componente de rachas
+ * Utiliza un gradiente de fondo dinámico y tipografía retro-gaming
+ */
 .contenedor-rachas-usuario {
-  background: linear-gradient(#1B1363, #5A397C);
-  padding: 3rem 2rem;
-  font-family: 'VT323', monospace;
-  color: #fff;
-  min-height: 100vh;
-  box-sizing: border-box;
+  min-height: 100vh;                                    /* Altura mínima completa de viewport */
+  padding: 2rem;                                        /* Espaciado interno responsivo */
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #ff9ff3 100%); /* Gradiente atractivo */
+  color: white;                                         /* Texto blanco para contraste */
+  font-family: 'VT323', monospace;                     /* Fuente gaming retro */
 }
 
+/* ===========================================================================================
+   ENCABEZADO Y NAVEGACIÓN
+   =========================================================================================== */
+
+/** 
+ * Encabezado principal con logo, título y botón de navegación
+ * Utiliza backdrop-filter para efecto de vidrio esmerilado
+ */
 .encabezado-logo {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
-  padding: 0 1rem;
-}
-.logo-proyecto {
-  width: 90px;
-  height: auto;
-  object-fit: contain;
-}
-.btn-volver-rachas-usuario {
-  background: transparent;
-  border: 2px solid #F2CA52;
-  color: #F2CA52;
-  font-family: 'VT323', monospace;
-  font-size: 1.1rem;
-  padding: 0.3rem 1.2rem;
-  border-radius: 6px;
-  margin-left: 1.5rem;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s;
-  height: 40px;
-  align-self: center;
-}
-.btn-volver-rachas-usuario:hover {
-  background: #F2CA52;
-  color: #1B1363;
-}
-
-h2 {
-  font-family: 'Gagalin', cursive;
-  font-size: 2.5rem;
-  color: #F2CA52;
+  align-items: center;
   margin-bottom: 2rem;
-  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);               /* Fondo translúcido */
+  border-radius: 12px;                                 /* Bordes redondeados modernos */
+  backdrop-filter: blur(10px);                         /* Efecto de vidrio esmerilado */
 }
 
-.racha-actual {
-  margin: 0 auto 2rem auto;
-  max-width: 500px;
-  background: #ffffff22;
-  border-radius: 10px;
-  padding: 1.2rem 2rem;
-  text-align: center;
-  box-shadow: 0 0 8px #F2CA52;
-}
-.racha-actual h3 {
-  font-family: 'Gagalin', cursive;
-  color: #F2921D;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-.racha-actual span {
-  color: #F2CA52;
+.encabezado-logo h2 {
+  margin: 0;
   font-size: 2rem;
-}
-.barra-rachas {
-  width: 100%;
-  height: 18px;
-  background: #fff3;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-top: 0.5rem;
-}
-.progreso {
-  height: 100%;
-  border-radius: 8px;
-  transition: width 0.5s;
+  font-weight: bold;
+  font-family: 'Gagalin', cursive;                     /* Fuente especial para títulos */
 }
 
-.grid-rachas {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
+.logo-proyecto {
+  max-height: 60px;                                    /* Altura controlada del logo */
+  object-fit: contain;                                 /* Mantiene proporciones */
 }
-.tarjeta-racha {
-  background: #ffffff22;
-  padding: 1.5rem;
-  border-radius: 10px;
-  border: 2px solid #F2CA52;
-  box-shadow: 0 0 8px #F2CA52;
-  text-align: center;
+
+/** 
+ * Botón de navegación con efectos hover y estados activos
+ */
+.btn-volver-rachas-usuario {
+  background: rgba(255, 255, 255, 0.2);               /* Fondo translúcido sutil */
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);         /* Borde translúcido */
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;                          /* Transición suave para interacciones */
+  font-weight: 500;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+}
+
+.btn-volver-rachas-usuario:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Estados de carga */
+.loading-rachas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.7rem;
-  transition: transform 0.2s;
+  padding: 3rem;
+  text-align: center;
 }
-.tarjeta-racha:hover {
-  transform: scale(1.03);
-  background: #ffffff33;
+
+.spinner-rachas {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
 }
-.icono-racha {
+
+.error-rachas {
+  background: rgba(255, 77, 77, 0.2);
+  border: 1px solid rgba(255, 77, 77, 0.5);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.btn-retry-rachas {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-retry-rachas:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Panel de estadísticas principales */
+.panel-estadisticas {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.stat-principal {
+  text-align: center;
+  padding: 1rem;
+}
+
+.numero-racha {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(45deg, #ffd700, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pulse-glow 2s infinite;
+  font-family: 'Gagalin', cursive;
+}
+
+.label-racha {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.stats-secundarias {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  align-content: center;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.stat-numero {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  text-align: center;
+}
+
+/* Estado de la racha */
+.estado-racha-panel {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.estado-racha-panel.activa {
+  background: rgba(76, 175, 80, 0.2);
+  border: 2px solid rgba(76, 175, 80, 0.5);
+}
+
+.estado-racha-panel.en-peligro {
+  background: rgba(255, 152, 0, 0.2);
+  border: 2px solid rgba(255, 152, 0, 0.5);
+  animation: warning-pulse 2s infinite;
+}
+
+.estado-racha-panel.perdida {
+  background: rgba(244, 67, 54, 0.2);
+  border: 2px solid rgba(244, 67, 54, 0.5);
+}
+
+.icono-estado {
   font-size: 2.5rem;
+}
+
+.info-estado h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+}
+
+.info-estado p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+.acciones-estado {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.btn-actividad,
+.btn-proteccion,
+.btn-recuperacion {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+}
+
+.btn-actividad {
+  background: #4caf50;
+  color: white;
+}
+
+.btn-proteccion {
+  background: #ff9800;
+  color: white;
+}
+
+.btn-recuperacion {
+  background: #2196f3;
+  color: white;
+}
+
+.btn-actividad:hover,
+.btn-proteccion:hover,
+.btn-recuperacion:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Objetivos de racha */
+.objetivos-racha {
+  margin-bottom: 2rem;
+}
+
+.objetivos-racha h3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  text-align: center;
+  font-family: 'Gagalin', cursive;
+}
+
+.grid-objetivos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.tarjeta-objetivo {
+  position: relative;
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+}
+
+.tarjeta-objetivo.completado {
+  border-color: #4caf50;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(139, 195, 74, 0.1));
+}
+
+.tarjeta-objetivo.en-progreso {
+  border-color: #ff9800;
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1), rgba(255, 193, 7, 0.1));
+}
+
+.tarjeta-objetivo.bloqueado {
+  opacity: 0.7;
+  filter: grayscale(0.3);
+}
+
+.badge-completado {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.5rem;
+  animation: bounce 2s infinite;
+}
+
+.icono-objetivo {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.info-objetivo h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: #333;
+  font-family: 'VT323', monospace;
+}
+
+.info-objetivo p {
+  margin: 0 0 1rem 0;
+  color: #666;
+  line-height: 1.4;
+}
+
+.meta-objetivo {
+  display: inline-block;
+  background: #667eea;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
   margin-bottom: 0.5rem;
 }
-.tarjeta-racha h4 {
-  font-family: 'Gagalin', cursive;
-  font-size: 1.3rem;
-  color: #F2CA52;
+
+.recompensa-objetivo {
+  color: #4caf50;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.progreso-objetivo {
+  margin-top: 1rem;
+}
+
+.barra-progreso-objetivo {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.relleno-progreso-objetivo {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.texto-progreso {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.estado-completado {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.badge-logrado {
+  background: #4caf50;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Acciones principales */
+.acciones-principales {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.btn-ver-detalles {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  font-family: 'VT323', monospace;
+}
+
+.btn-ver-detalles:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Modales */
+.modal-rachas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-contenido-rachas {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  color: #333;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-cerrar-rachas {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.3s;
+}
+
+.modal-cerrar-rachas:hover {
+  color: #666;
+}
+
+.modal-header-rachas h2 {
+  margin: 0 2rem 1.5rem 0;
+  color: #333;
+  font-family: 'VT323', monospace;
+}
+
+.estadisticas-detalladas {
+  margin-bottom: 2rem;
+}
+
+.detalle-item {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.consejos-racha {
+  background: #e3f2fd;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid #2196f3;
+}
+
+.consejos-racha h4 {
+  margin: 0 0 1rem 0;
+  color: #1976d2;
+  font-family: 'VT323', monospace;
+}
+
+.consejos-racha ul {
   margin: 0;
+  padding-left: 1.5rem;
 }
-.tarjeta-racha p {
-  font-size: 1.1rem;
-  margin: 0 0 0.5rem 0;
+
+.consejos-racha li {
+  margin-bottom: 0.5rem;
+  color: #333;
 }
-.estado-racha {
-  font-size: 1.1rem;
-  color: #F2921D;
-  font-family: 'Gagalin', cursive;
-  margin-top: 0.5rem;
+
+.info-proteccion,
+.info-recuperacion {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
 }
-.estado-racha.activa {
-  color: #1B1363;
-  background: #F2CA52;
-  border-radius: 6px;
-  padding: 0.2rem 0.7rem;
-  display: inline-block;
+
+.advertencia {
+  color: #f44336;
+  font-style: italic;
+  font-size: 0.9rem;
+  margin-top: 1rem;
 }
+
+.modal-footer-rachas {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.btn-cancelar-rachas {
+  background: #9e9e9e;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+}
+
+.btn-confirmar-rachas {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+}
+
+.btn-cancelar-rachas:hover {
+  background: #757575;
+}
+
+.btn-confirmar-rachas:hover {
+  background: #45a049;
+}
+
+/* Modal simple para mensajes */
+.modal-rachas-simple {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1100;
+}
+
+.modal-contenido-simple {
+  background: #4caf50;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: slideInRight 0.3s ease;
+  font-family: 'VT323', monospace;
+}
+
+/* Animaciones */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    transform: scale(1);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  }
+  50% { 
+    transform: scale(1.05);
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+  }
+}
+
+@keyframes warning-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7);
+  }
+  50% { 
+    box-shadow: 0 0 0 10px rgba(255, 152, 0, 0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .contenedor-rachas-usuario {
-    padding: 1.5rem 0.5rem;
-  }
-  .btn-volver-rachas-usuario {
-    font-size: 1rem;
-    padding: 0.2rem 0.7rem;
-    height: 32px;
-  }
-  .racha-actual {
     padding: 1rem;
+  }
+  
+  .encabezado-logo {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .panel-estadisticas {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .stats-secundarias {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .estado-racha-panel {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .grid-objetivos {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-contenido-rachas {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .modal-footer-rachas {
+    flex-direction: column;
   }
 }

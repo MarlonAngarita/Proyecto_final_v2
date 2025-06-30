@@ -12,18 +12,36 @@
   </div>
 
   <main>
+    <!-- Mensaje de error -->
+    <div *ngIf="error" class="mensaje-error">
+      <p>{{ error }}</p>
+      <button class="btn-recargar" (click)="recargarCursos()">Reintentar</button>
+    </div>
+
+    <!-- Indicador de carga -->
+    <div *ngIf="cargando" class="cargando">
+      <p>Cargando cursos...</p>
+    </div>
+
     <!-- Sección de cursos disponibles -->
     <section *ngIf="vistaActual === 'disponibles'" id="cursos-disponibles-section">
-      <div class="cursos-container">
+      <div class="cursos-container" *ngIf="!cargando">
         <div
           *ngFor="let curso of cursosDisponibles"
           class="curso-card"
           (click)="abrirDetalles(curso)"
         >
-          <h3>{{ curso.titulo }}</h3>
+          <h3>{{ curso.titulo || curso.nombre }}</h3>
           <p class="curso-descripcion">{{ curso.descripcion }}</p>
+          <p class="curso-categoria" *ngIf="curso.categoria">
+            <strong>Categoría:</strong> {{ curso.categoria }}
+          </p>
           <button class="btn-ver-mas" (click)="abrirDetalles(curso); $event.stopPropagation()">Ver más</button>
         </div>
+      </div>
+      
+      <div *ngIf="!cargando && cursosDisponibles.length === 0" class="sin-datos">
+        <h2>No hay cursos disponibles en este momento</h2>
       </div>
     </section>
 
@@ -32,10 +50,13 @@
       <h2 *ngIf="cursosInscritos.length === 0">
         Actualmente no te encuentras inscrito a ningún curso
       </h2>
-      <div class="cursos-container">
+      <div class="cursos-container" *ngIf="cursosInscritos.length > 0">
         <div *ngFor="let curso of cursosInscritos" class="curso-card">
-          <h3>{{ curso.titulo }}</h3>
+          <h3>{{ curso.titulo || curso.nombre }}</h3>
           <p class="curso-descripcion">{{ curso.descripcion }}</p>
+          <p class="curso-categoria" *ngIf="curso.categoria">
+            <strong>Categoría:</strong> {{ curso.categoria }}
+          </p>
         </div>
       </div>
     </section>
@@ -44,9 +65,12 @@
     <div class="modal" *ngIf="modalActivo">
       <div class="modal-contenido">
         <button class="modal-cerrar" (click)="cerrarModal()">X</button>
-        <h2>{{ cursoSeleccionado?.titulo }}</h2>
+        <h2>{{ cursoSeleccionado?.titulo || cursoSeleccionado?.nombre }}</h2>
         <p><strong>Descripción:</strong> {{ cursoSeleccionado?.descripcion }}</p>
-        <p><strong>Contenido:</strong> {{ cursoSeleccionado?.contenido }}</p>
+        <p *ngIf="cursoSeleccionado?.contenido"><strong>Contenido:</strong> {{ cursoSeleccionado?.contenido }}</p>
+        <p *ngIf="cursoSeleccionado?.categoria"><strong>Categoría:</strong> {{ cursoSeleccionado?.categoria }}</p>
+        <p *ngIf="cursoSeleccionado?.fecha_inicio"><strong>Fecha de inicio:</strong> {{ cursoSeleccionado?.fecha_inicio }}</p>
+        <p *ngIf="cursoSeleccionado?.fecha_fin"><strong>Fecha de fin:</strong> {{ cursoSeleccionado?.fecha_fin }}</p>
         <div class="modal-botones">
           <button (click)="inscribirseCurso()">Inscribirme</button>
           <button class="ver-mas-button" (click)="verMasCurso()">Ver Detalle</button>
@@ -60,7 +84,7 @@
         <button class="modal-cerrar" (click)="cerrarModalConfirmacion()">X</button>
         <h2>Inscripción Exitosa</h2>
         <p>Te has inscrito en el curso:</p>
-        <h3 class="curso-inscrito-nombre">{{ cursoSeleccionado?.titulo }}</h3>
+        <h3 class="curso-inscrito-nombre">{{ cursoSeleccionado?.titulo || cursoSeleccionado?.nombre }}</h3>
         <div class="modal-botones">
           <button class="modal-button" (click)="cerrarModalConfirmacion()">Aceptar</button>
         </div>
@@ -73,7 +97,7 @@
         <button class="modal-cerrar" (click)="cerrarModalAlerta()">X</button>
         <h2>¡Atención!</h2>
         <p>Ya te encuentras inscrita en el curso:</p>
-        <h3 class="curso-inscrito-nombre">{{ cursoSeleccionado?.titulo }}</h3>
+        <h3 class="curso-inscrito-nombre">{{ cursoSeleccionado?.titulo || cursoSeleccionado?.nombre }}</h3>
         <div class="modal-botones">
           <button class="modal-button" (click)="cerrarModalAlerta()">Aceptar</button>
         </div>

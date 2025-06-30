@@ -1,5 +1,35 @@
+# ===================================================================================================
+# VISTAS API REST - SISTEMA KÜTSA
+# ===================================================================================================
+
+"""
+Vistas API REST para la plataforma educativa Kütsa
+
+Este archivo contiene todos los ViewSets y vistas API que manejan las operaciones
+CRUD y endpoints específicos del sistema educativo.
+
+Arquitectura API:
+- ViewSets basados en Django REST Framework
+- Endpoints RESTful para cada modelo
+- Autenticación JWT implementada
+- Permisos configurables por endpoint
+- Endpoints personalizados para funcionalidades específicas
+
+Funcionalidades principales:
+- Gestión de usuarios y autenticación
+- CRUD de cursos, módulos y contenido educativo
+- Sistema de gamificación (medallas, rachas, progreso)
+- Foros y comunicación
+- Quiz y evaluaciones
+- Estadísticas y analytics
+
+@author Sistema Kütsa
+@version 2.0 - API REST documentada y organizada
+"""
+
 from django.shortcuts import render
 from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -17,30 +47,64 @@ from .serializers import (
     ProgresoUsuarioSerializer, QuizSerializer, RachasUsuarioSerializer
 )
 
-# Create your views here.
+# ===================================================================================================
+# VIEWSETS PARA MODELOS DE CONFIGURACIÓN
+# ===================================================================================================
 
 class AvataresViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet para gestión de avatares de usuario
+    
+    Permite obtener la lista de avatares disponibles
+    para personalización de perfiles de usuario.
+    """
     queryset = Avatares.objects.all()
     serializer_class = AvataresSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # TODO: Revisar permisos según requerimientos de seguridad
     lookup_field = 'id_avatar'
 
+# ===================================================================================================
+# VIEWSETS PARA GESTIÓN DE USUARIOS
+# ===================================================================================================
+
 class UsuariosViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet para gestión completa de usuarios
+    
+    Proporciona operaciones CRUD para usuarios del sistema,
+    incluyendo creación, actualización, listado y eliminación.
+    """
     queryset = Usuarios.objects.all()
     serializer_class = UsuariosSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # TODO: Implementar permisos específicos por rol
     lookup_field = 'id'
 
+# ===================================================================================================
+# VIEWSETS PARA GESTIÓN EDUCATIVA
+# ===================================================================================================
+
 class CursosViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet para gestión de cursos
+    
+    Maneja la creación, actualización y consulta de cursos
+    disponibles en la plataforma educativa.
+    """
     queryset = Cursos.objects.all()
     serializer_class = CursosSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # TODO: Profesores y admins para escritura
     lookup_field = 'id_curso'
 
 class NivelesViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet para gestión de niveles de dificultad
+    
+    Permite definir y gestionar los diferentes niveles
+    de dificultad disponibles en los cursos.
+    """
     queryset = Niveles.objects.all()
     serializer_class = NivelesSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # TODO: Solo admins para escritura
     lookup_field = 'id_nivel'
 
 class CursosNivelViewSet(viewsets.ModelViewSet):
@@ -109,11 +173,239 @@ class QuizViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     lookup_field = 'id_quiz'
 
+# ===================================================================================================
+# VIEWSET PARA SISTEMA DE RACHAS
+# ===================================================================================================
+
 class RachasUsuarioViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet para gestionar las rachas de usuario.
+    
+    Proporciona endpoints CRUD completos para el sistema de rachas, incluyendo:
+    - Consulta de racha actual del usuario
+    - Actualización de días consecutivos
+    - Registro de actividad diaria
+    - Validación de continuidad de racha
+    
+    Endpoints disponibles:
+    - GET /api/rachas/ - Lista todas las rachas
+    - GET /api/rachas/{id}/ - Detalle de una racha específica
+    - POST /api/rachas/ - Crear nueva racha
+    - PUT/PATCH /api/rachas/{id}/ - Actualizar racha
+    - DELETE /api/rachas/{id}/ - Eliminar racha
+    
+    Métodos personalizados:
+    - incrementar_racha(): Incrementa la racha del usuario autenticado
+    - verificar_estado(): Verifica el estado actual de la racha
+    - obtener_estadisticas(): Obtiene estadísticas completas de la racha
+    
+    @author Sistema Kütsa
+    @version 2.0 - Soporte para sistema gamificado avanzado
+    """
+    
     queryset = RachasUsuario.objects.all()
     serializer_class = RachasUsuarioSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # TODO: Cambiar a IsAuthenticated en producción
     lookup_field = 'id_racha'
+    
+    def get_queryset(self):
+        """
+        Personaliza el queryset para incluir información relacionada.
+        Optimiza las consultas usando select_related.
+        """
+        return RachasUsuario.objects.select_related('id_usuario').all()
+    
+    @action(detail=False, methods=['get'])
+    def mi_racha(self, request):
+        """
+        Endpoint personalizado para obtener la racha del usuario autenticado.
+        
+        URL: GET /api/rachas/mi_racha/
+        
+        Returns:
+            Response: Datos de la racha del usuario actual
+        """
+        try:
+            # TODO: Usar request.user cuando se implemente autenticación
+            usuario_id = request.query_params.get('usuario_id')
+            if not usuario_id:
+                return Response(
+                    {'error': 'Se requiere usuario_id'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            racha, created = RachasUsuario.objects.get_or_create(
+                id_usuario_id=usuario_id,
+                defaults={'dias_consecutivos': 0}
+            )
+            
+            serializer = self.get_serializer(racha)
+            return Response(serializer.data)
+            
+        except Exception as e:
+            return Response(
+                {'error': f'Error al obtener racha: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
+    @action(detail=False, methods=['post'])
+    def incrementar(self, request):
+        """
+        Endpoint para incrementar la racha del usuario.
+        
+        URL: POST /api/rachas/incrementar/
+        Body: {"usuario_id": 123}
+        
+        Returns:
+            Response: Datos actualizados de la racha
+        """
+        try:
+            usuario_id = request.data.get('usuario_id')
+            if not usuario_id:
+                return Response(
+                    {'error': 'Se requiere usuario_id'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            racha, created = RachasUsuario.objects.get_or_create(
+                id_usuario_id=usuario_id,
+                defaults={'dias_consecutivos': 0}
+            )
+            
+            # Verificar si ya se registró actividad hoy
+            from django.utils import timezone
+            from datetime import timedelta
+            
+            ahora = timezone.now()
+            
+            if racha.ultima_actividad:
+                diferencia = ahora - racha.ultima_actividad
+                
+                if diferencia.days == 0:
+                    return Response(
+                        {'mensaje': 'Ya se registró actividad hoy', 'racha': racha.dias_consecutivos},
+                        status=status.HTTP_200_OK
+                    )
+                elif diferencia.days > 1:
+                    # Se rompió la racha
+                    racha.resetear_racha()
+            
+            # Incrementar la racha
+            nuevos_dias = racha.incrementar_racha()
+            
+            serializer = self.get_serializer(racha)
+            return Response({
+                'mensaje': f'Racha incrementada a {nuevos_dias} días',
+                'racha': serializer.data
+            })
+            
+        except Exception as e:
+            return Response(
+                {'error': f'Error al incrementar racha: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
+    @action(detail=False, methods=['get'])
+    def verificar_estado(self, request):
+        """
+        Endpoint para verificar el estado actual de la racha.
+        
+        URL: GET /api/rachas/verificar_estado/?usuario_id=123
+        
+        Returns:
+            Response: Estado de la racha ('activa', 'en_peligro', 'perdida')
+        """
+        try:
+            usuario_id = request.query_params.get('usuario_id')
+            if not usuario_id:
+                return Response(
+                    {'error': 'Se requiere usuario_id'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            try:
+                racha = RachasUsuario.objects.get(id_usuario_id=usuario_id)
+                estado = racha.verificar_continuidad()
+                
+                return Response({
+                    'estado': estado,
+                    'dias_consecutivos': racha.dias_consecutivos,
+                    'ultima_actividad': racha.ultima_actividad
+                })
+                
+            except RachasUsuario.DoesNotExist:
+                return Response({
+                    'estado': 'sin_racha',
+                    'dias_consecutivos': 0,
+                    'ultima_actividad': None
+                })
+                
+        except Exception as e:
+            return Response(
+                {'error': f'Error al verificar estado: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
+    @action(detail=False, methods=['get'])
+    def estadisticas(self, request):
+        """
+        Endpoint para obtener estadísticas completas de rachas.
+        
+        URL: GET /api/rachas/estadisticas/?usuario_id=123
+        
+        Returns:
+            Response: Estadísticas detalladas del usuario
+        """
+        try:
+            usuario_id = request.query_params.get('usuario_id')
+            if not usuario_id:
+                # Retornar estadísticas globales
+                from django.db.models import Max, Avg, Count
+                
+                estadisticas_globales = RachasUsuario.objects.aggregate(
+                    racha_maxima_global=Max('dias_consecutivos'),
+                    promedio_rachas=Avg('dias_consecutivos'),
+                    total_usuarios_con_racha=Count('id_racha')
+                )
+                
+                return Response({
+                    'tipo': 'estadisticas_globales',
+                    'datos': estadisticas_globales
+                })
+            
+            try:
+                racha = RachasUsuario.objects.get(id_usuario_id=usuario_id)
+                
+                # Calcular estadísticas personalizadas
+                estadisticas = {
+                    'racha_actual': racha.dias_consecutivos,
+                    'ultima_actividad': racha.ultima_actividad,
+                    'estado': racha.verificar_continuidad(),
+                    # Agregar más estadísticas según necesidades
+                }
+                
+                return Response({
+                    'tipo': 'estadisticas_usuario',
+                    'usuario_id': usuario_id,
+                    'datos': estadisticas
+                })
+                
+            except RachasUsuario.DoesNotExist:
+                return Response({
+                    'tipo': 'estadisticas_usuario',
+                    'usuario_id': usuario_id,
+                    'datos': {
+                        'racha_actual': 0,
+                        'ultima_actividad': None,
+                        'estado': 'sin_racha'
+                    }
+                })
+                
+        except Exception as e:
+            return Response(
+                {'error': f'Error al obtener estadísticas: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 class RegistroUsuarioView(APIView):
     permission_classes = [AllowAny]

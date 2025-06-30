@@ -1,18 +1,235 @@
-<section class="dashboard-grid">
-  <div class="encabezado">
-    <h1>Mis Medallas</h1>
+<section class="medallero-usuario">
+  <!-- Encabezado -->
+  <div class="encabezado-medallero">
+    <div class="titulo-seccion">
+      <h1>🏅 Mi Medallero</h1>
+      <div class="acciones-header">
+        <!-- Botón de notificaciones -->
+        <button 
+          class="btn-notificaciones" 
+          (click)="toggleNotificaciones()"
+          [class.tiene-notificaciones]="getNotificacionesNoLeidas() > 0">
+          🔔
+          <span class="badge-notificaciones" *ngIf="getNotificacionesNoLeidas() > 0">
+            {{ getNotificacionesNoLeidas() }}
+          </span>
+        </button>
+        <button class="btn-volver-medallero" (click)="volverAlDashboard()">⏎ Volver</button>
+      </div>
+    </div>
+
+    <!-- Panel de notificaciones -->
+    <div class="panel-notificaciones" *ngIf="mostrarNotificaciones">
+      <h3>Medallas Recientes</h3>
+      <div class="lista-notificaciones" *ngIf="notificacionesRecientes.length > 0">
+        <div 
+          class="notificacion-item" 
+          *ngFor="let notificacion of notificacionesRecientes"
+          (click)="marcarNotificacionLeida(notificacion)">
+          <span class="notif-icono">{{ notificacion.medalla.icono }}</span>
+          <div class="notif-contenido">
+            <h4>{{ notificacion.medalla.nombre }}</h4>
+            <p>{{ notificacion.medalla.descripcion }}</p>
+            <small>{{ formatearTimestamp(notificacion.timestamp) }}</small>
+          </div>
+        </div>
+      </div>
+      <div class="sin-notificaciones" *ngIf="notificacionesRecientes.length === 0">
+        <p>No hay notificaciones recientes</p>
+      </div>
+    </div>
+    
+    <!-- Estadísticas generales -->
+    <div class="estadisticas-medallero" *ngIf="!cargando">
+      <div class="stat-medallero">
+        <div class="stat-numero">{{ getNumeroMedallasObtenidas() }}</div>
+        <div class="stat-label">Obtenidas</div>
+      </div>
+      <div class="stat-medallero">
+        <div class="stat-numero">{{ getNumeroMedallasTotal() }}</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat-medallero">
+        <div class="stat-numero">{{ getPorcentajeProgreso() }}%</div>
+        <div class="stat-label">Progreso</div>
+      </div>
+    </div>
+
+    <!-- Barra de progreso general -->
+    <div class="progreso-general" *ngIf="!cargando">
+      <div class="progreso-barra">
+        <div 
+          class="progreso-relleno" 
+          [style.width.%]="getPorcentajeProgreso()"
+        ></div>
+      </div>
+      <span class="progreso-texto">{{ getNumeroMedallasObtenidas() }} de {{ getNumeroMedallasTotal() }} medallas</span>
+    </div>
   </div>
 
-  <div class="medallas-grid">
-    <div
-      *ngFor="let medalla of medallas"
+  <!-- Estado de carga -->
+  <div *ngIf="cargando" class="loading-medallero">
+    <div class="spinner-medallero"></div>
+    <p>Cargando tu medallero...</p>
+  </div>
+
+  <!-- Error de carga -->
+  <div *ngIf="errorCarga" class="error-medallero">
+    <p>⚠️ {{ errorCarga }}</p>
+    <button (click)="recargarMedallas()" class="btn-retry-medallero">🔄 Reintentar</button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filtros-medallero" *ngIf="!cargando && !errorCarga">
+    <div class="filtro-grupo">
+      <label>Categoría:</label>
+      <select [(ngModel)]="categoriaSeleccionada" class="filtro-select">
+        <option *ngFor="let categoria of categorias" [value]="categoria">
+          {{ categoria }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filtro-grupo">
+      <label>Dificultad:</label>
+      <select [(ngModel)]="dificultadSeleccionada" class="filtro-select">
+        <option *ngFor="let dificultad of dificultades" [value]="dificultad">
+          {{ dificultad === 'Todas' ? 'Todas' : dificultad | titlecase }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filtro-grupo">
+      <label class="filtro-checkbox">
+        <input type="checkbox" [(ngModel)]="soloObtenidas">
+        Solo obtenidas
+      </label>
+    </div>
+  </div>
+
+  <!-- Grid de medallas -->
+  <div class="medallas-grid" *ngIf="!cargando && !errorCarga">
+    <div 
+      *ngFor="let medalla of medallasFiltradas" 
       class="medalla-card"
-      [ngClass]="{ 'obtenida': medalla.obtenida, 'bloqueada': !medalla.obtenida }"
+      [ngClass]="{
+        'obtenida': medalla.obtenida,
+        'bloqueada': !medalla.obtenida
+      }"
+      (click)="verDetalleMedalla(medalla)"
     >
-      <div class="medalla-icono">{{ medalla.icono }}</div>
-      <div class="medalla-nombre">{{ medalla.nombre }}</div>
-      <div class="medalla-descripcion">
-        {{ medalla.descripcion }}
+      <!-- Badge de dificultad -->
+      <div class="medalla-dificultad" [ngClass]="obtenerClaseDificultad(medalla.dificultad)">
+        {{ medalla.dificultad | titlecase }}
+      </div>
+
+      <!-- Icono de la medalla -->
+      <div class="medalla-icono" [class.obtenida]="medalla.obtenida">
+        {{ medalla.icono }}
+      </div>
+
+      <!-- Información de la medalla -->
+      <div class="medalla-info">
+        <h3 class="medalla-nombre">{{ medalla.nombre }}</h3>
+        <p class="medalla-descripcion">{{ medalla.descripcion }}</p>
+        <span class="medalla-categoria">{{ medalla.categoria }}</span>
+      </div>
+
+      <!-- Progreso (solo para medallas no obtenidas) -->
+      <div class="medalla-progreso" *ngIf="!medalla.obtenida && medalla.progreso !== undefined">
+        <div class="progreso-barra-pequena">
+          <div 
+            class="progreso-relleno-pequena" 
+            [style.width.%]="medalla.progreso"
+            [style.background-color]="obtenerColorProgreso(medalla.progreso!)"
+          ></div>
+        </div>
+        <span class="progreso-porcentaje">{{ medalla.progreso!.toFixed(0) }}%</span>
+      </div>
+
+      <!-- Fecha de obtención -->
+      <div class="medalla-fecha" *ngIf="medalla.obtenida && medalla.fechaObtencion">
+        <small>Obtenida el {{ formatearFecha(medalla.fechaObtencion) }}</small>
+      </div>
+
+      <!-- Estado obtenida -->
+      <div class="medalla-estado" *ngIf="medalla.obtenida">
+        <span class="badge-obtenida">✅ Obtenida</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensaje cuando no hay medallas -->
+  <div *ngIf="!cargando && !errorCarga && medallasFiltradas.length === 0" class="sin-medallas">
+    <h3>🔍 No se encontraron medallas</h3>
+    <p *ngIf="soloObtenidas">Aún no has obtenido medallas con estos filtros.</p>
+    <p *ngIf="!soloObtenidas">No hay medallas disponibles con estos filtros.</p>
+    <button (click)="categoriaSeleccionada = 'Todas'; dificultadSeleccionada = 'Todas'; soloObtenidas = false" 
+            class="btn-limpiar-filtros">
+      🗑️ Limpiar filtros
+    </button>
+  </div>
+
+  <!-- Medallas recientes -->
+  <div class="medallas-recientes" *ngIf="!cargando && getMedallasMasRecientes().length > 0">
+    <h2>🆕 Medallas Recientes</h2>
+    <div class="medallas-recientes-grid">
+      <div *ngFor="let medalla of getMedallasMasRecientes()" class="medalla-reciente">
+        <span class="medalla-icono-pequeno">{{ medalla.icono }}</span>
+        <div class="medalla-info-pequena">
+          <strong>{{ medalla.nombre }}</strong>
+          <small>{{ formatearFecha(medalla.fechaObtencion) }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de detalle de medalla -->
+  <div class="modal-medalla" *ngIf="modalMedallaActivo">
+    <div class="modal-contenido-medalla">
+      <button class="modal-cerrar-medalla" (click)="cerrarModalMedalla()">✖</button>
+      
+      <div class="modal-header-medalla">
+        <div class="medalla-icono-grande" [class.obtenida]="medallaSeleccionada?.obtenida">
+          {{ medallaSeleccionada?.icono }}
+        </div>
+        <h2>{{ medallaSeleccionada?.nombre }}</h2>
+        <div class="medalla-dificultad-detalle" [ngClass]="obtenerClaseDificultad(medallaSeleccionada?.dificultad || '')">
+          {{ medallaSeleccionada?.dificultad | titlecase }}
+        </div>
+      </div>
+
+      <div class="modal-body-medalla">
+        <p class="descripcion-detalle">{{ medallaSeleccionada?.descripcion }}</p>
+        
+        <div class="detalles-medalla">
+          <div class="detalle-item">
+            <strong>Categoría:</strong> {{ medallaSeleccionada?.categoria }}
+          </div>
+          
+          <div class="detalle-item" *ngIf="medallaSeleccionada?.obtenida && medallaSeleccionada?.fechaObtencion">
+            <strong>Obtenida el:</strong> {{ formatearFecha(medallaSeleccionada?.fechaObtencion) }}
+          </div>
+          
+          <div class="detalle-item" *ngIf="!medallaSeleccionada?.obtenida && medallaSeleccionada?.progreso !== undefined">
+            <strong>Progreso:</strong> {{ medallaSeleccionada?.progreso!.toFixed(0) }}%
+            <div class="progreso-barra-detalle">
+              <div 
+                class="progreso-relleno-detalle" 
+                [style.width.%]="medallaSeleccionada?.progreso"
+                [style.background-color]="obtenerColorProgreso(medallaSeleccionada?.progreso!)"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="estado-medalla-detalle" *ngIf="medallaSeleccionada?.obtenida">
+          <span class="badge-obtenida-grande">🏆 ¡Medalla Obtenida!</span>
+        </div>
+
+        <div class="estado-medalla-detalle" *ngIf="!medallaSeleccionada?.obtenida">
+          <span class="badge-pendiente">⏳ Por obtener</span>
+        </div>
       </div>
     </div>
   </div>

@@ -1,94 +1,812 @@
-@font-face {
-  font-family: 'VT323';
-  src: url('/assets/fonts/VT323-Regular.ttf');
-}
-
+/* Fuentes personalizadas */
 @font-face {
   font-family: 'Gagalin';
-  src: url('/assets/fonts/Gagalin-Regular.otf');
+  src: url('/assets/fonts/Gagalin-Regular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'VT323';
+  src: url('/assets/fonts/VT323-Regular.ttf') format('truetype');
 }
 
-.dashboard-grid {
-  background: linear-gradient(to right, #1b1363, #5a397c);
-  padding: 2rem;
+/* Contenedor principal */
+.medallero-usuario {
   min-height: 100vh;
-  color: #fff;
+  padding: 2rem;
+  background: linear-gradient(135deg, #1B1363, #5A397C);
+  color: white;
   font-family: 'VT323', monospace;
-  box-sizing: border-box;
 }
 
-.encabezado h1 {
-  font-family: 'Gagalin', cursive;
-  text-align: center;
-  font-size: 2.5rem;
+/* Encabezado */
+.encabezado-medallero {
   margin-bottom: 2rem;
-  color: #f2ca52;
+  position: relative;
 }
 
+.titulo-seccion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.acciones-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.titulo-seccion h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-family: 'Gagalin', cursive;
+  color: #F2CA52;
+}
+
+.btn-volver-medallero {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+}
+
+.btn-volver-medallero:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Estadísticas */
+.estadisticas-medallero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stat-medallero {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-numero {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #F2CA52;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Progreso general */
+.progreso-general {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.progreso-barra {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progreso-relleno {
+  height: 100%;
+  background: linear-gradient(90deg, #F2921D, #F2CA52);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progreso-texto {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Estados de carga */
+.loading-medallero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem;
+  text-align: center;
+}
+
+.spinner-medallero {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #F2CA52;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.error-medallero {
+  background: rgba(255, 77, 77, 0.1);
+  border: 1px solid rgba(255, 77, 77, 0.3);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.btn-retry-medallero {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-family: 'VT323', monospace;
+}
+
+/* Filtros */
+.filtros-medallero {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filtro-grupo label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.filtro-select {
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  backdrop-filter: blur(10px);
+  font-family: 'VT323', monospace;
+}
+
+.filtro-select option {
+  background: #1B1363;
+  color: white;
+}
+
+.filtro-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.filtro-checkbox input[type="checkbox"] {
+  accent-color: #F2CA52;
+}
+
+/* Grid de medallas */
 .medallas-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
-  padding: 1rem 0;
+  margin-bottom: 2rem;
 }
 
 .medalla-card {
-  background: none;
-  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  border-radius: 16px;
+  padding: 1.5rem;
   position: relative;
-  transform: none;
-  transition: none;
-  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
 }
 
+.medalla-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.medalla-card.obtenida {
+  border-color: #F2921D;
+  background: linear-gradient(135deg, rgba(242, 146, 29, 0.1), rgba(242, 202, 82, 0.1));
+}
+
+.medalla-card.bloqueada {
+  opacity: 0.7;
+  filter: grayscale(0.5);
+}
+
+/* Dificultad */
+.medalla-dificultad {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.dificultad-bronce {
+  background: #cd7f32;
+  color: white;
+}
+
+.dificultad-plata {
+  background: #c0c0c0;
+  color: #333;
+}
+
+.dificultad-oro {
+  background: #ffd700;
+  color: #333;
+}
+
+.dificultad-diamante {
+  background: linear-gradient(45deg, #b9f2ff, #0891b2);
+  color: #333;
+}
+
+/* Icono de medalla */
 .medalla-icono {
-  font-size: 4rem;
-  padding: 1.2rem;
-  border-radius: 50%;
-  display: inline-block;
-  transition: filter 0.4s ease, opacity 0.4s ease;
-  box-shadow: 0 0 0 transparent;
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
 }
 
-/* 🔓 Desbloqueadas: icono brillante y con glow animado */
-.obtenida .medalla-icono {
-  background: radial-gradient(circle at center, #fff9d0 10%, #f2ca52 40%, transparent 70%);
-  box-shadow:
-    0 0 12px 3px #ffe88a,
-    0 0 25px 8px #f2ca52aa;
-  filter: drop-shadow(0 0 4px #fdd36f);
-  animation: brillo 2.5s ease-in-out infinite;
+.medalla-icono.obtenida {
+  filter: grayscale(0%);
+  animation: pulse 2s infinite;
 }
 
-/* 🔒 Bloqueadas: apagadas, sin brillo ni hover */
-.bloqueada .medalla-icono {
-  background: #444;
-  color: #888;
-  opacity: 0.5;
-  filter: grayscale(1);
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
 
-/* Animación sutil de destello */
-@keyframes brillo {
-  0%, 100% {
-    box-shadow: 0 0 12px 4px #f2ca52cc;
-    filter: drop-shadow(0 0 6px #f2ca52aa);
-  }
-  50% {
-    box-shadow: 0 0 18px 8px #ffe08a;
-    filter: drop-shadow(0 0 10px #ffefaf);
-  }
+/* Información de medalla */
+.medalla-info {
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .medalla-nombre {
-  font-family: 'Gagalin', cursive;
-  margin-top: 0.6rem;
-  color: #f2ca52;
-  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
 }
 
 .medalla-descripcion {
-  font-size: 0.85rem;
-  color: #aaa;
-  margin-top: 0.2rem;
+  margin: 0 0 0.5rem 0;
+  color: #666;
+  line-height: 1.4;
+  font-size: 0.9rem;
+}
+
+.medalla-categoria {
+  display: inline-block;
+  background: #1B1363;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+/* Progreso */
+.medalla-progreso {
+  margin-top: 1rem;
+}
+
+.progreso-barra-pequena {
+  width: 100%;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.25rem;
+}
+
+.progreso-relleno-pequena {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.progreso-porcentaje {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Estados */
+.medalla-fecha {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.medalla-fecha small {
+  color: #666;
+  font-style: italic;
+}
+
+.medalla-estado {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.badge-obtenida {
+  background: #F2921D;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Sin medallas */
+.sin-medallas {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.btn-limpiar-filtros {
+  background: #F2921D;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-family: 'VT323', monospace;
+}
+
+/* Medallas recientes */
+.medallas-recientes {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  margin-top: 2rem;
+}
+
+.medallas-recientes h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  color: #F2CA52;
+}
+
+.medallas-recientes-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.medalla-reciente {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.75rem;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.medalla-icono-pequeno {
+  font-size: 1.5rem;
+}
+
+.medalla-info-pequena {
+  display: flex;
+  flex-direction: column;
+}
+
+.medalla-info-pequena strong {
+  font-size: 0.9rem;
+}
+
+.medalla-info-pequena small {
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+/* Modal */
+.modal-medalla {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-contenido-medalla {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  color: #333;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-cerrar-medalla {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #999;
+}
+
+.modal-header-medalla {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #eee;
+}
+
+.medalla-icono-grande {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  filter: grayscale(100%);
+}
+
+.medalla-icono-grande.obtenida {
+  filter: grayscale(0%);
+}
+
+.modal-header-medalla h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.8rem;
+}
+
+.medalla-dificultad-detalle {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.descripcion-detalle {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.detalles-medalla {
+  margin-bottom: 1.5rem;
+}
+
+.detalle-item {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.progreso-barra-detalle {
+  width: 100%;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.progreso-relleno-detalle {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.estado-medalla-detalle {
+  text-align: center;
+  padding: 1rem;
+}
+
+.badge-obtenida-grande {
+  background: #F2921D;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.badge-pendiente {
+  background: #ff9800;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .medallero-usuario {
+    padding: 1rem;
+  }
+  
+  .titulo-seccion {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .estadisticas-medallero {
+    grid-template-columns: 1fr;
+  }
+  
+  .filtros-medallero {
+    flex-direction: column;
+  }
+  
+  .medallas-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .medallas-recientes-grid {
+    flex-direction: column;
+  }
+  
+  .modal-contenido-medalla {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+}
+
+/* Animaciones */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Efectos adicionales */
+.medalla-card.obtenida::before {
+  content: '✨';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  font-size: 1.5rem;
+  animation: sparkle 2s infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Estilos para notificaciones */
+.btn-notificaciones {
+  position: relative;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-notificaciones:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.btn-notificaciones.tiene-notificaciones {
+  animation: pulse-notification 2s infinite;
+}
+
+@keyframes pulse-notification {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.badge-notificaciones {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #FF4757;
+  color: white;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.panel-notificaciones {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: rgba(27, 19, 99, 0.95);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  min-width: 300px;
+  max-width: 400px;
+  z-index: 1000;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.panel-notificaciones h3 {
+  margin: 0 0 1rem 0;
+  color: #F2CA52;
+  font-size: 1.2rem;
+}
+
+.lista-notificaciones {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.notificacion-item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.notificacion-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+.notif-icono {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.notif-contenido h4 {
+  margin: 0 0 0.25rem 0;
+  color: #F2CA52;
+  font-size: 1rem;
+}
+
+.notif-contenido p {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.notif-contenido small {
+  opacity: 0.7;
+  font-size: 0.8rem;
+}
+
+.sin-notificaciones {
+  text-align: center;
+  padding: 2rem;
+  opacity: 0.7;
+}
+
+.sin-notificaciones p {
+  margin: 0;
+  font-style: italic;
+}
+
+/* Notificación flotante para nuevas medallas */
+.notificacion-medalla {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(45deg, #F2CA52, #FFE066);
+  color: #1B1363;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  transform: translateX(400px);
+  transition: all 0.3s ease;
+}
+
+.notificacion-medalla.mostrar {
+  transform: translateX(0);
+}
+
+.notificacion-contenido {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.notificacion-icono {
+  font-size: 2rem;
+}
+
+.notificacion-texto h4 {
+  margin: 0 0 0.25rem 0;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.notificacion-texto p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Responsividad para notificaciones */
+@media (max-width: 768px) {
+  .panel-notificaciones {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    right: auto;
+    min-width: 90vw;
+    max-width: 90vw;
+  }
+
+  .notificacion-medalla {
+    right: 10px;
+    left: 10px;
+    transform: translateY(-100px);
+  }
+
+  .notificacion-medalla.mostrar {
+    transform: translateY(0);
+  }
 }
