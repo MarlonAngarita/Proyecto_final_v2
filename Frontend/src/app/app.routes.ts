@@ -36,10 +36,7 @@ import { Desafios } from './pages/Profesor/desafios/desafios';
 import { Foro } from './pages/Profesor/foro/foro';
 import { Modulos } from './pages/Profesor/modulos/modulos';
 import { Quiz } from './pages/Profesor/quiz/quiz';
-
-// ===========================================================================================
-// IMPORTACIÓN DE COMPONENTES DEL USUARIO
-// ===========================================================================================
+import { PerfilProfesor } from './pages/Profesor/perfil/perfil';
 import { DashboardUsuario } from './pages/Usuario/dashboard-usuario/dashboard-usuario';
 import { Cursos as CursosUsuario } from './pages/Usuario/cursos/cursos';
 import { DesafiosUsuario } from './pages/Usuario/desafios-usuario/desafios-usuario';
@@ -116,16 +113,10 @@ export const routes: Routes = [
   // RUTAS DEL USUARIO/ESTUDIANTE - Experiencia de aprendizaje
   // ===========================================================================================
   
-  /** Dashboard principal del estudiante */
-  { path: 'usuario/dashboard-usuario', component: DashboardUsuario },
-  
-  /** Exploración y inscripción a cursos */
-  { path: 'usuario/cursos', component: CursosUsuario },
-  
-  /** Participación en desafíos gamificados */
-  { path: 'usuario/desafios', component: DesafiosUsuario },
-  
-  /** Participación en foro de discusión */
+/** Creación y gestión de quizzes/evaluaciones */
+{ path: 'profesor/quiz', component: Quiz }, 
+{ path: 'profesor/perfil', component: PerfilProfesor },
+{ path: 'usuario/dashboard-usuario', component: DashboardUsuario },
   { path: 'usuario/foro', component: ForoUsuario },
   
   /** Sistema de medallas y logros */

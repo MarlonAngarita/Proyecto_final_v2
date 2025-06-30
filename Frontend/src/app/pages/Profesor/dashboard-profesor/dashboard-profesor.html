@@ -1,6 +1,6 @@
 <section class="dashboard-profesor">
   <div class="cabecera-profesor">
-    <img [src]="avatarURL" alt="Avatar Profesor" class="avatar" />
+    <img [src]="avatarURL" alt="Avatar Profesor" class="avatar" (click)="irAlPerfil()" style="cursor: pointer;" />
     <div class="info-profesor">
       <h1>Bienvenido, {{ nombreProfesor }}</h1>
       <p class="email-profesor" *ngIf="emailProfesor">{{ emailProfesor }}</p>
@@ -13,6 +13,7 @@
     <div class="panel" routerLink="/profesor/cursos">➕ Crear curso</div>
     <div class="panel" routerLink="/profesor/modulos">📚 Crear módulo</div>
     <div class="panel" routerLink="/profesor/desafios">🏆 Crear desafío</div>
+    <div class="panel" routerLink="/profesor/quiz">🧠 Crear quiz </div> 
     <div class="panel" routerLink="/profesor/foro">💬 Ir al foro</div>
   </div>
 

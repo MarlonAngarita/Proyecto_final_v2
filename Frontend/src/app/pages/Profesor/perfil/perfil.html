@@ -1,0 +1,104 @@
+<section class="dashboard-grid">
+  <div class="encabezado">
+    <h1>Perfil</h1>
+  </div>
+
+  <div class="perfil-contenedor">
+    <div class="perfil-info">
+      <div *ngIf="!modoEdicion">
+        <p><strong>Nombre:</strong> <span>{{ profesor.nombre }}</span></p>
+        <p><strong>Correo:</strong> <span>{{ profesor.email }}</span></p>
+        <button class="btn-perfil" (click)="activarEdicion()">✏️ Editar perfil</button>
+      </div>
+
+      <form *ngIf="modoEdicion" (ngSubmit)="guardarCambios()">
+        <label>Nombre:</label>
+        <input type="text" [(ngModel)]="nuevoNombre" name="nombre" required />
+
+        <label>Correo:</label>
+        <input type="email" [(ngModel)]="nuevoCorreo" name="correo" required />
+
+        <label>Nueva contraseña:</label>
+        <div class="campo-contrasena">
+          <input
+            [type]="mostrarContrasena ? 'text' : 'password'"
+            [(ngModel)]="nuevaContrasena"
+            name="nuevaContrasena"
+            (ngModelChange)="validarContrasenas()"
+          />
+          <span class="icono-vision" (click)="mostrarContrasena = !mostrarContrasena">
+            <ng-container *ngIf="mostrarContrasena; else oculto1">
+              <!-- Ojo abierto -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="icono-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </ng-container>
+            <ng-template #oculto1>
+              <!-- Ojo cerrado -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="icono-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.956 9.956 0 012.293-3.95m3.25-2.3A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.956 9.956 0 01-4.293 5.95M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M3 3l18 18" />
+              </svg>
+            </ng-template>
+          </span>
+        </div>
+        <div *ngIf="!contrasenasCoinciden && nuevaContrasena" class="mensaje-error">
+          Las contraseñas no coinciden.
+        </div>
+
+        <label>Confirmar contraseña:</label>
+        <div class="campo-contrasena">
+          <input
+            [type]="mostrarConfirmacion ? 'text' : 'password'"
+            [(ngModel)]="confirmarContrasena"
+            name="confirmarContrasena"
+            (ngModelChange)="validarContrasenas()"
+          />
+          <span class="icono-vision" (click)="mostrarConfirmacion = !mostrarConfirmacion">
+            <ng-container *ngIf="mostrarConfirmacion; else oculto2">
+              <!-- Ojo abierto -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="icono-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </ng-container>
+            <ng-template #oculto2>
+              <!-- Ojo cerrado -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="icono-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.956 9.956 0 012.293-3.95m3.25-2.3A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.956 9.956 0 01-4.293 5.95M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M3 3l18 18" />
+              </svg>
+            </ng-template>
+          </span>
+        </div>
+        <div *ngIf="!contrasenasCoinciden && confirmarContrasena" class="mensaje-error">
+          Las contraseñas no coinciden.
+        </div>
+
+        <div class="botones-edicion">
+          <button type="submit" class="btn-perfil">💾 Guardar</button>
+          <button type="button" class="btn-perfil btn-cerrar" (click)="cancelarEdicion()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="modalConfirmacionActivo">
+    <div class="modal-contenido">
+      <h2>Cambios guardados</h2>
+      <p>Tu perfil ha sido actualizado correctamente.</p>
+      <div class="modal-botones">
+        <button class="modal-button" (click)="cerrarModalConfirmacion()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</section>
