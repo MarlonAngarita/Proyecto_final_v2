@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-^hvrvc-$xt0gx0#!-dae_^ur653svn#ndllo+%h#j9pai5ea&&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '4.203.104.63']  # Agrega aquí tu IP pública de Azure
 
 
 # Application definition
@@ -132,11 +132,11 @@ WSGI_APPLICATION = 'kustsa.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Cambia a 'postgresql' si usas PostgreSQL
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'kutsadb_v3',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': 'localhost',  # Cambia si tu DB está en otro servidor
+        'HOST': 'db',  # Cambiado a 'db' para Docker Compose
         'PORT': '3306',
     }
 }
@@ -177,6 +177,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Agregado para producción
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
