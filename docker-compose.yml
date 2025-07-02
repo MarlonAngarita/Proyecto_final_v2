@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  db:
+    build: ./DB
+    container_name: kutsa_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: kutsadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+  backend:
+    build: ./Backend
+    container_name: kutsa_backend
+    command: gunicorn kustsa.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./Backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=kutsadb
+      - DB_USER=root
+      - DB_PASSWORD=root
+  frontend:
+    build: ./Frontend
+    container_name: kutsa_frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+volumes:
+  db_data:
