@@ -2,7 +2,7 @@
 // INTERCEPTOR DE AUTENTICACIÓN - SISTEMA KÜTSA
 // ===================================================================================================
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   HttpInterceptor,
   HttpRequest,
@@ -33,16 +33,19 @@ import { Router } from '@angular/router';
  */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   /**
    * Constructor del interceptor
    *
    * @param authService - Servicio de autenticación para obtener tokens
    * @param router - Router de Angular para redirecciones
    */
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+  constructor() {}
 
   /**
    * Intercepta todas las peticiones HTTP salientes

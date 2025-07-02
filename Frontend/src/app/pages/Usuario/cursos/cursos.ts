@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -12,6 +12,9 @@ import { CursosService } from '../../../services/cursos.service';
   styleUrls: ['./cursos.css'],
 })
 export class Cursos implements OnInit {
+  private router = inject(Router);
+  private cursosService = inject(CursosService);
+
   vistaActual = 'disponibles';
   modalActivo = false;
   cursoSeleccionado: any = null;
@@ -56,10 +59,10 @@ export class Cursos implements OnInit {
     },
   ];
 
-  constructor(
-    private router: Router,
-    private cursosService: CursosService,
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.cargarCursosInscritos();
   }
 

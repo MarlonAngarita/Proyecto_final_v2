@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -12,6 +12,9 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './registro.css',
 })
 export class RegistroProfesor {
+  router = inject(Router);
+  private authService = inject(AuthService);
+
   mostrarConfirmacion = false;
   errorConfirmacion = false;
   errorRegistro = '';
@@ -21,10 +24,10 @@ export class RegistroProfesor {
   tituloFormulario = 'Registro de Profesor';
   textoBoton = 'Registrar Profesor';
 
-  constructor(
-    public router: Router,
-    private authService: AuthService,
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   scrollToSection(id: string): void {
     const el = document.getElementById(id);

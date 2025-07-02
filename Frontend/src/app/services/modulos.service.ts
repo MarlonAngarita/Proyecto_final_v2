@@ -2,7 +2,7 @@
 // SERVICIO DE MÓDULOS - SISTEMA KÜTSA
 // ===================================================================================================
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 
@@ -46,12 +46,17 @@ export interface Modulo {
  */
 @Injectable({ providedIn: 'root' })
 export class ModulosService {
+  private http = inject(HttpClient);
+
   // ===================================================================================================
   // CONFIGURACIÓN DEL SERVICIO
   // ===================================================================================================
 
   /** URL base de la API para operaciones de módulos */
   private apiUrl = 'http://127.0.0.1:8000/api/v1/modulos/';
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
 
   // ===================================================================================================
   // CONSTRUCTOR E INYECCIÓN DE DEPENDENCIAS
@@ -62,7 +67,7 @@ export class ModulosService {
    *
    * @param http - Cliente HTTP de Angular para peticiones a la API
    */
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   // ===================================================================================================
   // MÉTODOS PRIVADOS DE UTILIDAD

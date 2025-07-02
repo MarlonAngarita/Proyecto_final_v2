@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
@@ -11,6 +11,8 @@ import { UserService } from '../../../services/user.service';
   styleUrls: ['./perfil.css'],
 })
 export class Perfil implements OnInit {
+  private userService = inject(UserService);
+
   usuario: any = {};
   modoEdicion = false;
   modalConfirmacionActivo = false;
@@ -31,7 +33,10 @@ export class Perfil implements OnInit {
     'https://api.dicebear.com/9.x/fun-emoji/svg?seed=Pixel3',
   ];
 
-  constructor(private userService: UserService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.usuario = this.userService.getUsuarioActual();

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,6 +18,10 @@ interface Curso {
   styleUrl: './modulos.css',
 })
 export class Modulos implements OnInit {
+  private router = inject(Router);
+  private modulosService = inject(ModulosService);
+  private cursosService = inject(CursosService);
+
   // Propiedades del componente
   cargando = false;
   cargandoCursos = false;
@@ -31,11 +35,10 @@ export class Modulos implements OnInit {
     id_curso: 0,
   };
 
-  constructor(
-    private router: Router,
-    private modulosService: ModulosService,
-    private cursosService: CursosService,
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     // Constructor vacío, toda la inicialización en ngOnInit
   }
 

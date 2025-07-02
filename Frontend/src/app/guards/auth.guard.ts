@@ -2,7 +2,7 @@
 // GUARDS DE AUTENTICACIÓN - SISTEMA KÜTSA
 // ===================================================================================================
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
@@ -28,16 +28,19 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root',
 })
 export class AdminGuard implements CanActivate {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   /**
    * Constructor del guard de administrador
    *
    * @param authService - Servicio de autenticación para verificar estado
    * @param router - Router para redirecciones de seguridad
    */
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+  constructor() {}
 
   /**
    * Determina si la ruta puede ser activada
@@ -85,16 +88,19 @@ export class AdminGuard implements CanActivate {
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   /**
    * Constructor del guard de autenticación
    *
    * @param authService - Servicio de autenticación para verificar estado
    * @param router - Router para redirecciones de seguridad
    */
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+  constructor() {}
 
   /**
    * Determina si la ruta puede ser activada

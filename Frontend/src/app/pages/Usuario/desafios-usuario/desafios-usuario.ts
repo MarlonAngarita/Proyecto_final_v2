@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -12,6 +12,9 @@ import { DesafiosService } from '../../../services/desafios.service';
   styleUrls: ['./desafios-usuario.css'],
 })
 export class DesafiosUsuario implements OnInit {
+  private desafiosService = inject(DesafiosService);
+  private router = inject(Router);
+
   // Estados de carga
   cargando = false;
   cargandoDesafios = false;
@@ -55,10 +58,10 @@ export class DesafiosUsuario implements OnInit {
     },
   ];
 
-  constructor(
-    private desafiosService: DesafiosService,
-    private router: Router,
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     console.log('Iniciando componente de desafíos de usuario...');

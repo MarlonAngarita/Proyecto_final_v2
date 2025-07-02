@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DesafiosService, Desafio } from '../../../services/desafios.service'; // Ruta relativa
@@ -11,6 +11,8 @@ import { DesafiosService, Desafio } from '../../../services/desafios.service'; /
   styleUrls: ['./desafios.css'],
 })
 export class Desafios {
+  private desafiosService = inject(DesafiosService);
+
   // Lista de desafíos cargada desde el servicio
   desafios: Desafio[] = [];
   cargandoDesafios = false;
@@ -38,8 +40,11 @@ export class Desafios {
   guardando = false;
   eliminando = false;
 
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   // Inyección del servicio de desafíos
-  constructor(private desafiosService: DesafiosService) {}
+  constructor() {}
 
   // Al iniciar el componente se cargan los desafíos desde el servicio
   ngOnInit(): void {

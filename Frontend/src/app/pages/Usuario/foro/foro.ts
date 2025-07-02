@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,6 +12,9 @@ import { ForoService, Hilo, Respuesta } from '../../../services/foro.service';
   styleUrl: './foro.css',
 })
 export class ForoUsuario implements OnInit {
+  private router = inject(Router);
+  private foroService = inject(ForoService);
+
   // Estados de carga
   cargando = false;
   cargandoHilos = false;
@@ -37,10 +40,10 @@ export class ForoUsuario implements OnInit {
   // Datos para eliminación
   postAEliminar: { post: Hilo; index: number } | null = null;
 
-  constructor(
-    private router: Router,
-    private foroService: ForoService,
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     console.log('🔄 Iniciando componente de foro...');

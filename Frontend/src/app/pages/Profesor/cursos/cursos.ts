@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,6 +12,10 @@ import { CursosService } from '../../../services/cursos.service';
   styleUrls: ['./cursos.css'],
 })
 export class Cursos implements OnInit {
+  private router = inject(Router);
+  private cursosService = inject(CursosService);
+  private cdr = inject(ChangeDetectorRef);
+
   modalCrearActivo = false;
   modalDetallesActivo = false;
   modalEdicionActivo = false;
@@ -37,11 +41,10 @@ export class Cursos implements OnInit {
     desafios: [],
   };
 
-  constructor(
-    private router: Router,
-    private cursosService: CursosService,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     const paginasConNavbarFooter = ['inicio', 'registro', 'nosotros', 'login'];

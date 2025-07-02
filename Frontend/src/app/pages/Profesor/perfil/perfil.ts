@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
@@ -11,6 +11,8 @@ import { UserService } from '../../../services/user.service';
   styleUrls: ['./perfil.css'],
 })
 export class PerfilProfesor implements OnInit {
+  private userService = inject(UserService);
+
   profesor: any = {};
   modoEdicion = false;
   modalConfirmacionActivo = false;
@@ -23,7 +25,10 @@ export class PerfilProfesor implements OnInit {
   mostrarConfirmacion = false;
   contrasenasCoinciden = true;
 
-  constructor(private userService: UserService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.profesor = this.userService.getUsuarioActual();

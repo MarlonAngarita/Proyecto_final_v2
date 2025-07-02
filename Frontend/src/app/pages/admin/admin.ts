@@ -2,7 +2,7 @@
 // COMPONENTE DE ADMINISTRACIÓN - SISTEMA KÜTSA
 // ===================================================================================================
 
-import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { isPlatformBrowser } from '@angular/common';
@@ -34,6 +34,8 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrls: ['./admin.css'],
 })
 export class AdminComponent implements OnInit, OnDestroy {
+  private platformId = inject<Object>(PLATFORM_ID);
+
   // ===================================================================================================
   // PROPIEDADES DE NAVEGACIÓN Y UI
   // ===================================================================================================
@@ -95,6 +97,9 @@ export class AdminComponent implements OnInit, OnDestroy {
   /** Estadísticas de ubicaciones */
   ubicaciones: any[] = [];
 
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   // ===================================================================================================
   // CONSTRUCTOR E INYECCIÓN DE DEPENDENCIAS
   // ===================================================================================================
@@ -104,7 +109,7 @@ export class AdminComponent implements OnInit, OnDestroy {
    *
    * @param platformId - ID de la plataforma para verificar SSR
    */
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor() {}
 
   // ===================================================================================================
   // MÉTODOS DEL CICLO DE VIDA

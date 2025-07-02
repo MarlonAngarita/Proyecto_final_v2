@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
@@ -56,6 +56,8 @@ export interface Quiz {
   providedIn: 'root',
 })
 export class QuizService {
+  private http = inject(HttpClient);
+
   /** URL base de la API REST para quizzes */
   private apiUrl = 'http://127.0.0.1:8000/api/v1/quiz/';
 
@@ -97,11 +99,14 @@ export class QuizService {
     },
   ];
 
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   /**
    * Constructor del servicio
    * @param {HttpClient} http - Cliente HTTP de Angular para realizar peticiones a la API
    */
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   // ===================================
   // MÉTODOS PRIVADOS DE UTILIDAD

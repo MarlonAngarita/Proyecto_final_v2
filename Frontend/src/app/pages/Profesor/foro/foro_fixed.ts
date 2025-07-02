@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,6 +12,10 @@ import { ForoService, Hilo } from '../../../services/foro.service';
   styleUrl: './foro.css',
 })
 export class Foro implements OnInit {
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+  private foroService = inject(ForoService);
+
   tituloPost: string = '';
   contenidoPost: string = '';
 
@@ -30,11 +34,10 @@ export class Foro implements OnInit {
   // Usar la interfaz Hilo directamente
   publicaciones: Hilo[] = [];
 
-  constructor(
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-    private foroService: ForoService,
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     console.log('🔄 Iniciando componente foro profesor...');

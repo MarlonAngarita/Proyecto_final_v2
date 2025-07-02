@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -17,6 +17,13 @@ import { MedallasService } from '../../../services/medallas.service';
   providers: [UserService],
 })
 export class DashboardUsuario implements OnInit {
+  private userService = inject(UserService);
+  private router = inject(Router);
+  private cursosService = inject(CursosService);
+  private desafiosService = inject(DesafiosService);
+  private foroService = inject(ForoService);
+  private medallasService = inject(MedallasService);
+
   // Datos del usuario
   nombreUsuario = '';
   correoUsuario = '';
@@ -53,14 +60,10 @@ export class DashboardUsuario implements OnInit {
     { dias: 100, descripcion: '¡100 días de constancia!', icono: '🎉' },
   ];
 
-  constructor(
-    private userService: UserService,
-    private router: Router,
-    private cursosService: CursosService,
-    private desafiosService: DesafiosService,
-    private foroService: ForoService,
-    private medallasService: MedallasService,
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     console.log('Iniciando dashboard de usuario...');

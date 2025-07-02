@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -23,14 +23,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiTestService {
+  private http = inject(HttpClient);
+
   /** URL base de la API para las pruebas de conectividad */
   private apiUrl = 'http://localhost:8000/api/v1';
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
 
   /**
    * Constructor del servicio
    * @param {HttpClient} http - Cliente HTTP de Angular para realizar peticiones de prueba
    */
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   /**
    * Prueba la conexión básica con el backend

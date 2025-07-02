@@ -2,7 +2,7 @@
 // COMPONENTE DE LOGIN - SISTEMA KÜTSA
 // ===================================================================================================
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -37,6 +37,9 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login.css',
 })
 export class Login {
+  private router = inject(Router);
+  private authService = inject(AuthService);
+
   // ===================================================================================================
   // PROPIEDADES DEL COMPONENTE
   // ===================================================================================================
@@ -46,6 +49,9 @@ export class Login {
 
   /** Estado de carga durante el proceso de autenticación */
   cargando = false;
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
 
   // ===================================================================================================
   // CONSTRUCTOR E INYECCIÓN DE DEPENDENCIAS
@@ -57,10 +63,7 @@ export class Login {
    * @param router - Router de Angular para navegación
    * @param authService - Servicio de autenticación para login
    */
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-  ) {}
+  constructor() {}
 
   // ===================================================================================================
   // MÉTODOS DE NAVEGACIÓN Y UI

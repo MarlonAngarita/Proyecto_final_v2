@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -12,6 +12,10 @@ import { CursosService } from '../../../services/cursos.service';
   styleUrl: './dashboard-profesor.css',
 })
 export class DashboardProfesor implements OnInit {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private cursosService = inject(CursosService);
+
   // Datos del usuario autenticado
   currentUser: any = null;
   emailProfesor = '';
@@ -23,12 +27,11 @@ export class DashboardProfesor implements OnInit {
   // Estado de carga para cursos
   cargandoCursos = false;
 
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   // Constructor para inyectar AuthService
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private cursosService: CursosService,
-  ) {}
+  constructor() {}
 
   // Método ngOnInit para cargar datos del usuario
   ngOnInit() {

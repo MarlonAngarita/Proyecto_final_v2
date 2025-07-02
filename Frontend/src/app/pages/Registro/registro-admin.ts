@@ -2,7 +2,7 @@
 // COMPONENTE DE REGISTRO DE ADMINISTRADOR - SISTEMA KÜTSA
 // ===================================================================================================
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -34,6 +34,9 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './registro.css',
 })
 export class RegistroAdmin {
+  router = inject(Router);
+  private authService = inject(AuthService);
+
   // ===================================================================================================
   // PROPIEDADES DEL COMPONENTE
   // ===================================================================================================
@@ -57,6 +60,9 @@ export class RegistroAdmin {
   /** Texto personalizado del botón de envío */
   textoBoton = 'Registrar Administrador';
 
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   // ===================================================================================================
   // CONSTRUCTOR E INYECCIÓN DE DEPENDENCIAS
   // ===================================================================================================
@@ -67,10 +73,7 @@ export class RegistroAdmin {
    * @param router - Router de Angular para navegación
    * @param authService - Servicio de autenticación para registro
    */
-  constructor(
-    public router: Router,
-    private authService: AuthService,
-  ) {}
+  constructor() {}
 
   // ===================================================================================================
   // MÉTODOS DE NAVEGACIÓN Y UI

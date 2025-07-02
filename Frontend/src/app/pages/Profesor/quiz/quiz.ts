@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModulosService, Modulo } from '../../../services/modulos.service';
@@ -12,6 +12,10 @@ import { QuizService, Quiz } from '../../../services/quiz.service';
   styleUrls: ['./quiz.css'],
 })
 export class QuizComponent implements OnInit, OnDestroy {
+  private modulosService = inject(ModulosService);
+  private quizService = inject(QuizService);
+  private platformId = inject<Object>(PLATFORM_ID);
+
   // Estados de carga
   cargando = false;
   cargandoQuizzes = false;
@@ -42,11 +46,10 @@ export class QuizComponent implements OnInit, OnDestroy {
   guardando = false;
   eliminando = false;
 
-  constructor(
-    private modulosService: ModulosService,
-    private quizService: QuizService,
-    @Inject(PLATFORM_ID) private platformId: Object,
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {

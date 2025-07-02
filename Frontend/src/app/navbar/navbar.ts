@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 /**
@@ -25,11 +25,16 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.css',
 })
 export class navbar {
+  private router = inject(Router);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   /**
    * Constructor del componente navbar
    * @param {Router} router - Servicio de enrutamiento de Angular para navegación
    */
-  constructor(private router: Router) {}
+  constructor() {}
 
   /**
    * Navega a la página de inicio con un fragmento específico

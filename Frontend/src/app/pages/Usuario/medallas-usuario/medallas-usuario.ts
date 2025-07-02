@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,6 +13,9 @@ import { MedallasService, Medalla, NotificacionMedalla } from '../../../services
   styleUrls: ['./medallas-usuario.css'],
 })
 export class MedallasUsuario implements OnInit, OnDestroy {
+  private medallasService = inject(MedallasService);
+  private router = inject(Router);
+
   // Suscripciones
   private suscripciones: Subscription[] = [];
 
@@ -45,10 +48,10 @@ export class MedallasUsuario implements OnInit, OnDestroy {
   categorias = ['Todas', 'Racha', 'Desafíos', 'Cursos', 'Especiales'];
   dificultades = ['Todas', 'bronce', 'plata', 'oro', 'diamante'];
 
-  constructor(
-    private medallasService: MedallasService,
-    private router: Router,
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     console.log('🏅 Iniciando medallero del usuario...');

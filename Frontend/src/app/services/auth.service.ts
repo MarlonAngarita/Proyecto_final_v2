@@ -2,7 +2,7 @@
 // SERVICIO DE AUTENTICACIÓN - SISTEMA KÜTSA
 // ===================================================================================================
 
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -96,6 +96,8 @@ export interface RegistroData {
   providedIn: 'root',
 })
 export class AuthService {
+  private http = inject(HttpClient);
+
   // ===================================================================================================
   // PROPIEDADES DEL SERVICIO
   // ===================================================================================================
@@ -112,6 +114,9 @@ export class AuthService {
   /** Flag para verificar si estamos en el browser (compatibilidad SSR) */
   private isBrowser: boolean;
 
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   // ===================================================================================================
   // CONSTRUCTOR E INICIALIZACIÓN
   // ===================================================================================================
@@ -123,10 +128,9 @@ export class AuthService {
    * @param http - Cliente HTTP de Angular para peticiones a la API
    * @param platformId - ID de la plataforma para verificar SSR
    */
-  constructor(
-    private http: HttpClient,
-    @Inject(PLATFORM_ID) platformId: Object,
-  ) {
+  constructor() {
+    const platformId = inject<Object>(PLATFORM_ID);
+
     this.isBrowser = isPlatformBrowser(platformId);
     this.loadCurrentUser();
   }

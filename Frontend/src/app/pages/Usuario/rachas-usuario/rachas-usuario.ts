@@ -2,7 +2,7 @@
 // IMPORTACIONES Y DEPENDENCIAS
 // ===================================================================================================
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
@@ -67,6 +67,10 @@ interface EstadisticaRacha {
   styleUrl: './rachas-usuario.css',
 })
 export class RachasUsuario implements OnInit, OnDestroy {
+  private userService = inject(UserService);
+  private medallasService = inject(MedallasService);
+  private router = inject(Router);
+
   // ===================================================================================================
   // PROPIEDADES DE ESTADO DE CARGA
   // ===================================================================================================
@@ -200,6 +204,9 @@ export class RachasUsuario implements OnInit, OnDestroy {
   /** Subscription para manejar observables y evitar memory leaks */
   private subscription: Subscription = new Subscription();
 
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   // ===================================================================================================
   // CONSTRUCTOR E INYECCIÓN DE DEPENDENCIAS
   // ===================================================================================================
@@ -212,11 +219,7 @@ export class RachasUsuario implements OnInit, OnDestroy {
    * @param medallasService - Servicio para gestión del sistema de medallas
    * @param router - Router de Angular para navegación
    */
-  constructor(
-    private userService: UserService,
-    private medallasService: MedallasService,
-    private router: Router,
-  ) {}
+  constructor() {}
 
   // ===================================================================================================
   // MÉTODOS DEL CICLO DE VIDA DEL COMPONENTE

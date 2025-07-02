@@ -16,7 +16,7 @@ Características principales:
 @version 2.0 - Aplicación Angular moderna
 */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { navbar } from './navbar/navbar';
@@ -42,11 +42,16 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrl: './app.css',
 })
 export class App {
+  private router = inject(Router);
+
   /**
    * Controla la visibilidad del navbar según la ruta actual
    * true: Mostrar navbar | false: Ocultar navbar
    */
   mostrarNavbar = true;
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
 
   /**
    * Constructor del componente principal
@@ -54,7 +59,7 @@ export class App {
    *
    * @param router - Servicio de enrutamiento de Angular
    */
-  constructor(private router: Router) {
+  constructor() {
     // Suscripción a eventos de navegación para controlar el navbar
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
