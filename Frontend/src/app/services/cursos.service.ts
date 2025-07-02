@@ -35,9 +35,10 @@ export class CursosService {
   // ===================================================================================================
 
   /** URL base de la API para operaciones de cursos */
-  private apiUrl = window.location.hostname === 'localhost'
-    ? 'http://localhost:8000/api/v1/cursos/'
-    : 'http://4.203.104.63:8000/api/v1/cursos/';
+  private apiUrl =
+    window.location.hostname === 'localhost'
+      ? 'http://localhost:8000/api/v1/cursos/'
+      : 'http://4.203.104.63:8000/api/v1/cursos/';
 
   // ===================================================================================================
   // DATOS DE PRUEBA PARA DESARROLLO

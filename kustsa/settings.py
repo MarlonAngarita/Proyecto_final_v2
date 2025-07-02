@@ -120,6 +120,7 @@ SIMPLE_JWT = {
 # https://pypi.org/project/django-cors-headers/
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',  # Para Angular
+    'http://4.203.104.63:4200',  # IP pública de Azure
 ]
 CORS_ALLOW_CREDENTIALS = True  # Permitir credenciales si es necesario
 

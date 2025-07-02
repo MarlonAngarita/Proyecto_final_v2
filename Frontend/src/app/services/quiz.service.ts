@@ -59,9 +59,10 @@ export class QuizService {
   private http = inject(HttpClient);
 
   /** URL base de la API REST para quizzes */
-  private apiUrl = window.location.hostname === 'localhost'
-    ? 'http://localhost:8000/api/v1/quiz/'
-    : 'http://4.203.104.63:8000/api/v1/quiz/';
+  private apiUrl =
+    window.location.hostname === 'localhost'
+      ? 'http://localhost:8000/api/v1/quiz/'
+      : 'http://4.203.104.63:8000/api/v1/quiz/';
 
   /** Opciones HTTP con headers por defecto incluyendo autenticación JWT */
   private httpOptions = {

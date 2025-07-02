@@ -76,9 +76,10 @@ export class ForoService {
   private http = inject(HttpClient);
 
   /** URL base de la API REST para el foro */
-  private apiUrl = window.location.hostname === 'localhost'
-    ? 'http://localhost:8000/api/v1/foro/'
-    : 'http://4.203.104.63:8000/api/v1/foro/';
+  private apiUrl =
+    window.location.hostname === 'localhost'
+      ? 'http://localhost:8000/api/v1/foro/'
+      : 'http://4.203.104.63:8000/api/v1/foro/';
 
   /** Opciones HTTP con headers por defecto incluyendo autenticación JWT */
   private httpOptions = {

@@ -26,9 +26,10 @@ export class ApiTestService {
   private http = inject(HttpClient);
 
   /** URL base de la API para las pruebas de conectividad */
-  private apiUrl = window.location.hostname === 'localhost'
-    ? 'http://localhost:8000/api/v1'
-    : 'http://4.203.104.63:8000/api/v1';
+  private apiUrl =
+    window.location.hostname === 'localhost'
+      ? 'http://localhost:8000/api/v1'
+      : 'http://4.203.104.63:8000/api/v1';
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);
