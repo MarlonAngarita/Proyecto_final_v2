@@ -10,7 +10,9 @@ services:
     volumes:
       - db_data:/var/lib/mysql
   backend:
-    build: ./Backend
+    build:
+      context: .
+      dockerfile: Backend/Dockerfile
     container_name: kutsa_backend
     command: gunicorn kustsa.wsgi:application --bind 0.0.0.0:8000
     ports:
