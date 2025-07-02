@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -23,6 +23,7 @@ export class DashboardUsuario implements OnInit {
   private desafiosService = inject(DesafiosService);
   private foroService = inject(ForoService);
   private medallasService = inject(MedallasService);
+  private cdr = inject(ChangeDetectorRef);
 
   // Datos del usuario
   nombreUsuario = '';
@@ -114,13 +115,24 @@ export class DashboardUsuario implements OnInit {
     this.cargandoDatos = true;
     this.errorCarga = '';
     console.log('Cargando datos del dashboard...');
-
+    this.cdr.markForCheck();
     // Cargar datos en paralelo
-    Promise.all([this.cargarCursos(), this.cargarDesafios(), this.cargarForoStats()])
+    Promise.all([
+      this.cargarCursos().catch((e) => {
+        console.error('Error cargarCursos:', e);
+      }),
+      this.cargarDesafios().catch((e) => {
+        console.error('Error cargarDesafios:', e);
+      }),
+      this.cargarForoStats().catch((e) => {
+        console.error('Error cargarForoStats:', e);
+      }),
+    ])
       .then(() => {
         this.calcularProgreso();
         this.actualizarMedallas();
         this.cargandoDatos = false;
+        this.cdr.markForCheck();
         console.log('Datos del dashboard cargados exitosamente');
       })
       .catch((error) => {
@@ -128,6 +140,12 @@ export class DashboardUsuario implements OnInit {
         this.errorCarga = 'Error al cargar algunos datos. Mostrando información disponible.';
         this.cargarDatosLocales();
         this.cargandoDatos = false;
+        this.cdr.markForCheck();
+      })
+      .finally(() => {
+        // Asegura que nunca quede en bucle de carga
+        this.cargandoDatos = false;
+        this.cdr.markForCheck();
       });
   }
 
@@ -195,6 +213,13 @@ export class DashboardUsuario implements OnInit {
         },
         error: (error) => {
           console.error('Error al cargar stats del foro:', error);
+          if (error.status === 403) {
+            this.errorCarga = 'No tienes permisos para ver el foro. (Error 403)';
+          } else if (error.status === 401) {
+            this.errorCarga = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.';
+          } else {
+            this.errorCarga = 'Error al cargar stats del foro.';
+          }
           this.publicacionesForo = 0; // Fallback
           resolve();
         },

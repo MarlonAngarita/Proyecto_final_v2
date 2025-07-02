@@ -30,7 +30,7 @@ Funcionalidades principales:
 from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -71,6 +71,7 @@ from .serializers import (
     QuizSerializer,
     RachasUsuarioSerializer,
 )
+from .permissions import IsAdmin, IsProfesor, IsAdminOrReadOnly, IsProfesorOrAdminOrReadOnly
 
 # ===================================================================================================
 # VIEWSETS PARA MODELOS DE CONFIGURACIÓN
@@ -88,8 +89,8 @@ class AvataresViewSet(viewsets.ModelViewSet):
     queryset = Avatares.objects.all()
     serializer_class = AvataresSerializer
     permission_classes = [
-        AllowAny
-    ]  # TODO: Revisar permisos según requerimientos de seguridad
+        IsAuthenticated
+    ]  # Solo autenticados pueden ver avatares
     lookup_field = "id_avatar"
 
 
@@ -108,7 +109,7 @@ class UsuariosViewSet(viewsets.ModelViewSet):
 
     queryset = Usuarios.objects.all()
     serializer_class = UsuariosSerializer
-    permission_classes = [AllowAny]  # TODO: Implementar permisos específicos por rol
+    permission_classes = [IsAdmin]  # Solo administradores pueden gestionar usuarios
     lookup_field = "id"
 
 
@@ -127,7 +128,7 @@ class CursosViewSet(viewsets.ModelViewSet):
 
     queryset = Cursos.objects.all()
     serializer_class = CursosSerializer
-    permission_classes = [AllowAny]  # TODO: Profesores y admins para escritura
+    permission_classes = [IsProfesorOrAdminOrReadOnly]  # Solo admins/profesores pueden crear/editar, todos pueden ver
     lookup_field = "id_curso"
 
 
@@ -141,84 +142,84 @@ class NivelesViewSet(viewsets.ModelViewSet):
 
     queryset = Niveles.objects.all()
     serializer_class = NivelesSerializer
-    permission_classes = [AllowAny]  # TODO: Solo admins para escritura
+    permission_classes = [IsAdminOrReadOnly]  # Solo admins pueden crear/editar, todos pueden ver
     lookup_field = "id_nivel"
 
 
 class CursosNivelViewSet(viewsets.ModelViewSet):
     queryset = CursosNivel.objects.all()
     serializer_class = CursosNivelSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     lookup_field = "id_curso_nivel"
 
 
 class DesafiosViewSet(viewsets.ModelViewSet):
     queryset = Desafios.objects.all()
     serializer_class = DesafiosSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsProfesorOrAdminOrReadOnly]
     lookup_field = "id_desafio"
 
 
 class DesafiosUsuarioViewSet(viewsets.ModelViewSet):
     queryset = DesafiosUsuario.objects.all()
     serializer_class = DesafiosUsuarioSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]  # Solo autenticados pueden gestionar desafíos de usuario
     lookup_field = "id_desafio_usuario"
 
 
 class ForoViewSet(viewsets.ModelViewSet):
     queryset = Foro.objects.all()
     serializer_class = ForoSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]  # Todos autenticados pueden participar
     lookup_field = "id_foro"
 
 
 class GamificacionViewSet(viewsets.ModelViewSet):
     queryset = Gamificacion.objects.all()
     serializer_class = GamificacionSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]  # Solo autenticados pueden gestionar gamificación
     lookup_field = "id_gamificacion"
 
 
 class MedallasViewSet(viewsets.ModelViewSet):
     queryset = Medallas.objects.all()
     serializer_class = MedallasSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminOrReadOnly]  # Solo admins pueden crear/editar medallas
     lookup_field = "id_medalla"
 
 
 class MedallasUsuarioViewSet(viewsets.ModelViewSet):
     queryset = MedallasUsuario.objects.all()
     serializer_class = MedallasUsuarioSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]  # Solo autenticados pueden gestionar medallas de usuario
     lookup_field = "id_medalla_usuario"
 
 
 class ModulosViewSet(viewsets.ModelViewSet):
     queryset = Modulos.objects.all()
     serializer_class = ModulosSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsProfesorOrAdminOrReadOnly]
     lookup_field = "id_modulo"
 
 
 class NivelesUsuarioViewSet(viewsets.ModelViewSet):
     queryset = NivelesUsuario.objects.all()
     serializer_class = NivelesUsuarioSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]  # Solo autenticados pueden gestionar niveles de usuario
     lookup_field = "id_nivel_usuario"
 
 
 class ProgresoUsuarioViewSet(viewsets.ModelViewSet):
     queryset = ProgresoUsuario.objects.all()
     serializer_class = ProgresoUsuarioSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]  # Solo autenticados pueden gestionar progreso
     lookup_field = "id_progreso"
 
 
 class QuizViewSet(viewsets.ModelViewSet):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsProfesorOrAdminOrReadOnly]  # Solo admins/profesores pueden crear/editar quizzes
     lookup_field = "id_quiz"
 
 
@@ -255,7 +256,7 @@ class RachasUsuarioViewSet(viewsets.ModelViewSet):
 
     queryset = RachasUsuario.objects.all()
     serializer_class = RachasUsuarioSerializer
-    permission_classes = [AllowAny]  # TODO: Cambiar a IsAuthenticated en producción
+    permission_classes = [IsAuthenticated]  # Solo autenticados pueden gestionar rachas
     lookup_field = "id_racha"
 
     def get_queryset(self):
@@ -469,7 +470,7 @@ class RachasUsuarioViewSet(viewsets.ModelViewSet):
 
 
 class RegistroUsuarioView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # Público: registro de usuario
 
     def post(self, request):
         # Forzar rol de estudiante por defecto
@@ -511,7 +512,7 @@ class RegistroUsuarioView(APIView):
 class RegistroProfesorView(APIView):
     """Registro específico para profesores - URL especial"""
 
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # Público: registro de profesor
 
     def post(self, request):
         # Forzar rol de profesor
@@ -554,7 +555,7 @@ class RegistroProfesorView(APIView):
 class RegistroAdminView(APIView):
     """Registro específico para administradores - URL especial"""
 
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # Público: registro de admin
 
     def post(self, request):
         # Forzar rol de administrador
@@ -597,7 +598,7 @@ class RegistroAdminView(APIView):
 class LoginUsuarioView(APIView):
     """Vista para login de usuarios"""
 
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  # Público: login
 
     def post(self, request):
         email = request.data.get("email")

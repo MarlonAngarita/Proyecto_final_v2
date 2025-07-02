@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 /**
  * Interfaz que define la estructura de un Desafío en el sistema de gamificación
@@ -52,18 +53,7 @@ export class DesafiosService {
   private http = inject(HttpClient);
 
   /** URL base de la API REST para desafíos */
-  private apiUrl =
-    window.location.hostname === 'localhost'
-      ? 'http://localhost:8000/api/v1/desafios/'
-      : 'http://4.203.104.63:8000/api/v1/desafios/';
-
-  /** Opciones HTTP con headers por defecto incluyendo autenticación JWT */
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
-    }),
-  };
+  private apiUrl = environment.apiUrl + 'desafios/';
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);
@@ -77,21 +67,6 @@ export class DesafiosService {
   // ===================================
   // MÉTODOS PRIVADOS DE UTILIDAD
   // ===================================
-
-  /**
-   * Actualiza las opciones HTTP con el token de autenticación actual
-   * @private
-   * @description Obtiene el token más reciente del localStorage y actualiza los headers
-   *              Debe llamarse antes de cada petición HTTP para asegurar autenticación válida
-   */
-  private updateHttpOptions(): void {
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
-      }),
-    };
-  }
 
   /**
    * Manejador genérico de errores HTTP
@@ -119,8 +94,7 @@ export class DesafiosService {
    *              Incluye manejo de errores y logging
    */
   getTodosAPI(): Observable<Desafio[]> {
-    this.updateHttpOptions();
-    return this.http.get<Desafio[]>(this.apiUrl, this.httpOptions).pipe(
+    return this.http.get<Desafio[]>(this.apiUrl).pipe(
       tap((desafios) => console.log('Desafíos obtenidos desde API:', desafios)),
       catchError(this.handleError<Desafio[]>('getTodosAPI', [])),
     );
@@ -133,9 +107,8 @@ export class DesafiosService {
    * @description Realiza petición GET a /api/v1/desafios/{id}/ para obtener un desafío específico
    */
   obtenerPorIdAPI(id: number): Observable<Desafio | null> {
-    this.updateHttpOptions();
     const url = `${this.apiUrl}${id}/`;
-    return this.http.get<Desafio>(url, this.httpOptions).pipe(
+    return this.http.get<Desafio>(url).pipe(
       tap((desafio) => console.log('Desafío obtenido por ID desde API:', desafio)),
       catchError(this.handleError<Desafio | null>('obtenerPorIdAPI', null)),
     );
@@ -148,8 +121,7 @@ export class DesafiosService {
    * @description Realiza petición POST a /api/v1/desafios/ con los datos del nuevo desafío
    */
   agregarAPI(desafio: Desafio): Observable<Desafio | null> {
-    this.updateHttpOptions();
-    return this.http.post<Desafio>(this.apiUrl, desafio, this.httpOptions).pipe(
+    return this.http.post<Desafio>(this.apiUrl, desafio).pipe(
       tap((nuevoDesafio) => console.log('Desafío agregado via API:', nuevoDesafio)),
       catchError(this.handleError<Desafio | null>('agregarAPI', null)),
     );
@@ -163,9 +135,8 @@ export class DesafiosService {
    * @description Realiza petición PUT a /api/v1/desafios/{id}/ para actualizar datos del desafío
    */
   actualizarAPI(id: number, desafio: Desafio): Observable<Desafio | null> {
-    this.updateHttpOptions();
     const url = `${this.apiUrl}${id}/`;
-    return this.http.put<Desafio>(url, desafio, this.httpOptions).pipe(
+    return this.http.put<Desafio>(url, desafio).pipe(
       tap((desafioActualizado) => console.log('Desafío actualizado via API:', desafioActualizado)),
       catchError(this.handleError<Desafio | null>('actualizarAPI', null)),
     );
@@ -178,9 +149,8 @@ export class DesafiosService {
    * @description Realiza petición DELETE a /api/v1/desafios/{id}/ para eliminar el desafío
    */
   eliminarAPI(id: number): Observable<boolean> {
-    this.updateHttpOptions();
     const url = `${this.apiUrl}${id}/`;
-    return this.http.delete(url, this.httpOptions).pipe(
+    return this.http.delete(url).pipe(
       tap(() => console.log('Desafío eliminado via API:', id)),
       map(() => true), // Mapea respuesta exitosa a true
       catchError(() => of(false)), // En caso de error retorna false

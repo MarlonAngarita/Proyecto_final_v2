@@ -1,0 +1,38 @@
+.progreso-usuario {
+  min-height: 100vh;
+  padding: 2.5rem 1.5rem;
+  background: linear-gradient(90deg, #1b1363, #5a397c);
+  color: #fff;
+  font-family: 'VT323', monospace;
+}
+.progreso-usuario h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #ffe082;
+  font-family: 'Gagalin', cursive;
+}
+.progreso-info {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 400px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.07);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 32px 24px;
+}
+.progreso-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee2;
+}
+.progreso-label {
+  color: #ffe082;
+}
+.progreso-value {
+  font-weight: bold;
+  color: #fff;
+}

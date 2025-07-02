@@ -129,6 +129,7 @@ export const routes: Routes = [
 
   /** Gestión del perfil personal */
   { path: 'usuario/perfil', component: Perfil },
+  { path: 'usuario/desafios', component: DesafiosUsuario },
 
   // ===========================================================================================
   // RUTAS ADMINISTRATIVAS - Gestión del sistema

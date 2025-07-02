@@ -3,8 +3,9 @@
 // ===================================================================================================
 
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 /**
  * Interfaz para definir la estructura de un módulo educativo
@@ -53,10 +54,7 @@ export class ModulosService {
   // ===================================================================================================
 
   /** URL base de la API para operaciones de módulos */
-  private apiUrl =
-    window.location.hostname === 'localhost'
-      ? 'http://localhost:8000/api/v1/modulos/'
-      : 'http://4.203.104.63:8000/api/v1/modulos/';
+  private apiUrl = environment.apiUrl + 'modulos/';
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);
@@ -75,20 +73,6 @@ export class ModulosService {
   // ===================================================================================================
   // MÉTODOS PRIVADOS DE UTILIDAD
   // ===================================================================================================
-
-  /**
-   * Genera headers HTTP con autenticación JWT
-   * Obtiene el token del localStorage y lo incluye en las peticiones
-   *
-   * @returns HttpHeaders con token de autorización y content-type
-   */
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: token ? `Bearer ${token}` : '',
-    });
-  }
 
   /**
    * Obtiene el ID del usuario actual desde localStorage
@@ -126,9 +110,7 @@ export class ModulosService {
    * @returns Observable con la lista de módulos
    */
   getTodosAPI(): Observable<Modulo[]> {
-    return this.http
-      .get<Modulo[]>(this.apiUrl, { headers: this.getAuthHeaders() })
-      .pipe(catchError(this.handleError));
+    return this.http.get<Modulo[]>(this.apiUrl).pipe(catchError(this.handleError));
   }
 
   agregarAPI(modulo: Modulo): Observable<Modulo> {
@@ -141,9 +123,7 @@ export class ModulosService {
         id_profesor: this.getCurrentUserId(),
       };
 
-      return this.http
-        .post<Modulo>(this.apiUrl, moduloData, { headers: this.getAuthHeaders() })
-        .pipe(catchError(this.handleError));
+      return this.http.post<Modulo>(this.apiUrl, moduloData).pipe(catchError(this.handleError));
     } catch (error) {
       console.error('Error preparando datos del módulo:', error);
       return throwError(() => error);
@@ -164,9 +144,7 @@ export class ModulosService {
     };
 
     return this.http
-      .put<Modulo>(`${this.apiUrl}${modulo.id_modulo}/`, moduloData, {
-        headers: this.getAuthHeaders(),
-      })
+      .put<Modulo>(`${this.apiUrl}${modulo.id_modulo}/`, moduloData)
       .pipe(catchError(this.handleError));
   }
 
@@ -177,20 +155,16 @@ export class ModulosService {
    * @returns Observable con la respuesta de eliminación
    */
   eliminarAPI(id: number): Observable<any> {
-    return this.http
-      .delete<any>(`${this.apiUrl}${id}/`, { headers: this.getAuthHeaders() })
-      .pipe(catchError(this.handleError));
+    return this.http.delete<any>(`${this.apiUrl}${id}/`).pipe(catchError(this.handleError));
   }
 
   obtenerPorIdAPI(id: number): Observable<Modulo> {
-    return this.http
-      .get<Modulo>(`${this.apiUrl}${id}/`, { headers: this.getAuthHeaders() })
-      .pipe(catchError(this.handleError));
+    return this.http.get<Modulo>(`${this.apiUrl}${id}/`).pipe(catchError(this.handleError));
   }
 
   getModulosPorCurso(id_curso: number): Observable<Modulo[]> {
     return this.http
-      .get<Modulo[]>(`${this.apiUrl}?id_curso=${id_curso}`, { headers: this.getAuthHeaders() })
+      .get<Modulo[]>(`${this.apiUrl}?id_curso=${id_curso}`)
       .pipe(catchError(this.handleError));
   }
 }

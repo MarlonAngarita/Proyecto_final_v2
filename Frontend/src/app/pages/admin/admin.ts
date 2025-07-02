@@ -6,6 +6,8 @@ import { Component, OnInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { isPlatformBrowser } from '@angular/common';
+import { UserService } from '../../services/user.service';
+import { HttpClient } from '@angular/common/http';
 
 /**
  * Componente de Administración para la plataforma Kütsa
@@ -35,6 +37,8 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class AdminComponent implements OnInit, OnDestroy {
   private platformId = inject<Object>(PLATFORM_ID);
+  private userService = inject(UserService);
+  private http = inject(HttpClient);
 
   // ===================================================================================================
   // PROPIEDADES DE NAVEGACIÓN Y UI
@@ -128,9 +132,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId) && this.mostrarModalCrear) {
       document.body.classList.add('modal-open');
     }
-    // TODO: Agregar llamadas a servicios para cargar usuarios y estadísticas
-    // this.cargarUsuarios();
-    // this.cargarEstadisticas();
+    this.cargarUsuarios();
+    this.cargarEstadisticas();
   }
 
   /**
@@ -161,12 +164,55 @@ export class AdminComponent implements OnInit, OnDestroy {
   // ===================================================================================================
 
   /**
+   * Carga la lista de usuarios desde el servicio
+   */
+  cargarUsuarios() {
+    this.userService.getUsuarios().subscribe({
+      next: (usuarios) => {
+        this.usuarios = usuarios;
+        this.totalUsuarios = usuarios.length;
+      },
+      error: (err) => {
+        console.error('Error al cargar usuarios:', err);
+        this.usuarios = [];
+      },
+    });
+  }
+
+  /**
+   * Carga las estadísticas generales desde el servicio
+   */
+  cargarEstadisticas() {
+    this.userService.getEstadisticas().subscribe({
+      next: (data) => {
+        // Ajustar según la estructura de respuesta del backend
+        if (data && data.tipo === 'estadisticas_globales') {
+          this.usuariosActivosHoy = data.datos.total_usuarios_con_racha || 0;
+          // Puedes mapear más estadísticas aquí
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar estadísticas:', err);
+      },
+    });
+  }
+
+  /**
    * Busca usuarios según el filtro ingresado
    * TODO: Implementar búsqueda en la API
    */
   buscarUsuarios() {
-    // TODO: Implementar lógica de búsqueda con llamada a API
-    console.log('Buscando usuarios con filtro:', this.filtro);
+    // Búsqueda local, para búsqueda en backend, implementar filtro en la API
+    if (!this.filtro) {
+      this.cargarUsuarios();
+      return;
+    }
+    this.usuarios = this.usuarios.filter(
+      (u) =>
+        u.nombre?.toLowerCase().includes(this.filtro.toLowerCase()) ||
+        u.email?.toLowerCase().includes(this.filtro.toLowerCase()) ||
+        u.username?.toLowerCase().includes(this.filtro.toLowerCase()),
+    );
   }
 
   /**
@@ -176,8 +222,13 @@ export class AdminComponent implements OnInit, OnDestroy {
    */
   filtrarPorRol(rol: string) {
     this.rolFiltro = rol;
-    // TODO: Implementar filtrado en la API
-    console.log('Filtrando por rol:', rol);
+    if (!rol) {
+      this.cargarUsuarios();
+      return;
+    }
+    this.usuarios = this.usuarios.filter((u) =>
+      u.rol_info?.toLowerCase().includes(rol.toLowerCase()),
+    );
   }
 
   /**
@@ -223,9 +274,16 @@ export class AdminComponent implements OnInit, OnDestroy {
    * TODO: Implementar llamada a la API
    */
   guardarNuevoUsuario() {
-    // TODO: Implementar lógica para guardar usuario (llamada a API)
-    console.log('Guardando nuevo usuario:', this.nuevoUsuario);
-    this.cerrarModalCrear();
+    this.userService.crearUsuario(this.nuevoUsuario).subscribe({
+      next: (usuario) => {
+        this.cargarUsuarios();
+        this.cerrarModalCrear();
+      },
+      error: (err) => {
+        console.error('Error al crear usuario:', err);
+        alert('Error al crear usuario');
+      },
+    });
   }
 
   /**
@@ -235,8 +293,20 @@ export class AdminComponent implements OnInit, OnDestroy {
    */
   editarUsuario(usuario: any) {
     this.usuarioSeleccionado = usuario;
-    // TODO: Implementar lógica de edición
-    console.log('Editando usuario:', usuario);
+    // Aquí podrías abrir un modal de edición y luego llamar a editarUsuarioAPI
+  }
+
+  editarUsuarioAPI(usuario: any) {
+    this.userService.editarUsuario(usuario.id, usuario).subscribe({
+      next: (u) => {
+        this.cargarUsuarios();
+        this.usuarioSeleccionado = null;
+      },
+      error: (err) => {
+        console.error('Error al editar usuario:', err);
+        alert('Error al editar usuario');
+      },
+    });
   }
 
   /**
@@ -245,8 +315,15 @@ export class AdminComponent implements OnInit, OnDestroy {
    * @param usuario - Usuario a eliminar
    */
   eliminarUsuario(usuario: any) {
-    // TODO: Implementar confirmación y llamada a API
-    console.log('Eliminando usuario:', usuario);
+    if (confirm('¿Seguro que deseas eliminar este usuario?')) {
+      this.userService.eliminarUsuario(usuario.id).subscribe({
+        next: () => this.cargarUsuarios(),
+        error: (err) => {
+          console.error('Error al eliminar usuario:', err);
+          alert('Error al eliminar usuario');
+        },
+      });
+    }
   }
 
   /**

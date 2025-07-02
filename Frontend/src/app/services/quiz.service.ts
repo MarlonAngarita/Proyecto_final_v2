@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 /**
  * Interfaz que define la estructura de un Quiz/Pregunta en el sistema
@@ -59,18 +60,7 @@ export class QuizService {
   private http = inject(HttpClient);
 
   /** URL base de la API REST para quizzes */
-  private apiUrl =
-    window.location.hostname === 'localhost'
-      ? 'http://localhost:8000/api/v1/quiz/'
-      : 'http://4.203.104.63:8000/api/v1/quiz/';
-
-  /** Opciones HTTP con headers por defecto incluyendo autenticación JWT */
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
-    }),
-  };
+  private apiUrl = environment.apiUrl + 'quiz/';
 
   /**
    * Datos locales de quizzes para fallback
@@ -116,21 +106,6 @@ export class QuizService {
   // ===================================
 
   /**
-   * Actualiza las opciones HTTP con el token de autenticación actual
-   * @private
-   * @description Obtiene el token más reciente del localStorage y actualiza los headers
-   *              Debe llamarse antes de cada petición HTTP para asegurar autenticación válida
-   */
-  private updateHttpOptions(): void {
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
-      }),
-    };
-  }
-
-  /**
    * Manejador genérico de errores HTTP
    * @private
    * @template T
@@ -172,8 +147,7 @@ export class QuizService {
    *              Incluye manejo de errores y logging
    */
   getTodosAPI(): Observable<Quiz[]> {
-    this.updateHttpOptions();
-    return this.http.get<Quiz[]>(this.apiUrl, this.httpOptions).pipe(
+    return this.http.get<Quiz[]>(this.apiUrl).pipe(
       tap((quizzes) => console.log('Quizzes obtenidos desde API:', quizzes)),
       catchError(this.handleError<Quiz[]>('getTodosAPI', [])),
     );
@@ -186,9 +160,8 @@ export class QuizService {
    * @description Realiza petición GET a /api/v1/quiz/{id}/ para obtener un quiz específico
    */
   obtenerPorIdAPI(id: number): Observable<Quiz | null> {
-    this.updateHttpOptions();
     const url = `${this.apiUrl}${id}/`;
-    return this.http.get<Quiz>(url, this.httpOptions).pipe(
+    return this.http.get<Quiz>(url).pipe(
       tap((quiz) => console.log('Quiz obtenido por ID desde API:', quiz)),
       catchError(this.handleError<Quiz | null>('obtenerPorIdAPI', null)),
     );
@@ -201,10 +174,8 @@ export class QuizService {
    * @description Realiza petición GET con query parameter id_modulo para filtrar quizzes
    */
   obtenerPorModuloAPI(idModulo: number): Observable<Quiz[]> {
-    this.updateHttpOptions();
-    const url = `${this.apiUrl}?id_modulo=${idModulo}`;
-    return this.http.get<Quiz[]>(url, this.httpOptions).pipe(
-      tap((quizzes) => console.log('Quizzes obtenidos por módulo desde API:', quizzes)),
+    return this.http.get<Quiz[]>(`${this.apiUrl}?id_modulo=${idModulo}`).pipe(
+      tap((quizzes) => console.log('Quizzes por módulo desde API:', quizzes)),
       catchError(this.handleError<Quiz[]>('obtenerPorModuloAPI', [])),
     );
   }
@@ -217,14 +188,7 @@ export class QuizService {
    *              Automáticamente asigna fecha de creación e ID del profesor actual
    */
   agregarAPI(quiz: Quiz): Observable<Quiz | null> {
-    this.updateHttpOptions();
-    const quizData = {
-      ...quiz,
-      fecha_creacion: new Date().toISOString().split('T')[0], // Fecha actual en formato YYYY-MM-DD
-      id_profesor: this.getCurrentProfesorId(), // ID del profesor logueado
-    };
-
-    return this.http.post<Quiz>(this.apiUrl, quizData, this.httpOptions).pipe(
+    return this.http.post<Quiz>(this.apiUrl, quiz).pipe(
       tap((nuevoQuiz) => console.log('Quiz agregado via API:', nuevoQuiz)),
       catchError(this.handleError<Quiz | null>('agregarAPI', null)),
     );
@@ -238,9 +202,8 @@ export class QuizService {
    * @description Realiza petición PUT a /api/v1/quiz/{id}/ para actualizar datos del quiz
    */
   actualizarAPI(id: number, quiz: Quiz): Observable<Quiz | null> {
-    this.updateHttpOptions();
     const url = `${this.apiUrl}${id}/`;
-    return this.http.put<Quiz>(url, quiz, this.httpOptions).pipe(
+    return this.http.put<Quiz>(url, quiz).pipe(
       tap((quizActualizado) => console.log('Quiz actualizado via API:', quizActualizado)),
       catchError(this.handleError<Quiz | null>('actualizarAPI', null)),
     );
@@ -253,12 +216,11 @@ export class QuizService {
    * @description Realiza petición DELETE a /api/v1/quiz/{id}/ para eliminar el quiz
    */
   eliminarAPI(id: number): Observable<boolean> {
-    this.updateHttpOptions();
     const url = `${this.apiUrl}${id}/`;
-    return this.http.delete(url, this.httpOptions).pipe(
+    return this.http.delete(url).pipe(
       tap(() => console.log('Quiz eliminado via API:', id)),
-      map(() => true), // Mapea respuesta exitosa a true
-      catchError(() => of(false)), // En caso de error retorna false
+      map(() => true),
+      catchError(() => of(false)),
     );
   }
 

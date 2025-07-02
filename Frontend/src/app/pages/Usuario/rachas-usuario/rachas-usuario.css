@@ -1,7 +1,7 @@
 /*
-===================================================================================================
-ESTILOS DEL SISTEMA DE RACHAS - COMPONENTE RACHAS-USUARIO
-===================================================================================================
+================================================================================
+ESTILOS RACHAS-USUARIO - VISUAL DASHBOARD GAMIFICADO
+================================================================================
 
 Este archivo contiene todos los estilos para el sistema gamificado de rachas del usuario.
 Incluye diseño responsive, animaciones, gradientes y estados visuales dinámicos.
@@ -32,24 +32,38 @@ Características principales:
 }
 
 /* ===========================================================================================
+   GRADIENTE DE FONDO GLOBAL PARA TODA LA PANTALLA
+   =========================================================================================== */
+/* (REVERTIDO) Eliminado el gradiente global en html, body para restaurar el diseño original */
+
+/* ===========================================================================================
    CONTENEDOR PRINCIPAL Y LAYOUT BASE
    =========================================================================================== */
 
-/** 
- * Contenedor principal del componente de rachas
- * Utiliza un gradiente de fondo dinámico y tipografía retro-gaming
- */
 .contenedor-rachas-usuario {
   min-height: 100vh; /* Altura mínima completa de viewport */
-  padding: 2rem; /* Espaciado interno responsivo */
-  background: linear-gradient(
-    135deg,
-    #ff6b6b 0%,
-    #ee5a24 50%,
-    #ff9ff3 100%
-  ); /* Gradiente atractivo */
-  color: white; /* Texto blanco para contraste */
+  padding: 2.5rem 1.5rem; /* Espaciado interno responsivo */
+  background: linear-gradient(90deg, #1b1363, #5a397c); /* Gradiente atractivo */
+  color: #fff; /* Texto blanco para contraste */
   font-family: 'VT323', monospace; /* Fuente gaming retro */
+}
+
+.rachas-dashboard-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.07);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(27,19,99,0.13);
+  padding: 2.5rem 1.5rem;
+}
+
+/* Si hay más formularios principales, aplicar el borde amarillo también */
+.formulario-rachas-principal, .formulario-rachas, .formulario-principal {
+  border: 3px solid #f2ca52 !important;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(27,19,99,0.13);
+  background: rgba(255,255,255,0.09);
+  padding: 2.5rem 1.5rem;
 }
 
 /* ===========================================================================================
@@ -87,21 +101,22 @@ Características principales:
  * Botón de navegación con efectos hover y estados activos
  */
 .btn-volver-rachas-usuario {
-  background: rgba(255, 255, 255, 0.2); /* Fondo translúcido sutil */
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.3); /* Borde translúcido */
-  padding: 0.75rem 1.5rem;
+  background: #f2921d; /* Fondo translúcido sutil */
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.4rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease; /* Transición suave para interacciones */
-  font-weight: 500;
+  transition: background 0.2s; /* Transición suave para interacciones */
+  font-weight: bold;
   font-family: 'VT323', monospace;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
 
 .btn-volver-rachas-usuario:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+  background: #f2ca52;
+  color: #1b1363;
 }
 
 /* Estados de carga */
@@ -662,42 +677,16 @@ Características principales:
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .contenedor-rachas-usuario {
-    padding: 1rem;
+@media (max-width: 700px) {
+  .rachas-dashboard-container {
+    padding: 1rem 0.2rem;
   }
-
-  .encabezado-logo {
+  .rachas-header {
     flex-direction: column;
-    gap: 1rem;
-    text-align: center;
+    gap: 1.2rem;
+    align-items: flex-start;
   }
-
-  .panel-estadisticas {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .stats-secundarias {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .estado-racha-panel {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 1rem;
-  }
-
-  .grid-objetivos {
-    grid-template-columns: 1fr;
-  }
-
-  .modal-contenido-rachas {
-    padding: 1.5rem;
-    margin: 1rem;
-  }
-
-  .modal-footer-rachas {
-    flex-direction: column;
+  .racha-card {
+    padding: 1.2rem 0.7rem;
   }
 }

@@ -1,55 +1,61 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private usuario: any = {
-    nombre: 'Nombre de prueba',
-    email: 'usuario@correo.com',
-    ciudad: 'Bogotá',
-    avatar: 'https://api.dicebear.com/9.x/fun-emoji/svg?seed=Pixel1',
-    rachaDias: 1,
-    ultimaConexion: new Date(),
-  };
+  private apiUrl = environment.apiUrl + 'usuarios/';
 
-  private rompióRacha = false;
-  private rachaPerdida = 0;
+  constructor(private http: HttpClient) {}
 
-  getUsuarioActual(): any {
-    return this.usuario;
+  getUsuarios(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
-  actualizarUsuario(nuevosDatos: any): void {
-    this.usuario = { ...this.usuario, ...nuevosDatos };
+  crearUsuario(usuario: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, usuario);
+  }
+
+  editarUsuario(id: number, usuario: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}${id}/`, usuario);
+  }
+
+  eliminarUsuario(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}${id}/`);
+  }
+
+  getEstadisticas(): Observable<any> {
+    return this.http.get<any>(environment.apiUrl + 'rachas-usuario/estadisticas/');
+  }
+
+  // Métodos utilitarios para compatibilidad con componentes
+  getUsuarioActual(): any {
+    // Devuelve el usuario actual desde localStorage
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  }
+
+  actualizarUsuario(usuario: any): Observable<any> {
+    // Actualiza el usuario en la API
+    return this.http.put<any>(`${this.apiUrl}${usuario.id}/`, usuario);
   }
 
   actualizarConexion(): void {
-    const hoy = new Date().toDateString();
-    const ultima = new Date(this.usuario.ultimaConexion).toDateString();
-
-    if (ultima !== hoy) {
-      const ayer = new Date();
-      ayer.setDate(ayer.getDate() - 1);
-
-      if (ultima === ayer.toDateString()) {
-        this.usuario.rachaDias += 1;
-        this.rompióRacha = false;
-      } else {
-        this.rachaPerdida = this.usuario.rachaDias;
-        this.usuario.rachaDias = 1;
-        this.rompióRacha = true;
-      }
-
-      this.usuario.ultimaConexion = new Date();
-    }
+    // Simulación: podrías implementar lógica de ping o actualización de timestamp
+    // Aquí solo imprime en consola
+    console.log('Conexión actualizada (simulado)');
   }
 
   rompioRacha(): boolean {
-    return this.rompióRacha;
+    // Simulación: podrías obtener este dato de la API o lógica local
+    return false;
   }
 
   rachaAnterior(): number {
-    return this.rachaPerdida;
+    // Simulación: podrías obtener este dato de la API o lógica local
+    return 0;
   }
 }

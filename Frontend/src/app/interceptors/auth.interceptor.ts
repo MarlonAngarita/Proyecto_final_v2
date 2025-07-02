@@ -61,11 +61,16 @@ export class AuthInterceptor implements HttpInterceptor {
    * @returns Observable con el evento HTTP procesado
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Obtener token de autorización del servicio de auth
+    // No agregar token a rutas públicas
+    const publicUrls = ['/login', '/register', '/register/', '/registro'];
+    const isPublic = publicUrls.some((url) => req.url.includes(url));
     const token = this.authService.getAccessToken();
 
-    // Si existe token, agregarlo a los headers de la petición
-    if (token) {
+    // Log para depuración: mostrar URL y token
+    console.log('[AuthInterceptor] URL:', req.url);
+    console.log('[AuthInterceptor] Token:', token);
+
+    if (token && !isPublic) {
       req = req.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`,
@@ -73,7 +78,6 @@ export class AuthInterceptor implements HttpInterceptor {
       });
     }
 
-    // Continuar con la petición y manejar errores de autenticación
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         // Si el token expiró o es inválido (401 Unauthorized)

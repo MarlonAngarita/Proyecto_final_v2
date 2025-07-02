@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 /**
  * Servicio de pruebas de conectividad con la API
@@ -27,9 +28,7 @@ export class ApiTestService {
 
   /** URL base de la API para las pruebas de conectividad */
   private apiUrl =
-    window.location.hostname === 'localhost'
-      ? 'http://localhost:8000/api/v1'
-      : 'http://4.203.104.63:8000/api/v1';
+    environment.apiUrl.slice(-1) === '/' ? environment.apiUrl.slice(0, -1) : environment.apiUrl;
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);

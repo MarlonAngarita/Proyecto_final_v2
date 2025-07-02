@@ -59,6 +59,7 @@ export class Registro {
       email: valores.email,
       nombre: `${valores.nombre} ${valores.apellido}`.trim(), // Combinar nombre y apellido
       password: contrasena,
+      rol: 'estudiante', // Asignar rol por defecto
     };
 
     this.authService.registrar(nuevoUsuario).subscribe({
@@ -68,9 +69,9 @@ export class Registro {
         form.resetForm();
         console.log('Usuario registrado:', response);
 
-        // Redirigir automáticamente al dashboard del usuario después de 2 segundos
+        // Redirigir automáticamente al login después de 2 segundos
         setTimeout(() => {
-          this.router.navigate(['/usuario/dashboard-usuario']);
+          this.router.navigate(['/login']);
         }, 2000);
       },
       error: (error) => {
@@ -95,7 +96,7 @@ export class Registro {
 
   cerrarModal(): void {
     this.mostrarConfirmacion = false;
-    // Navegar inmediatamente al dashboard del usuario cuando se cierra el modal
-    this.router.navigate(['/usuario/dashboard-usuario']);
+    // Navegar inmediatamente al login cuando se cierra el modal
+    this.router.navigate(['/login']);
   }
 }

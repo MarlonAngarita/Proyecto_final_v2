@@ -7,6 +7,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 // ===================================================================================================
 // INTERFACES DE TIPOS DE DATOS
@@ -97,16 +98,13 @@ export interface RegistroData {
 })
 export class AuthService {
   private http = inject(HttpClient);
+  /** URL base de la API del backend */
+  private apiUrl =
+    environment.apiUrl.slice(-1) === '/' ? environment.apiUrl.slice(0, -1) : environment.apiUrl;
 
   // ===================================================================================================
   // PROPIEDADES DEL SERVICIO
   // ===================================================================================================
-
-  /** URL base de la API del backend */
-  private apiUrl =
-    window.location.hostname === 'localhost'
-      ? 'http://localhost:8000/api/v1'
-      : 'http://4.203.104.63:8000/api/v1';
 
   /** Subject para manejar el estado reactivo del usuario actual */
   private currentUserSubject = new BehaviorSubject<Usuario | null>(null);

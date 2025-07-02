@@ -2,6 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 
 /**
  * Interfaz que define la estructura de un Hilo del foro
@@ -74,20 +76,10 @@ export interface Respuesta {
 })
 export class ForoService {
   private http = inject(HttpClient);
+  private auth = inject(AuthService);
 
   /** URL base de la API REST para el foro */
-  private apiUrl =
-    window.location.hostname === 'localhost'
-      ? 'http://localhost:8000/api/v1/foro/'
-      : 'http://4.203.104.63:8000/api/v1/foro/';
-
-  /** Opciones HTTP con headers por defecto incluyendo autenticación JWT */
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
-    }),
-  };
+  private apiUrl = environment.apiUrl + 'foro/';
 
   /**
    * Datos locales de hilos para fallback y desarrollo
@@ -128,21 +120,6 @@ export class ForoService {
   // ===================================
   // MÉTODOS PRIVADOS DE UTILIDAD
   // ===================================
-
-  /**
-   * Actualiza las opciones HTTP con el token de autenticación actual
-   * @private
-   * @description Obtiene el token más reciente del localStorage y actualiza los headers
-   *              Debe llamarse antes de cada petición HTTP para asegurar autenticación válida
-   */
-  private updateHttpOptions(): void {
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
-      }),
-    };
-  }
 
   /**
    * Manejador genérico de errores HTTP
@@ -186,8 +163,9 @@ export class ForoService {
    *              Incluye manejo de errores y logging
    */
   getHilosAPI(): Observable<Hilo[]> {
-    this.updateHttpOptions();
-    return this.http.get<Hilo[]>(this.apiUrl, this.httpOptions).pipe(
+    const token = this.auth.getAccessToken();
+    const headers = token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
+    return this.http.get<Hilo[]>(this.apiUrl, { headers }).pipe(
       tap((hilos) => console.log('Hilos obtenidos desde API:', hilos)),
       catchError(this.handleError<Hilo[]>('getHilosAPI', [])),
     );
@@ -200,12 +178,11 @@ export class ForoService {
    * @description Realiza petición GET a /api/v1/foro/{id}/ para obtener un hilo específico
    *              Útil para mostrar el detalle completo del hilo con sus respuestas
    */
-  obtenerHiloPorIdAPI(id: number): Observable<Hilo | null> {
-    this.updateHttpOptions();
+  obtenerPorIdAPI(id: number): Observable<Hilo | null> {
     const url = `${this.apiUrl}${id}/`;
-    return this.http.get<Hilo>(url, this.httpOptions).pipe(
+    return this.http.get<Hilo>(url).pipe(
       tap((hilo) => console.log('Hilo obtenido por ID desde API:', hilo)),
-      catchError(this.handleError<Hilo | null>('obtenerHiloPorIdAPI', null)),
+      catchError(this.handleError<Hilo | null>('obtenerPorIdAPI', null)),
     );
   }
 
@@ -216,18 +193,30 @@ export class ForoService {
    * @description Realiza petición POST a /api/v1/foro/ con los datos del nuevo hilo
    *              Automáticamente asigna fecha de publicación e ID del usuario actual
    */
-  agregarHiloAPI(hilo: Hilo): Observable<Hilo | null> {
-    this.updateHttpOptions();
-    const hiloData = {
-      titulo: hilo.titulo,
-      contenido: hilo.contenido,
-      fecha_publicacion: new Date().toISOString().split('T')[0], // Fecha actual en formato YYYY-MM-DD
-      id_usuario: this.getCurrentUserId(), // ID del usuario logueado
-    };
-
-    return this.http.post<Hilo>(this.apiUrl, hiloData, this.httpOptions).pipe(
+  agregarAPI(hilo: Hilo): Observable<Hilo | null> {
+    const token = this.auth.getAccessToken();
+    const headers = token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
+    return this.http.post<Hilo>(this.apiUrl, hilo, { headers }).pipe(
       tap((nuevoHilo) => console.log('Hilo agregado via API:', nuevoHilo)),
-      catchError(this.handleError<Hilo | null>('agregarHiloAPI', null)),
+      catchError(this.handleError<Hilo | null>('agregarAPI', null)),
+    );
+  }
+
+  /**
+   * Actualiza un hilo existente en el foro a través de la API
+   * @param {number} id - ID del hilo a actualizar
+   * @param {Hilo} hilo - Nuevos datos del hilo (título y contenido)
+   * @returns {Observable<Hilo | null>} Observable con el hilo actualizado o null si falla
+   * @description Realiza petición PUT a /api/v1/foro/{id}/ con los datos actualizados del hilo
+   *              Solo debería permitirse al autor del hilo o administradores
+   */
+  actualizarAPI(id: number, hilo: Hilo): Observable<Hilo | null> {
+    const url = `${this.apiUrl}${id}/`;
+    const token = this.auth.getAccessToken();
+    const headers = token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
+    return this.http.put<Hilo>(url, hilo, { headers }).pipe(
+      tap((hiloActualizado) => console.log('Hilo actualizado via API:', hiloActualizado)),
+      catchError(this.handleError<Hilo | null>('actualizarAPI', null)),
     );
   }
 
@@ -238,13 +227,14 @@ export class ForoService {
    * @description Realiza petición DELETE a /api/v1/foro/{id}/ para eliminar el hilo
    *              Solo debería permitirse al autor del hilo o administradores
    */
-  eliminarHiloAPI(id: number): Observable<boolean> {
-    this.updateHttpOptions();
+  eliminarAPI(id: number): Observable<boolean> {
     const url = `${this.apiUrl}${id}/`;
-    return this.http.delete(url, this.httpOptions).pipe(
+    const token = this.auth.getAccessToken();
+    const headers = token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
+    return this.http.delete(url, { headers }).pipe(
       tap(() => console.log('Hilo eliminado via API:', id)),
-      map(() => true), // Mapea respuesta exitosa a true
-      catchError(() => of(false)), // En caso de error retorna false
+      map(() => true),
+      catchError(() => of(false)),
     );
   }
 
@@ -293,5 +283,14 @@ export class ForoService {
    */
   eliminarHilo(id: number): void {
     this.hilos = this.hilos.filter((h) => h.id !== id);
+  }
+
+  // Métodos API REST para compatibilidad con componentes
+  agregarHiloAPI(hilo: Hilo): Observable<Hilo | null> {
+    return this.agregarAPI(hilo);
+  }
+
+  eliminarHiloAPI(id: number): Observable<boolean> {
+    return this.eliminarAPI(id);
   }
 }

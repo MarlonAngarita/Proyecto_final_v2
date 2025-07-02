@@ -101,6 +101,7 @@ export class Login {
     // Validación del formulario
     if (!form.valid) {
       Object.values(form.controls).forEach((control) => control?.markAsTouched());
+      this.cargando = false; // Asegura que siempre se pueda volver a intentar
       return;
     }
 
@@ -123,7 +124,9 @@ export class Login {
         console.log('Login Component - Login exitoso:', response);
         console.log('Login Component - Usuario recibido:', response.user);
         console.log('Login Component - Rol recibido:', response.user.rol);
-
+        // Mostrar el token recibido para depuración
+        const token = localStorage.getItem('access_token');
+        console.log('Login Component - Token guardado en localStorage:', token);
         // Esperar un momento para que se guarden los datos en localStorage
         setTimeout(() => {
           // Verificar el estado de autenticación
@@ -179,20 +182,18 @@ export class Login {
    */
   private redirectUserByRole(): void {
     console.log('Login Component - Iniciando redirección...');
-
-    if (this.authService.isAdmin()) {
+    const user = this.authService.getCurrentUser();
+    const rol = user?.rol?.toLowerCase();
+    if (rol === 'admin' || rol === 'administrador') {
       console.log('Login Component - Redirigiendo como admin');
       this.router.navigate(['/']);
-    } else if (this.authService.isProfesor()) {
+    } else if (rol === 'profesor') {
       console.log('Login Component - Redirigiendo como profesor');
       this.router.navigate(['/profesor/dashboard-profesor']);
-    } else if (this.authService.isEstudiante()) {
-      console.log('Login Component - Redirigiendo como estudiante');
-      this.router.navigate(['/usuario/dashboard-usuario']);
     } else {
-      console.log('Login Component - Rol no identificado, redirigiendo a inicio');
-      console.log('Login Component - Usuario actual:', this.authService.getCurrentUser());
-      this.router.navigate(['/']);
+      // Cualquier otro caso (usuario normal/estudiante)
+      console.log('Login Component - Redirigiendo como usuario/estudiante');
+      this.router.navigate(['/usuario/dashboard-usuario']);
     }
   }
 

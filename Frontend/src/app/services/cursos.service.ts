@@ -5,6 +5,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 /**
  * Servicio de Cursos para la plataforma Kütsa
@@ -35,10 +36,7 @@ export class CursosService {
   // ===================================================================================================
 
   /** URL base de la API para operaciones de cursos */
-  private apiUrl =
-    window.location.hostname === 'localhost'
-      ? 'http://localhost:8000/api/v1/cursos/'
-      : 'http://4.203.104.63:8000/api/v1/cursos/';
+  private apiUrl = environment.apiUrl + 'cursos/';
 
   // ===================================================================================================
   // DATOS DE PRUEBA PARA DESARROLLO
@@ -85,20 +83,6 @@ export class CursosService {
   // ===================================================================================================
 
   /**
-   * Genera headers HTTP con autenticación JWT
-   * Obtiene el token del localStorage y lo incluye en las peticiones
-   *
-   * @returns HttpHeaders con token de autorización y content-type
-   */
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: token ? `Bearer ${token}` : '',
-    });
-  }
-
-  /**
    * Obtiene el ID del usuario actual desde localStorage
    *
    * @returns ID del usuario actual o 1 como valor por defecto
@@ -118,7 +102,7 @@ export class CursosService {
    * @returns Observable con la lista de cursos
    */
   getTodosAPI(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl, { headers: this.getAuthHeaders() });
+    return this.http.get<any[]>(this.apiUrl);
   }
 
   /**
@@ -138,7 +122,7 @@ export class CursosService {
       id_profesor: this.getCurrentUserId(),
     };
 
-    return this.http.post<any>(this.apiUrl, cursoData, { headers: this.getAuthHeaders() });
+    return this.http.post<any>(this.apiUrl, cursoData);
   }
 
   /**
@@ -158,9 +142,7 @@ export class CursosService {
 
     // Usar id_curso que es la clave primaria en el backend
     const cursoId = curso.id_curso || curso.id;
-    return this.http.put<any>(`${this.apiUrl}${cursoId}/`, cursoData, {
-      headers: this.getAuthHeaders(),
-    });
+    return this.http.put<any>(`${this.apiUrl}${cursoId}/`, cursoData);
   }
 
   /**
@@ -170,7 +152,7 @@ export class CursosService {
    * @returns Observable con la respuesta de eliminación
    */
   eliminarAPI(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}${id}/`, { headers: this.getAuthHeaders() });
+    return this.http.delete<any>(`${this.apiUrl}${id}/`);
   }
 
   /**
@@ -180,7 +162,7 @@ export class CursosService {
    * @returns Observable con los datos del curso
    */
   obtenerPorIdAPI(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}${id}/`, { headers: this.getAuthHeaders() });
+    return this.http.get<any>(`${this.apiUrl}${id}/`);
   }
 
   // ===================================================================================================
