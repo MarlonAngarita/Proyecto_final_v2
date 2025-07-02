@@ -35,7 +35,7 @@ export class DesafiosUsuario implements OnInit {
       descripcion: 'Corrige un flujo lógico clásico aplicando conceptos de programación funcional.',
       recompensa: 50,
       dificultad: 'intermedio',
-      activo: true
+      activo: true,
     },
     {
       id: 2,
@@ -43,7 +43,7 @@ export class DesafiosUsuario implements OnInit {
       descripcion: 'Adivina la regla matemática detrás de esta secuencia de números.',
       recompensa: 30,
       dificultad: 'facil',
-      activo: true
+      activo: true,
     },
     {
       id: 3,
@@ -51,13 +51,13 @@ export class DesafiosUsuario implements OnInit {
       descripcion: 'Optimiza este algoritmo para mejorar su complejidad temporal.',
       recompensa: 100,
       dificultad: 'dificil',
-      activo: true
-    }
+      activo: true,
+    },
   ];
 
   constructor(
     private desafiosService: DesafiosService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -74,24 +74,24 @@ export class DesafiosUsuario implements OnInit {
     this.desafiosService.getTodosAPI().subscribe({
       next: (desafios: any[]) => {
         console.log('Desafíos recibidos:', desafios);
-        
+
         if (Array.isArray(desafios)) {
           // Filtrar solo desafíos activos y mapear campos
           this.desafios = desafios
-            .filter(desafio => desafio.activo !== false)
-            .map(desafio => ({
+            .filter((desafio) => desafio.activo !== false)
+            .map((desafio) => ({
               ...desafio,
               // Mapear para compatibilidad con template
               titulo: desafio.nombre_desafio,
               nivel: this.mapearDificultad(desafio.dificultad),
               descripcion: desafio.descripcion,
-              puntos: desafio.recompensa
+              puntos: desafio.recompensa,
             }));
         } else {
           console.warn('La respuesta de desafíos no es un array:', desafios);
           this.usarDesafiosEstaticos();
         }
-        
+
         this.cargandoDesafios = false;
         console.log('Desafíos procesados correctamente:', this.desafios.length);
       },
@@ -100,25 +100,25 @@ export class DesafiosUsuario implements OnInit {
         this.errorCarga = 'Error al cargar desafíos. Mostrando desafíos de ejemplo.';
         this.usarDesafiosEstaticos();
         this.cargandoDesafios = false;
-      }
+      },
     });
   }
 
   private usarDesafiosEstaticos(): void {
-    this.desafios = this.desafiosEstaticos.map(desafio => ({
+    this.desafios = this.desafiosEstaticos.map((desafio) => ({
       ...desafio,
       titulo: desafio.nombre_desafio,
       nivel: this.mapearDificultad(desafio.dificultad),
       descripcion: desafio.descripcion,
-      puntos: desafio.recompensa
+      puntos: desafio.recompensa,
     }));
   }
 
   private mapearDificultad(dificultad: string): string {
     const mapeo: { [key: string]: string } = {
-      'facil': 'Básico',
-      'intermedio': 'Intermedio', 
-      'dificil': 'Avanzado'
+      facil: 'Básico',
+      intermedio: 'Intermedio',
+      dificil: 'Avanzado',
     };
     return mapeo[dificultad] || dificultad;
   }
@@ -162,7 +162,7 @@ export class DesafiosUsuario implements OnInit {
     if (!this.desafioActual) return;
 
     this.cargando = true;
-    
+
     // Simular tiempo de procesamiento
     setTimeout(() => {
       // Marcar como completado
@@ -227,7 +227,7 @@ export class DesafiosUsuario implements OnInit {
 
   // Métodos de utilidad para el template
   getNumeroDesafiosDisponibles(): number {
-    return this.desafios.filter(d => !this.estaCompletado(d.id || 0)).length;
+    return this.desafios.filter((d) => !this.estaCompletado(d.id || 0)).length;
   }
 
   getNumeroDesafiosCompletados(): number {
@@ -236,16 +236,16 @@ export class DesafiosUsuario implements OnInit {
 
   getColorDificultad(nivel: string): string {
     const colores: { [key: string]: string } = {
-      'Básico': '#4caf50',
-      'Intermedio': '#ff9800',
-      'Avanzado': '#f44336'
+      Básico: '#4caf50',
+      Intermedio: '#ff9800',
+      Avanzado: '#f44336',
     };
     return colores[nivel] || '#9e9e9e';
   }
 
   getPuntosTotales(): number {
     return this.desafios
-      .filter(d => this.estaCompletado(d.id || 0))
+      .filter((d) => this.estaCompletado(d.id || 0))
       .reduce((total, d) => total + (d.puntos || 0), 0);
   }
 
@@ -258,7 +258,7 @@ export class DesafiosUsuario implements OnInit {
       completados: this.desafiosCompletados.length,
       disponibles: this.getNumeroDesafiosDisponibles(),
       puntosTotales: this.getPuntosTotales(),
-      errorCarga: this.errorCarga
+      errorCarga: this.errorCarga,
     });
   }
 }

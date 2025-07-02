@@ -9,7 +9,7 @@ import { ForoService, Hilo, Respuesta } from '../../../services/foro.service';
   imports: [CommonModule, FormsModule],
   standalone: true,
   templateUrl: './foro.html',
-  styleUrl: './foro.css'
+  styleUrl: './foro.css',
 })
 export class ForoUsuario implements OnInit {
   // Estados de carga
@@ -17,11 +17,11 @@ export class ForoUsuario implements OnInit {
   cargandoHilos = false;
   cargandoRespuesta = false;
   errorCarga = '';
-  
+
   // Datos del formulario
   tituloPost: string = '';
   contenidoPost: string = '';
-  
+
   // Lista de hilos y respuestas
   publicaciones: Hilo[] = [];
   hiloSeleccionado: Hilo | null = null;
@@ -35,11 +35,11 @@ export class ForoUsuario implements OnInit {
   mensajeConfirmacion = '';
 
   // Datos para eliminación
-  postAEliminar: { post: Hilo, index: number } | null = null;
+  postAEliminar: { post: Hilo; index: number } | null = null;
 
   constructor(
     private router: Router,
-    private foroService: ForoService
+    private foroService: ForoService,
   ) {}
 
   ngOnInit(): void {
@@ -52,24 +52,24 @@ export class ForoUsuario implements OnInit {
     console.log('🔄 Cargando hilos del foro...');
     this.cargandoHilos = true;
     this.errorCarga = '';
-    
+
     this.foroService.getHilosAPI().subscribe({
       next: (hilos) => {
         console.log('✅ Hilos obtenidos desde API:', hilos);
-        
+
         if (Array.isArray(hilos)) {
-          this.publicaciones = hilos.map(hilo => ({
+          this.publicaciones = hilos.map((hilo) => ({
             ...hilo,
             autor: hilo.autor || 'Usuario Anónimo',
-            respuestas: hilo.respuestas || []
+            respuestas: hilo.respuestas || [],
           }));
         } else {
           console.warn('La respuesta de hilos no es un array:', hilos);
           this.usarDatosLocales();
         }
-        
+
         this.cargandoHilos = false;
-        
+
         // Fallback si no hay datos
         if (this.publicaciones.length === 0) {
           console.log('⚠️ API no devolvió hilos, usando datos locales');
@@ -81,7 +81,7 @@ export class ForoUsuario implements OnInit {
         this.errorCarga = 'Error al cargar hilos. Mostrando datos locales.';
         this.usarDatosLocales();
         this.cargandoHilos = false;
-      }
+      },
     });
   }
 
@@ -102,13 +102,13 @@ export class ForoUsuario implements OnInit {
       contenido: this.contenidoPost.trim(),
       fecha_publicacion: new Date().toISOString(),
       autor: this.obtenerNombreUsuario(),
-      respuestas: []
+      respuestas: [],
     };
 
     this.foroService.agregarHiloAPI(nuevoHilo).subscribe({
       next: (response) => {
         console.log('✅ Hilo creado exitosamente:', response);
-        
+
         if (response) {
           // Agregar al inicio de la lista
           this.publicaciones.unshift(response);
@@ -116,27 +116,27 @@ export class ForoUsuario implements OnInit {
           // Fallback local
           this.publicaciones.unshift({
             ...nuevoHilo,
-            id: Date.now()
+            id: Date.now(),
           });
         }
-        
+
         this.limpiarFormulario();
         this.mostrarMensaje('¡Publicación creada exitosamente!');
         this.cargando = false;
       },
       error: (error) => {
         console.error('❌ Error al crear hilo:', error);
-        
+
         // Fallback local
         this.publicaciones.unshift({
           ...nuevoHilo,
-          id: Date.now()
+          id: Date.now(),
         });
-        
+
         this.limpiarFormulario();
         this.mostrarMensaje('Publicación creada (modo local)');
         this.cargando = false;
-      }
+      },
     });
   }
 
@@ -156,7 +156,7 @@ export class ForoUsuario implements OnInit {
   private mostrarMensaje(mensaje: string): void {
     this.mensajeConfirmacion = mensaje;
     this.modalConfirmacionActivo = true;
-    
+
     setTimeout(() => {
       this.modalConfirmacionActivo = false;
       this.mensajeConfirmacion = '';
@@ -195,26 +195,26 @@ export class ForoUsuario implements OnInit {
       this.foroService.eliminarHiloAPI(post.id).subscribe({
         next: (eliminado) => {
           console.log('✅ Resultado eliminación:', eliminado);
-          
+
           if (eliminado) {
             this.publicaciones.splice(index, 1);
             this.mostrarMensaje('Publicación eliminada exitosamente');
           } else {
             this.mostrarMensaje('Error al eliminar la publicación');
           }
-          
+
           this.cerrarModalEliminar();
           this.cargando = false;
         },
         error: (error) => {
           console.error('❌ Error al eliminar hilo:', error);
-          
+
           // Fallback local
           this.publicaciones.splice(index, 1);
           this.mostrarMensaje('Publicación eliminada (modo local)');
           this.cerrarModalEliminar();
           this.cargando = false;
-        }
+        },
       });
     } else {
       // Eliminar localmente
@@ -244,16 +244,16 @@ export class ForoUsuario implements OnInit {
       contenido: this.nuevaRespuesta.trim(),
       fecha_respuesta: new Date().toISOString(),
       autor: this.obtenerNombreUsuario(),
-      id_hilo: this.hiloSeleccionado.id
+      id_hilo: this.hiloSeleccionado.id,
     };
 
     // Simular agregar respuesta (aquí usarías un servicio de respuestas)
     setTimeout(() => {
       // Agregar respuesta al hilo actual
       this.respuestas.push(respuesta);
-      
+
       // Actualizar el hilo en la lista de publicaciones
-      const hiloIndex = this.publicaciones.findIndex(p => p.id === this.hiloSeleccionado!.id);
+      const hiloIndex = this.publicaciones.findIndex((p) => p.id === this.hiloSeleccionado!.id);
       if (hiloIndex !== -1) {
         this.publicaciones[hiloIndex].respuestas = [...this.respuestas];
       }
@@ -261,7 +261,7 @@ export class ForoUsuario implements OnInit {
       this.nuevaRespuesta = '';
       this.cargandoRespuesta = false;
       this.mostrarMensaje('Respuesta agregada exitosamente');
-      
+
       console.log('Respuesta agregada:', respuesta);
     }, 1000);
   }
@@ -291,16 +291,16 @@ export class ForoUsuario implements OnInit {
   // Método de utilidad para obtener tiempo relativo
   getTiempoRelativo(fecha?: string): string {
     if (!fecha) return 'Hace un momento';
-    
+
     try {
       const ahora = new Date();
       const fechaPublicacion = new Date(fecha);
       const diferencia = ahora.getTime() - fechaPublicacion.getTime();
-      
+
       const minutos = Math.floor(diferencia / (1000 * 60));
       const horas = Math.floor(diferencia / (1000 * 60 * 60));
       const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-      
+
       if (minutos < 1) return 'Hace un momento';
       if (minutos < 60) return `Hace ${minutos} minuto${minutos !== 1 ? 's' : ''}`;
       if (horas < 24) return `Hace ${horas} hora${horas !== 1 ? 's' : ''}`;

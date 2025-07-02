@@ -13,49 +13,60 @@
     <a [routerLink]="'/login'" class="btn-iniciar">
       <img src="/assets/btn_inicio_sesion.png" alt="Botón iniciar sesión" />
     </a>
-
   </main>
 </section>
 
 <section id="quienes" class="info-extra">
   <div class="bloque">
-    <h2>Quiénes somos<hr></h2>
+    <h2>
+      Quiénes somos
+      <hr />
+    </h2>
 
     <div class="contenedor-parrafo">
       <img src="/assets/azul.png" alt="Decoración azul" class="decoracion izquierda" />
-    
-    <p>Somos una empresa desarrolladora de software, que permite mediante módulos didácticos y/o
-          lúdicos fortalecer las habilidades blandas que se apunta en la idea principal, apostando a
-          un entorno amigable para el usuario y que genera estímulos necesarios para adoptar dichas
-          habilidades.</p>
+
+      <p>
+        Somos una empresa desarrolladora de software, que permite mediante módulos didácticos y/o
+        lúdicos fortalecer las habilidades blandas que se apunta en la idea principal, apostando a
+        un entorno amigable para el usuario y que genera estímulos necesarios para adoptar dichas
+        habilidades.
+      </p>
     </div>
   </div>
 
-<div class="bloque">
-  <h2>Misión<hr></h2>
+  <div class="bloque">
+    <h2>
+      Misión
+      <hr />
+    </h2>
 
-  <div class="contenedor-parrafo">
-    <p>
-      Queremos entregar las herramientas necesarias para tener fundamentos en programación,
-      trabajando sobre un contenido lúdico y preciso que permita desarrollarlas de forma
-      sencilla y que a su vez genere un pensamiento lógico, crítico y analítico.
-    </p>
+    <div class="contenedor-parrafo">
+      <p>
+        Queremos entregar las herramientas necesarias para tener fundamentos en programación,
+        trabajando sobre un contenido lúdico y preciso que permita desarrollarlas de forma sencilla
+        y que a su vez genere un pensamiento lógico, crítico y analítico.
+      </p>
 
-    <img src="/assets/rojo.png" alt="Decoración rojo" class="decoracion derecha" />
+      <img src="/assets/rojo.png" alt="Decoración rojo" class="decoracion derecha" />
+    </div>
   </div>
-</div>
-
 
   <div class="bloque">
-    <h2>Visión<hr></h2>
+    <h2>
+      Visión
+      <hr />
+    </h2>
 
     <div class="contenedor-parrafo">
       <img src="/assets/verde.png" alt="Decoración verde" class="decoracion izquierda" />
 
-    <p>Nuestro enfoque es permitir la autonomía del conocimiento, que durante el proceso
-          formativo y las didácticas de educación que manejaremos, los usuarios puedan ser capaces
-          de identificar en su entorno formas más fáciles para la solución de problemáticas y que a
-          su vez les brinde la oportunidad de mejores trabajos.</p>
+      <p>
+        Nuestro enfoque es permitir la autonomía del conocimiento, que durante el proceso formativo
+        y las didácticas de educación que manejaremos, los usuarios puedan ser capaces de
+        identificar en su entorno formas más fáciles para la solución de problemáticas y que a su
+        vez les brinde la oportunidad de mejores trabajos.
+      </p>
     </div>
   </div>
 </section>
@@ -63,41 +74,50 @@
 <footer id="contacto" class="footer">
   <div class="footer-contenido">
     <div class="footer-logo">
-      <img src="/assets/Logo.png" alt="Logo PandaTaT" class="logo-footer" (click)="scrollToSection('inicio')" />
+      <img
+        src="/assets/Logo.png"
+        alt="Logo PandaTaT"
+        class="logo-footer"
+        (click)="scrollToSection('inicio')"
+      />
     </div>
 
     <div class="footer-titulo-centrado">
-      <h1 class="titulo-escribenos">Escríbenos<hr></h1>
+      <h1 class="titulo-escribenos">
+        Escríbenos
+        <hr />
+      </h1>
       <p class="subtexto-ansiosos">Estamos ansiosos por conocerte.</p>
     </div>
 
     <div class="footer-formulario">
       <form #contactoForm="ngForm" (ngSubmit)="onSubmit(contactoForm)">
-  <div class="input-group">
-    <input type="text" name="nombre" [(ngModel)]="formulario.nombre" required />
-    <label>Nombre</label>
-  </div>
+        <div class="input-group">
+          <input type="text" name="nombre" [(ngModel)]="formulario.nombre" required />
+          <label>Nombre</label>
+        </div>
 
-  <div class="input-group">
-    <input type="email" name="email" [(ngModel)]="formulario.email" required />
-    <label>Email</label>
-  </div>
+        <div class="input-group">
+          <input type="email" name="email" [(ngModel)]="formulario.email" required />
+          <label>Email</label>
+        </div>
 
-  <div class="input-group">
-    <textarea name="mensaje" [(ngModel)]="formulario.mensaje" rows="4" required></textarea>
-    <label>Mensaje</label>
-  </div>
+        <div class="input-group">
+          <textarea name="mensaje" [(ngModel)]="formulario.mensaje" rows="4" required></textarea>
+          <label>Mensaje</label>
+        </div>
 
-  <button type="submit">Enviar</button>
-    </form>
-  </div>
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
 
-  <div class="modal-confirmacion" *ngIf="mostrarConfirmacion">
-    <div class="modal-contenido">
-      <p>¡Tu mensaje ha sido enviado exitosamente!</p>
-      <button (click)="cerrarModal()">Cerrar</button>
+    <div class="modal-confirmacion" *ngIf="mostrarConfirmacion">
+      <div class="modal-contenido">
+        <p>¡Tu mensaje ha sido enviado exitosamente!</p>
+        <button (click)="cerrarModal()">Cerrar</button>
+      </div>
     </div>
   </div>
-</div> <!-- <- cierre de .footer-contenido -->
-
-</footer> <!-- <- cierre correcto del footer -->
+  <!-- <- cierre de .footer-contenido -->
+</footer>
+<!-- <- cierre correcto del footer -->

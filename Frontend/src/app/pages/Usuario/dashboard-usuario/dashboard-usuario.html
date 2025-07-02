@@ -17,10 +17,12 @@
       </small>
     </div>
     <div class="mini-barra-rachas">
-      <div *ngFor="let racha of rachas" 
-           class="mini-hito" 
-           [class.activo]="rachaDias >= racha.dias"
-           [title]="racha.descripcion">
+      <div
+        *ngFor="let racha of rachas"
+        class="mini-hito"
+        [class.activo]="rachaDias >= racha.dias"
+        [title]="racha.descripcion"
+      >
         <span>{{ racha.icono }}</span>
         <small>{{ racha.dias }}d</small>
       </div>

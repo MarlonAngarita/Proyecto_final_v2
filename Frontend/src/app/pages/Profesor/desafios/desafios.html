@@ -1,10 +1,10 @@
 <section class="contenedor-desafios">
-<!-- Título de la sección de creación -->
- <div class="encabezado-logo"> 
+  <!-- Título de la sección de creación -->
+  <div class="encabezado-logo">
     <h2>Crear nuevo desafío</h2>
-    <img src="/assets/Logo.png" alt="Logo" class="logo-proyecto"/>
+    <img src="/assets/Logo.png" alt="Logo" class="logo-proyecto" />
     <button class="btn-volver-desafios" (click)="volverAlDashboard()">⏎ Volver</button>
- </div>
+  </div>
 
   <!-- Formulario para crear un nuevo desafío -->
   <form (submit)="crearDesafio()" class="formulario-desafio">
@@ -52,7 +52,12 @@
 
     <label>
       Activo:
-      <input type="checkbox" [(ngModel)]="nuevoDesafio.activo" name="activo" [disabled]="guardando" />
+      <input
+        type="checkbox"
+        [(ngModel)]="nuevoDesafio.activo"
+        name="activo"
+        [disabled]="guardando"
+      />
     </label>
 
     <button type="submit" [disabled]="guardando">
@@ -64,14 +69,10 @@
   <h2>Lista de desafíos creados</h2>
 
   <!-- Indicador de carga -->
-  <div *ngIf="cargandoDesafios" class="mensaje-carga">
-    🔄 Cargando desafíos...
-  </div>
+  <div *ngIf="cargandoDesafios" class="mensaje-carga">🔄 Cargando desafíos...</div>
 
   <!-- Mensaje de error -->
-  <div *ngIf="errorCarga" class="mensaje-error">
-    ⚠️ {{ errorCarga }}
-  </div>
+  <div *ngIf="errorCarga" class="mensaje-error">⚠️ {{ errorCarga }}</div>
 
   <!-- Tabla que lista todos los desafíos creados -->
   <table class="tabla-desafios" *ngIf="!cargandoDesafios">
@@ -94,11 +95,13 @@
         <td>{{ desafio.activo ? '✅' : '❌' }}</td>
         <td>
           <button (click)="editarDesafio(desafio)" [disabled]="guardando || eliminando">✏️</button>
-          <button (click)="eliminarDesafio(desafio)" [disabled]="guardando || eliminando">🗑️</button>
+          <button (click)="eliminarDesafio(desafio)" [disabled]="guardando || eliminando">
+            🗑️
+          </button>
         </td>
       </tr>
       <tr *ngIf="desafios.length === 0 && !cargandoDesafios">
-        <td colspan="6" style="text-align: center; color: #666;">No hay desafíos disponibles</td>
+        <td colspan="6" style="text-align: center; color: #666">No hay desafíos disponibles</td>
       </tr>
     </tbody>
   </table>
@@ -120,7 +123,12 @@
 
       <div class="campo">
         <label>Recompensa (puntos):</label>
-        <input type="number" [(ngModel)]="desafioEditando.recompensa" min="0" [disabled]="guardando" />
+        <input
+          type="number"
+          [(ngModel)]="desafioEditando.recompensa"
+          min="0"
+          [disabled]="guardando"
+        />
       </div>
 
       <div class="campo">
@@ -150,9 +158,7 @@
   <div class="modal" *ngIf="desafioEliminar">
     <div class="modal-contenido">
       <h3>¿Eliminar desafío?</h3>
-      <p>
-        ¿Estás segura de eliminar <strong>{{ desafioEliminar.nombre_desafio }}</strong>?
-      </p>
+      <p>¿Estás segura de eliminar <strong>{{ desafioEliminar.nombre_desafio }}</strong>?</p>
       <div class="acciones-modal">
         <button (click)="confirmarEliminar()" [disabled]="eliminando">
           {{ eliminando ? 'Eliminando...' : 'Sí, eliminar' }}

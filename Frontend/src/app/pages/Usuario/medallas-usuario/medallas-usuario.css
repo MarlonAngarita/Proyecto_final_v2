@@ -12,7 +12,7 @@
 .medallero-usuario {
   min-height: 100vh;
   padding: 2rem;
-  background: linear-gradient(135deg, #1B1363, #5A397C);
+  background: linear-gradient(135deg, #1b1363, #5a397c);
   color: white;
   font-family: 'VT323', monospace;
 }
@@ -40,7 +40,7 @@
   margin: 0;
   font-size: 2.5rem;
   font-family: 'Gagalin', cursive;
-  color: #F2CA52;
+  color: #f2ca52;
 }
 
 .btn-volver-medallero {
@@ -82,7 +82,7 @@
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
-  color: #F2CA52;
+  color: #f2ca52;
 }
 
 .stat-label {
@@ -109,7 +109,7 @@
 
 .progreso-relleno {
   height: 100%;
-  background: linear-gradient(90deg, #F2921D, #F2CA52);
+  background: linear-gradient(90deg, #f2921d, #f2ca52);
   border-radius: 4px;
   transition: width 0.3s ease;
 }
@@ -132,7 +132,7 @@
   width: 40px;
   height: 40px;
   border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid #F2CA52;
+  border-top: 4px solid #f2ca52;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;
@@ -191,7 +191,7 @@
 }
 
 .filtro-select option {
-  background: #1B1363;
+  background: #1b1363;
   color: white;
 }
 
@@ -202,8 +202,8 @@
   cursor: pointer;
 }
 
-.filtro-checkbox input[type="checkbox"] {
-  accent-color: #F2CA52;
+.filtro-checkbox input[type='checkbox'] {
+  accent-color: #f2ca52;
 }
 
 /* Grid de medallas */
@@ -232,7 +232,7 @@
 }
 
 .medalla-card.obtenida {
-  border-color: #F2921D;
+  border-color: #f2921d;
   background: linear-gradient(135deg, rgba(242, 146, 29, 0.1), rgba(242, 202, 82, 0.1));
 }
 
@@ -288,8 +288,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 /* Información de medalla */
@@ -314,7 +319,7 @@
 
 .medalla-categoria {
   display: inline-block;
-  background: #1B1363;
+  background: #1b1363;
   color: white;
   padding: 0.25rem 0.5rem;
   border-radius: 12px;
@@ -365,7 +370,7 @@
 }
 
 .badge-obtenida {
-  background: #F2921D;
+  background: #f2921d;
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
@@ -383,7 +388,7 @@
 }
 
 .btn-limpiar-filtros {
-  background: #F2921D;
+  background: #f2921d;
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -405,7 +410,7 @@
 .medallas-recientes h2 {
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
-  color: #F2CA52;
+  color: #f2ca52;
 }
 
 .medallas-recientes-grid {
@@ -551,7 +556,7 @@
 }
 
 .badge-obtenida-grande {
-  background: #F2921D;
+  background: #f2921d;
   color: white;
   padding: 0.75rem 1.5rem;
   border-radius: 25px;
@@ -573,29 +578,29 @@
   .medallero-usuario {
     padding: 1rem;
   }
-  
+
   .titulo-seccion {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
   }
-  
+
   .estadisticas-medallero {
     grid-template-columns: 1fr;
   }
-  
+
   .filtros-medallero {
     flex-direction: column;
   }
-  
+
   .medallas-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .medallas-recientes-grid {
     flex-direction: column;
   }
-  
+
   .modal-contenido-medalla {
     padding: 1.5rem;
     margin: 1rem;
@@ -604,8 +609,12 @@
 
 /* Animaciones */
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Efectos adicionales */
@@ -619,8 +628,15 @@
 }
 
 @keyframes sparkle {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
 }
 
 /* Estilos para notificaciones */
@@ -651,15 +667,20 @@
 }
 
 @keyframes pulse-notification {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 .badge-notificaciones {
   position: absolute;
   top: -5px;
   right: -5px;
-  background: #FF4757;
+  background: #ff4757;
   color: white;
   font-size: 0.8rem;
   padding: 2px 6px;
@@ -689,7 +710,7 @@
 
 .panel-notificaciones h3 {
   margin: 0 0 1rem 0;
-  color: #F2CA52;
+  color: #f2ca52;
   font-size: 1.2rem;
 }
 
@@ -721,7 +742,7 @@
 
 .notif-contenido h4 {
   margin: 0 0 0.25rem 0;
-  color: #F2CA52;
+  color: #f2ca52;
   font-size: 1rem;
 }
 
@@ -752,8 +773,8 @@
   position: fixed;
   top: 20px;
   right: 20px;
-  background: linear-gradient(45deg, #F2CA52, #FFE066);
-  color: #1B1363;
+  background: linear-gradient(45deg, #f2ca52, #ffe066);
+  color: #1b1363;
   padding: 1rem 1.5rem;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);

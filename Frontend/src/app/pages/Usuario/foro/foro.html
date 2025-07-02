@@ -1,6 +1,10 @@
 <section class="foro-usuario-dashboard">
   <div class="foro-cabecera">
-    <img src="https://img.freepik.com/vector-premium/estudiante-avatar-masculino-dibujos-animados_18591-51686.jpg?w=740" alt="Avatar Usuario" class="foro-avatar" />
+    <img
+      src="https://img.freepik.com/vector-premium/estudiante-avatar-masculino-dibujos-animados_18591-51686.jpg?w=740"
+      alt="Avatar Usuario"
+      class="foro-avatar"
+    />
     <h1>Foro de Estudiantes</h1>
     <button class="foro-btn-volver" (click)="volverAlDashboard()">⏎ Volver</button>
   </div>
@@ -19,27 +23,27 @@
 
   <div class="foro-paneles">
     <div class="foro-panel foro-panel-activo">Publicaciones</div>
-    <div class="foro-panel" style="opacity:0.5;cursor:not-allowed;">(Próximamente)</div>
+    <div class="foro-panel" style="opacity: 0.5; cursor: not-allowed">(Próximamente)</div>
   </div>
 
   <main>
     <section class="foro-crear-post">
       <h2>Crear una publicación</h2>
-      <input 
-        type="text" 
-        [(ngModel)]="tituloPost" 
-        placeholder="Título de la publicación" 
+      <input
+        type="text"
+        [(ngModel)]="tituloPost"
+        placeholder="Título de la publicación"
         [disabled]="cargando"
         required
       />
-      <textarea 
-        [(ngModel)]="contenidoPost" 
+      <textarea
+        [(ngModel)]="contenidoPost"
         placeholder="Escribe tu publicación aquí..."
         [disabled]="cargando"
         required
       ></textarea>
-      <button 
-        class="foro-btn-publicar" 
+      <button
+        class="foro-btn-publicar"
         (click)="publicarPost()"
         [disabled]="cargando || !tituloPost.trim() || !contenidoPost.trim()"
       >
@@ -49,7 +53,7 @@
 
     <section class="foro-publicaciones">
       <h2>Publicaciones recientes</h2>
-      
+
       <!-- Indicador de carga mejorado -->
       <div *ngIf="cargandoHilos" class="mensaje-carga">
         <div class="spinner-foro"></div>
@@ -65,13 +69,16 @@
       <div class="foro-tarjetas" *ngIf="!cargandoHilos">
         <div *ngFor="let post of publicaciones; let i = index" class="foro-tarjeta">
           <div class="foro-post-header">
-            <img src="https://img.freepik.com/vector-premium/estudiante-avatar-masculino-dibujos-animados_18591-51686.jpg?w=740" alt="Imagen Usuario" />
+            <img
+              src="https://img.freepik.com/vector-premium/estudiante-avatar-masculino-dibujos-animados_18591-51686.jpg?w=740"
+              alt="Imagen Usuario"
+            />
             <div>
               <p class="foro-autor">{{ post.autor || 'Usuario Anónimo' }}</p>
               <span class="foro-tiempo">{{ getTiempoRelativo(post.fecha_publicacion) }}</span>
             </div>
-            <button 
-              class="foro-btn-eliminar" 
+            <button
+              class="foro-btn-eliminar"
               (click)="eliminarPost(post, i)"
               title="Eliminar publicación"
               [disabled]="cargando"
@@ -83,18 +90,17 @@
           <p class="foro-contenido">{{ post.contenido }}</p>
           <div class="foro-acciones">
             <span class="foro-respuestas">{{ (post.respuestas?.length || 0) }} respuestas</span>
-            <button 
-              class="btn-ver-respuestas" 
-              (click)="verRespuestas(post)"
-              [disabled]="cargando"
-            >
+            <button class="btn-ver-respuestas" (click)="verRespuestas(post)" [disabled]="cargando">
               💬 Ver conversación
             </button>
           </div>
         </div>
-        
+
         <!-- Mensaje cuando no hay publicaciones -->
-        <div *ngIf="publicaciones.length === 0 && !cargandoHilos && !errorCarga" class="foro-sin-publicaciones">
+        <div
+          *ngIf="publicaciones.length === 0 && !cargandoHilos && !errorCarga"
+          class="foro-sin-publicaciones"
+        >
           <h3>📝 No hay publicaciones aún</h3>
           <p>¡Sé el primero en crear una publicación!</p>
         </div>
@@ -106,7 +112,7 @@
   <div class="modal-foro" *ngIf="modalRespuestasActivo">
     <div class="modal-contenido-foro">
       <button class="modal-cerrar-foro" (click)="cerrarModalRespuestas()">✖</button>
-      
+
       <div class="modal-header-foro">
         <h2>{{ hiloSeleccionado?.titulo }}</h2>
         <p class="hilo-autor">Por: {{ hiloSeleccionado?.autor }}</p>
@@ -119,12 +125,14 @@
 
         <div class="respuestas-seccion">
           <h3>Respuestas ({{ respuestas.length }})</h3>
-          
+
           <div class="respuestas-lista" *ngIf="respuestas.length > 0">
             <div *ngFor="let respuesta of respuestas" class="respuesta-item">
               <div class="respuesta-header">
                 <strong>{{ respuesta.autor }}</strong>
-                <span class="respuesta-tiempo">{{ getTiempoRelativo(respuesta.fecha_respuesta) }}</span>
+                <span class="respuesta-tiempo"
+                  >{{ getTiempoRelativo(respuesta.fecha_respuesta) }}</span
+                >
               </div>
               <p class="respuesta-contenido">{{ respuesta.contenido }}</p>
             </div>
@@ -137,14 +145,14 @@
 
         <div class="nueva-respuesta-seccion">
           <h4>Agregar respuesta</h4>
-          <textarea 
+          <textarea
             [(ngModel)]="nuevaRespuesta"
             placeholder="Escribe tu respuesta..."
             [disabled]="cargandoRespuesta"
             class="textarea-respuesta"
           ></textarea>
-          <button 
-            class="btn-agregar-respuesta" 
+          <button
+            class="btn-agregar-respuesta"
             (click)="agregarRespuesta()"
             [disabled]="cargandoRespuesta || !nuevaRespuesta.trim()"
           >
@@ -159,7 +167,7 @@
   <div class="modal-foro" *ngIf="modalEliminarActivo">
     <div class="modal-contenido-foro confirmacion">
       <button class="modal-cerrar-foro" (click)="cerrarModalEliminar()">✖</button>
-      
+
       <div class="modal-header-foro">
         <h2>Confirmar eliminación</h2>
       </div>
@@ -171,18 +179,10 @@
       </div>
 
       <div class="modal-footer-foro">
-        <button 
-          class="btn-cancelar-foro" 
-          (click)="cerrarModalEliminar()"
-          [disabled]="cargando"
-        >
+        <button class="btn-cancelar-foro" (click)="cerrarModalEliminar()" [disabled]="cargando">
           ❌ Cancelar
         </button>
-        <button 
-          class="btn-confirmar-eliminar" 
-          (click)="confirmarEliminar()"
-          [disabled]="cargando"
-        >
+        <button class="btn-confirmar-eliminar" (click)="confirmarEliminar()" [disabled]="cargando">
           {{ cargando ? 'Eliminando...' : '🗑️ Eliminar' }}
         </button>
       </div>

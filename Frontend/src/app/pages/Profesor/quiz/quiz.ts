@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Inject,
-  PLATFORM_ID
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModulosService, Modulo } from '../../../services/modulos.service';
@@ -15,7 +9,7 @@ import { QuizService, Quiz } from '../../../services/quiz.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './quiz.html',
-  styleUrls: ['./quiz.css']
+  styleUrls: ['./quiz.css'],
 })
 export class QuizComponent implements OnInit, OnDestroy {
   // Estados de carga
@@ -32,13 +26,13 @@ export class QuizComponent implements OnInit, OnDestroy {
     opcion_c: '',
     opcion_d: '',
     respuesta_correcta: 'A',
-    id_modulo: 0
+    id_modulo: 0,
   };
 
   // Datos
   modulos: Modulo[] = [];
   quizzes: Quiz[] = [];
-  
+
   // Quiz en edición
   quizEditando: Quiz | null = null;
   quizEliminar: Quiz | null = null;
@@ -51,14 +45,14 @@ export class QuizComponent implements OnInit, OnDestroy {
   constructor(
     private modulosService: ModulosService,
     private quizService: QuizService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       document.body.classList.add('quiz-bg');
     }
-    
+
     console.log('🔄 Iniciando componente de quiz...');
     this.cargarModulos();
     this.cargarQuizzes();
@@ -68,7 +62,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   private cargarModulos(): void {
     console.log('🔄 Cargando módulos...');
     this.cargandoModulos = true;
-    
+
     const idCurso = 1; // Puedes reemplazar esto con lógica dinámica
     this.modulosService.getModulosPorCurso(idCurso).subscribe({
       next: (data) => {
@@ -81,7 +75,7 @@ export class QuizComponent implements OnInit, OnDestroy {
         this.cargandoModulos = false;
         // Fallback a datos locales si existe
         this.modulos = [];
-      }
+      },
     });
   }
 
@@ -90,13 +84,13 @@ export class QuizComponent implements OnInit, OnDestroy {
     console.log('🔄 Cargando quizzes...');
     this.cargandoQuizzes = true;
     this.errorCarga = '';
-    
+
     this.quizService.getTodosAPI().subscribe({
       next: (quizzes) => {
         console.log('✅ Quizzes obtenidos desde API:', quizzes);
         this.quizzes = quizzes || [];
         this.cargandoQuizzes = false;
-        
+
         // Fallback a datos locales si la API no devuelve datos
         if (this.quizzes.length === 0) {
           console.log('⚠️ API no devolvió quizzes, usando datos locales');
@@ -107,11 +101,11 @@ export class QuizComponent implements OnInit, OnDestroy {
         console.error('❌ Error al cargar quizzes desde API:', error);
         this.errorCarga = 'Error al cargar quizzes desde la API';
         this.cargandoQuizzes = false;
-        
+
         // Fallback a datos locales en caso de error
         console.log('🔄 Cargando datos locales como fallback...');
         this.quizzes = this.quizService.getTodos() || [];
-      }
+      },
     });
   }
 
@@ -143,7 +137,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.quizService.agregarAPI(this.quiz).subscribe({
       next: (response) => {
         console.log('✅ Quiz creado exitosamente:', response);
-        
+
         if (response) {
           this.limpiarFormulario();
           this.cargarQuizzes(); // Recargar lista
@@ -161,26 +155,28 @@ export class QuizComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('❌ Error al crear quiz:', error);
-        
+
         // Fallback a método local
         this.quizService.agregar(this.quiz);
         this.quizzes = this.quizService.getTodos();
         this.limpiarFormulario();
         this.guardando = false;
         this.mensajeConfirmacion = 'Quiz creado (modo local)';
-      }
+      },
     });
   }
 
   // Validar formulario
   private validarFormulario(): boolean {
-    if (!this.quiz.pregunta.trim() || 
-        !this.quiz.opcion_a.trim() || 
-        !this.quiz.opcion_b.trim() || 
-        !this.quiz.opcion_c.trim() || 
-        !this.quiz.opcion_d.trim() || 
-        !this.quiz.respuesta_correcta ||
-        !this.quiz.id_modulo) {
+    if (
+      !this.quiz.pregunta.trim() ||
+      !this.quiz.opcion_a.trim() ||
+      !this.quiz.opcion_b.trim() ||
+      !this.quiz.opcion_c.trim() ||
+      !this.quiz.opcion_d.trim() ||
+      !this.quiz.respuesta_correcta ||
+      !this.quiz.id_modulo
+    ) {
       this.mensajeConfirmacion = 'Por favor completa todos los campos obligatorios';
       return false;
     }
@@ -196,7 +192,7 @@ export class QuizComponent implements OnInit, OnDestroy {
       opcion_c: '',
       opcion_d: '',
       respuesta_correcta: 'A',
-      id_modulo: 0
+      id_modulo: 0,
     };
   }
 
@@ -218,7 +214,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.quizService.actualizarAPI(this.quizEditando.id, this.quizEditando).subscribe({
       next: (response) => {
         console.log('✅ Quiz actualizado:', response);
-        
+
         if (response) {
           this.cargarQuizzes(); // Recargar lista
           this.quizEditando = null;
@@ -240,7 +236,7 @@ export class QuizComponent implements OnInit, OnDestroy {
         console.error('❌ Error al actualizar quiz:', error);
         this.guardando = false;
         this.mensajeConfirmacion = 'Error al actualizar el quiz';
-      }
+      },
     });
   }
 
@@ -267,7 +263,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.quizService.eliminarAPI(this.quizEliminar.id).subscribe({
       next: (eliminado) => {
         console.log('✅ Resultado eliminación:', eliminado);
-        
+
         if (eliminado) {
           this.cargarQuizzes(); // Recargar lista
           this.quizEliminar = null;
@@ -289,7 +285,7 @@ export class QuizComponent implements OnInit, OnDestroy {
         console.error('❌ Error al eliminar quiz:', error);
         this.eliminando = false;
         this.mensajeConfirmacion = 'Error al eliminar el quiz';
-      }
+      },
     });
   }
 
@@ -305,7 +301,7 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   // Obtener nombre del módulo
   getNombreModulo(idModulo: number): string {
-    const modulo = this.modulos.find(m => m.id_modulo === idModulo);
+    const modulo = this.modulos.find((m) => m.id_modulo === idModulo);
     return modulo ? modulo.nombre_modulo : 'Módulo no encontrado';
   }
 

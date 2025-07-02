@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-progreso-usuario',
   imports: [],
   templateUrl: './progreso-usuario.html',
-  styleUrl: './progreso-usuario.css'
+  styleUrl: './progreso-usuario.css',
 })
-export class ProgresoUsuario {
-
-}
+export class ProgresoUsuario {}

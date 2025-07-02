@@ -2,7 +2,7 @@
 body {
   overflow: hidden;
   font-family: 'VT323', monospace;
-  background-color: #1B1363;
+  background-color: #1b1363;
   margin: 0;
 }
 
@@ -11,7 +11,7 @@ h1 {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 1rem;
-  color: #F2CA52;
+  color: #f2ca52;
 }
 
 /* ========== CONTENEDOR DEL FORMULARIO ========== */
@@ -20,8 +20,8 @@ h1 {
   height: 520px;
   margin: 115px auto auto;
   padding: 0.4rem;
-  background-color: #5A397C;
-  border: 2px solid #1B1363;
+  background-color: #5a397c;
+  border: 2px solid #1b1363;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
@@ -34,15 +34,12 @@ h1 {
   gap: 1rem;
   input {
     flex: 1;
+  }
 }
-}
-
-
 
 /* ========== INPUTS Y SELECTS ========== */
 select,
-input
- {
+input {
   display: block;
   width: 96%;
   margin: 0.5rem auto;
@@ -52,7 +49,6 @@ input
   transition: border-color 0.3s ease;
   box-sizing: border-box;
 }
-
 
 input.ng-invalid.ng-touched,
 select.ng-invalid.ng-touched,
@@ -65,18 +61,20 @@ button {
   width: 100%;
   margin-top: 1rem;
   padding: 0.75rem;
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
   border: none;
   border-radius: 50px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 button:hover {
-  background: #1B1363;
-  color: #F2CA52;
+  background: #1b1363;
+  color: #f2ca52;
 }
 
 /* ========== MODAL DE CONFIRMACIÓN ========== */
@@ -94,17 +92,17 @@ button:hover {
 }
 
 .modal-contenido {
-  background: linear-gradient(135deg, #5A397C, #1B1363);
+  background: linear-gradient(135deg, #5a397c, #1b1363);
   padding: 2rem;
   border-radius: 15px;
   text-align: center;
   max-width: 400px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-  border: 2px solid #F2CA52;
+  border: 2px solid #f2ca52;
 }
 
 .modal-contenido h3 {
-  color: #F2CA52;
+  color: #f2ca52;
   margin-bottom: 1rem;
   font-size: 1.8rem;
   font-family: 'VT323', monospace;
@@ -121,7 +119,7 @@ button:hover {
   margin-top: 1rem;
   padding: 0.5rem 1.5rem;
   font-size: 1.5rem;
-  background-color: #1B1363;
+  background-color: #1b1363;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -130,7 +128,7 @@ button:hover {
 }
 
 .modal-contenido button:hover {
-  background-color: #F2921D;
+  background-color: #f2921d;
 }
 
 /* ========== VALIDACIONES Y MENSAJES DE ERROR ========== */
@@ -139,7 +137,7 @@ button:hover {
   display: block;
   min-height: 1.2rem;
   font-size: 0.85rem;
-  color: #F2CA52;
+  color: #f2ca52;
   margin: 0.2rem 0 0.6rem 0.5rem;
   text-align: left;
   visibility: hidden;
@@ -169,8 +167,8 @@ input.error-contrasena {
 }
 
 .btn-dashboard {
-  background: linear-gradient(135deg, #F2CA52, #FFA500);
-  color: #1B1363;
+  background: linear-gradient(135deg, #f2ca52, #ffa500);
+  color: #1b1363;
   border: none;
   padding: 12px 25px;
   border-radius: 25px;
@@ -183,8 +181,7 @@ input.error-contrasena {
 }
 
 .btn-dashboard:hover {
-  background: linear-gradient(135deg, #FFA500, #F2CA52);
+  background: linear-gradient(135deg, #ffa500, #f2ca52);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(242, 202, 82, 0.4);
 }
-

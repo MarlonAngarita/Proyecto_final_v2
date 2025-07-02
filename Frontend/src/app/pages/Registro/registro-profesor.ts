@@ -9,21 +9,21 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './registro.html',
-  styleUrl: './registro.css'
+  styleUrl: './registro.css',
 })
 export class RegistroProfesor {
   mostrarConfirmacion = false;
   errorConfirmacion = false;
   errorRegistro = '';
   cargando = false;
-  
+
   // Personalizar el título y texto para profesor
   tituloFormulario = 'Registro de Profesor';
   textoBoton = 'Registrar Profesor';
 
   constructor(
     public router: Router,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   scrollToSection(id: string): void {
@@ -37,7 +37,7 @@ export class RegistroProfesor {
     const confirmar = valores.confirmar;
 
     if (!form.valid) {
-      Object.values(form.controls).forEach(control => control?.markAsTouched());
+      Object.values(form.controls).forEach((control) => control?.markAsTouched());
       return;
     }
 
@@ -54,7 +54,7 @@ export class RegistroProfesor {
       username: valores.email, // El username será igual al email
       email: valores.email,
       nombre: `${valores.nombre} ${valores.apellido}`.trim(), // Combinar nombre y apellido
-      password: contrasena
+      password: contrasena,
     };
 
     // Usar registrarProfesor en lugar de registrar
@@ -64,7 +64,7 @@ export class RegistroProfesor {
         this.mostrarConfirmacion = true;
         form.resetForm();
         console.log('Profesor registrado:', response);
-        
+
         // Redirigir automáticamente al dashboard del profesor después de 2 segundos
         setTimeout(() => {
           this.router.navigate(['/profesor/dashboard-profesor']);
@@ -86,7 +86,7 @@ export class RegistroProfesor {
           this.errorRegistro = error.error?.detail || 'Error al registrar profesor';
         }
         console.error('Error de registro:', error);
-      }
+      },
     });
   }
 

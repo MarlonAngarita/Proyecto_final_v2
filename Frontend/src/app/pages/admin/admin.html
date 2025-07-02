@@ -1,12 +1,24 @@
 <div class="admin-dashboard">
   <div class="tabs">
-    <button [class.active]="selectedTab === 'usuarios'" (click)="seleccionarTab('usuarios')">Gestión de Usuarios</button>
-    <button [class.active]="selectedTab === 'estadisticas'" (click)="seleccionarTab('estadisticas')">Estadísticas</button>
+    <button [class.active]="selectedTab === 'usuarios'" (click)="seleccionarTab('usuarios')">
+      Gestión de Usuarios
+    </button>
+    <button
+      [class.active]="selectedTab === 'estadisticas'"
+      (click)="seleccionarTab('estadisticas')"
+    >
+      Estadísticas
+    </button>
   </div>
 
   <div *ngIf="selectedTab === 'usuarios'" class="usuarios-section">
     <div class="acciones-usuarios">
-      <input type="text" placeholder="Buscar por nombre, correo o ID" [(ngModel)]="filtro" (input)="buscarUsuarios()">
+      <input
+        type="text"
+        placeholder="Buscar por nombre, correo o ID"
+        [(ngModel)]="filtro"
+        (input)="buscarUsuarios()"
+      />
       <select [(ngModel)]="rolFiltro" (change)="filtrarPorRol(rolFiltro)">
         <option value="">Todos los roles</option>
         <option value="admin">Admin</option>
@@ -108,7 +120,9 @@
         <div class="form-group">
           <label>Tipo de Documento</label>
           <select [(ngModel)]="nuevoUsuario.id_tipo_documento" name="id_tipo_documento">
-            <option *ngFor="let tipo of tiposDocumento" [value]="tipo.id_tipo_documento">{{tipo.nombre_tipo}}</option>
+            <option *ngFor="let tipo of tiposDocumento" [value]="tipo.id_tipo_documento">
+              {{tipo.nombre_tipo}}
+            </option>
           </select>
         </div>
         <div class="modal-actions">

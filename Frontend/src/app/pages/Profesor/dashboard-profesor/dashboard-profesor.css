@@ -10,7 +10,7 @@
 
 .dashboard-profesor {
   padding: 3rem;
-  background: linear-gradient(90deg, #1B1363, #5A397C);
+  background: linear-gradient(90deg, #1b1363, #5a397c);
   color: #fff;
   font-family: 'VT323', monospace;
 }
@@ -30,13 +30,13 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 3px solid #F2CA52;
+  border: 3px solid #f2ca52;
 }
 
 .cabecera-profesor h1 {
   font-size: 3rem;
   font-family: 'Gagalin', cursive;
-  color: #F2921D;
+  color: #f2921d;
 }
 
 .paneles {
@@ -49,8 +49,8 @@
 .panel {
   flex: 1;
   min-width: 200px;
-  background-color: #F2CA52;
-  color: #1B1363;
+  background-color: #f2ca52;
+  color: #1b1363;
   padding: 1rem;
   border-radius: 8px;
   font-size: 1.3rem;
@@ -62,7 +62,7 @@
 
 .panel:hover {
   transform: translateY(-3px);
-  background-color: #F2921D;
+  background-color: #f2921d;
 }
 
 .icono-panel {
@@ -75,7 +75,7 @@
 .seccion h2 {
   font-size: 2rem;
   margin: 1rem 0;
-  color: #F2CA52;
+  color: #f2ca52;
   font-family: 'Gagalin', cursive;
 }
 
@@ -87,7 +87,7 @@
 
 .tarjeta {
   background-color: #fff;
-  color: #1B1363;
+  color: #1b1363;
   font-size: 1.1rem;
   padding: 1rem;
   border-radius: 8px;
@@ -102,7 +102,7 @@
 }
 
 .tarjeta button {
-  background-color: #5A397C;
+  background-color: #5a397c;
   color: #fff;
   border: none;
   padding: 0.5rem 1rem;
@@ -113,7 +113,7 @@
 }
 
 .tarjeta button:hover {
-  background-color: #F2921D;
+  background-color: #f2921d;
 }
 
 .tabla-scrollable {
@@ -128,11 +128,12 @@ table {
 }
 
 thead {
-  background-color: #F2CA52;
-  color: #1B1363;
+  background-color: #f2ca52;
+  color: #1b1363;
 }
 
-td, th {
+td,
+th {
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid #ccc;
@@ -148,14 +149,14 @@ tbody tr:hover {
 }
 
 .email-profesor {
-  color: #F2CA52;
+  color: #f2ca52;
   font-size: 1.2rem;
   margin: 0.5rem 0;
   font-style: italic;
 }
 
 .rol-profesor {
-  color: #F2921D;
+  color: #f2921d;
   font-size: 1.1rem;
   font-weight: bold;
   margin: 0.5rem 0;
@@ -177,7 +178,7 @@ tbody tr:hover {
 
 .btn-logout:hover {
   background-color: #c0392b;
-  border-color: #F2CA52;
+  border-color: #f2ca52;
   transform: translateY(-2px);
 }
 
@@ -185,14 +186,14 @@ tbody tr:hover {
 .loading-indicator {
   text-align: center;
   padding: 2rem;
-  color: #F2921D;
+  color: #f2921d;
   font-family: 'VT323', monospace;
   font-size: 1.2rem;
 }
 
 /* Estilos para la información adicional de cursos */
 .curso-descripcion {
-  color: #DDDDDD;
+  color: #dddddd;
   font-size: 0.9rem;
   margin: 0.5rem 0;
   line-height: 1.4;
@@ -204,7 +205,7 @@ tbody tr:hover {
 }
 
 .curso-info p {
-  color: #F2CA52;
+  color: #f2ca52;
   margin: 0.2rem 0;
 }
 
@@ -212,10 +213,10 @@ tbody tr:hover {
 .no-cursos {
   text-align: center;
   padding: 3rem;
-  color: #F2921D;
+  color: #f2921d;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
-  border: 2px dashed #F2CA52;
+  border: 2px dashed #f2ca52;
 }
 
 .no-cursos p {
@@ -224,8 +225,8 @@ tbody tr:hover {
 }
 
 .btn-crear-curso {
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
   border: none;
   padding: 0.8rem 2rem;
   border-radius: 8px;
@@ -238,6 +239,6 @@ tbody tr:hover {
 }
 
 .btn-crear-curso:hover {
-  background: #F2921D;
+  background: #f2921d;
   transform: scale(1.05);
 }

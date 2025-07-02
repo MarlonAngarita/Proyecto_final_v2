@@ -15,7 +15,7 @@ interface Curso {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './modulos.html',
-  styleUrl: './modulos.css'
+  styleUrl: './modulos.css',
 })
 export class Modulos implements OnInit {
   // Propiedades del componente
@@ -24,27 +24,27 @@ export class Modulos implements OnInit {
   cargandoModulos = false;
   cursos: any[] = [];
   modulosCreados: Modulo[] = [];
-  
+
   modulo: Modulo = {
     nombre_modulo: '',
     contenido_modulo: '',
-    id_curso: 0
+    id_curso: 0,
   };
 
   constructor(
     private router: Router,
     private modulosService: ModulosService,
-    private cursosService: CursosService
+    private cursosService: CursosService,
   ) {
     // Constructor vacío, toda la inicialización en ngOnInit
   }
 
   ngOnInit(): void {
     console.log('Iniciando componente de módulos...');
-    
+
     // Simplificar la inicialización - eliminar try-catch problemático
     this.cargarCursos();
-    
+
     // Cargar módulos después de un breve delay
     setTimeout(() => {
       this.cargarModulos();
@@ -54,22 +54,22 @@ export class Modulos implements OnInit {
   private cargarCursos(): void {
     this.cargandoCursos = true;
     console.log('Cargando cursos para módulos...');
-    
+
     this.cursosService.getTodosAPI().subscribe({
       next: (cursos: any) => {
         console.log('Cursos recibidos:', cursos);
-        
+
         if (Array.isArray(cursos)) {
           this.cursos = cursos.map((curso: any) => ({
             ...curso,
             id_curso: curso.id_curso || curso.id,
-            nombre_curso: curso.nombre_curso || curso.nombre
+            nombre_curso: curso.nombre_curso || curso.nombre,
           }));
         } else {
           console.warn('La respuesta de cursos no es un array:', cursos);
           this.cursos = [];
         }
-        
+
         this.cargandoCursos = false;
         console.log('Cursos procesados correctamente:', this.cursos.length);
       },
@@ -78,31 +78,31 @@ export class Modulos implements OnInit {
         this.cursos = [];
         this.cargandoCursos = false;
         console.log('Estableciendo cursos vacíos debido a error');
-      }
+      },
     });
   }
 
   private cargarModulos(): void {
     this.cargandoModulos = true;
     console.log('Cargando módulos creados...');
-    
+
     this.modulosService.getTodosAPI().subscribe({
       next: (modulos: Modulo[]) => {
         console.log('Módulos recibidos:', modulos);
-        
+
         if (Array.isArray(modulos)) {
-          this.modulosCreados = modulos.map(modulo => {
-            const curso = this.cursos.find(c => c.id_curso === modulo.id_curso);
+          this.modulosCreados = modulos.map((modulo) => {
+            const curso = this.cursos.find((c) => c.id_curso === modulo.id_curso);
             return {
               ...modulo,
-              nombre_curso: curso ? curso.nombre_curso : 'Curso no encontrado'
+              nombre_curso: curso ? curso.nombre_curso : 'Curso no encontrado',
             };
           });
         } else {
           console.warn('La respuesta de módulos no es un array:', modulos);
           this.modulosCreados = [];
         }
-        
+
         this.cargandoModulos = false;
         console.log('Módulos procesados correctamente:', this.modulosCreados.length);
       },
@@ -110,7 +110,7 @@ export class Modulos implements OnInit {
         console.error('Error en API de módulos:', error);
         this.modulosCreados = [];
         this.cargandoModulos = false;
-      }
+      },
     });
   }
 
@@ -125,13 +125,13 @@ export class Modulos implements OnInit {
     this.modulosService.agregarAPI(this.modulo).subscribe({
       next: (response: Modulo) => {
         console.log('Módulo creado exitosamente:', response);
-        
+
         // Limpiar formulario
         this.limpiarFormulario();
-        
+
         // Recargar módulos
         this.cargarModulos();
-        
+
         this.cargando = false;
         alert('Módulo creado exitosamente');
       },
@@ -139,12 +139,16 @@ export class Modulos implements OnInit {
         console.error('Error al crear módulo:', error);
         this.cargando = false;
         this.mostrarErrorCreacion(error);
-      }
+      },
     });
   }
 
   private validarFormulario(): boolean {
-    if (!this.modulo.id_curso || !this.modulo.nombre_modulo.trim() || !this.modulo.contenido_modulo.trim()) {
+    if (
+      !this.modulo.id_curso ||
+      !this.modulo.nombre_modulo.trim() ||
+      !this.modulo.contenido_modulo.trim()
+    ) {
       alert('Por favor completa todos los campos requeridos');
       return false;
     }
@@ -155,7 +159,7 @@ export class Modulos implements OnInit {
     this.modulo = {
       nombre_modulo: '',
       contenido_modulo: '',
-      id_curso: 0
+      id_curso: 0,
     };
   }
 
@@ -184,7 +188,7 @@ export class Modulos implements OnInit {
 
     if (confirm(`¿Estás seguro de que deseas eliminar el módulo "${modulo.nombre_modulo}"?`)) {
       console.log('Eliminando módulo:', modulo);
-      
+
       this.modulosService.eliminarAPI(modulo.id_modulo).subscribe({
         next: () => {
           console.log('Módulo eliminado exitosamente');
@@ -194,7 +198,7 @@ export class Modulos implements OnInit {
         error: (error: any) => {
           console.error('Error al eliminar módulo:', error);
           alert('Error al eliminar módulo. Por favor intenta nuevamente.');
-        }
+        },
       });
     }
   }
@@ -210,7 +214,7 @@ export class Modulos implements OnInit {
       cargandoCursos: this.cargandoCursos,
       cargandoModulos: this.cargandoModulos,
       cursos: this.cursos.length,
-      modulos: this.modulosCreados.length
+      modulos: this.modulosCreados.length,
     });
   }
 

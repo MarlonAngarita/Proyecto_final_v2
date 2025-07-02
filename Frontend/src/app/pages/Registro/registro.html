@@ -6,14 +6,7 @@
     </h1>
 
     <div class="row">
-      <input
-        type="text"
-        name="nombre"
-        placeholder="Nombre"
-        ngModel
-        required
-        #nombre="ngModel"
-      />
+      <input type="text" name="nombre" placeholder="Nombre" ngModel required #nombre="ngModel" />
       <div *ngIf="nombre.invalid && nombre.touched" class="error-campo">
         El nombre es obligatorio.
       </div>
@@ -31,14 +24,7 @@
       </div>
     </div>
 
-    <input
-      type="email"
-      name="email"
-      placeholder="Email"
-      ngModel
-      required
-      #email="ngModel"
-    />
+    <input type="email" name="email" placeholder="Email" ngModel required #email="ngModel" />
     <div *ngIf="email.invalid && email.touched" class="error-campo">
       El correo electrónico es obligatorio.
     </div>
@@ -67,9 +53,7 @@
     <div *ngIf="confirmar.invalid && confirmar.touched" class="error-campo">
       Debes confirmar tu contraseña.
     </div>
-    <div *ngIf="errorConfirmacion" class="error-campo">
-      Las contraseñas no coinciden.
-    </div>
+    <div *ngIf="errorConfirmacion" class="error-campo">Las contraseñas no coinciden.</div>
 
     <select name="tipoDocumento" ngModel required #tipoDocumento="ngModel">
       <option value="" disabled selected>Tipo de Documento</option>
@@ -77,10 +61,7 @@
       <option value="extranjeria">Cédula de extranjería</option>
       <option value="tarjeta">Tarjeta de identidad</option>
     </select>
-    <div
-      *ngIf="tipoDocumento.invalid && tipoDocumento.touched"
-      class="error-campo"
-    >
+    <div *ngIf="tipoDocumento.invalid && tipoDocumento.touched" class="error-campo">
       Selecciona un tipo de documento.
     </div>
 
@@ -92,10 +73,7 @@
       required
       #numeroDocumento="ngModel"
     />
-    <div
-      *ngIf="numeroDocumento.invalid && numeroDocumento.touched"
-      class="error-campo"
-    >
+    <div *ngIf="numeroDocumento.invalid && numeroDocumento.touched" class="error-campo">
       El número de documento es obligatorio.
     </div>
 
@@ -107,13 +85,9 @@
       ⚠️ Por favor, completa todos los campos obligatorios.
     </div>
 
-    <div *ngIf="errorConfirmacion" class="error-campo">
-      Las contraseñas no coinciden.
-    </div>
+    <div *ngIf="errorConfirmacion" class="error-campo">Las contraseñas no coinciden.</div>
 
-    <div *ngIf="errorRegistro" class="error-campo">
-      {{ errorRegistro }}
-    </div>
+    <div *ngIf="errorRegistro" class="error-campo">{{ errorRegistro }}</div>
   </form>
 
   <!-- Modal de confirmación -->

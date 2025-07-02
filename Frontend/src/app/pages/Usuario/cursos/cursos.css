@@ -36,7 +36,7 @@ body {
   margin-bottom: 5px;
   font-family: 'Gagalin';
   font-size: 2.5rem;
-  color: #F2921D;
+  color: #f2921d;
 }
 
 .navbar-buttons {
@@ -77,10 +77,10 @@ body {
   overflow-y: auto;
   box-sizing: border-box;
   padding-bottom: 2rem;
-  color: #F2921D;
+  color: #f2921d;
   font-family: 'GAGALIN', monospace;
   font-size: 2rem;
-  background: linear-gradient(to right, #1B1363, #5A397C);
+  background: linear-gradient(to right, #1b1363, #5a397c);
 }
 
 .encabezado {
@@ -107,7 +107,7 @@ body {
     transform 0.2s ease,
     box-shadow 0.2s ease;
   cursor: pointer;
-  color: #1B1363;
+  color: #1b1363;
   font-family: 'VT323', monospace;
 }
 
@@ -118,7 +118,7 @@ body {
 
 .curso-card h3 {
   font-size: 1.4rem;
-  color: #5A397C;
+  color: #5a397c;
   margin-bottom: 10px;
   font-family: 'Gagalin';
 }
@@ -130,8 +130,8 @@ body {
 }
 
 .btn-ver-mas {
-  background-color: #F2CA52;
-  color: #1B1363;
+  background-color: #f2ca52;
+  color: #1b1363;
   border: none;
   padding: 10px 16px;
   border-radius: 6px;
@@ -142,7 +142,7 @@ body {
 }
 
 .btn-ver-mas:hover {
-  background-color: #F2921D;
+  background-color: #f2921d;
 }
 
 .modal {
@@ -167,13 +167,13 @@ body {
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   position: relative;
-  color: #1B1363;
+  color: #1b1363;
   font-family: 'VT323', monospace;
 }
 
 .modal-contenido h2,
 .modal-contenido p strong {
-  color: #5A397C;
+  color: #5a397c;
   font-weight: bold;
 }
 
@@ -192,8 +192,8 @@ body {
 }
 
 .modal-botones button {
-  background-color: #F2CA52;
-  color: #1B1363;
+  background-color: #f2ca52;
+  color: #1b1363;
   padding: 12px 20px;
   border: none;
   font-weight: bold;
@@ -207,7 +207,7 @@ body {
 }
 
 .modal-botones button:hover {
-  background-color: #F2921D;
+  background-color: #f2921d;
   transform: scale(1.05);
 }
 
@@ -242,7 +242,7 @@ body {
 }
 
 .curso-inscrito-nombre {
-  color: #5A397C;
+  color: #5a397c;
   font-size: 1.5rem;
   font-weight: bold;
   margin-top: 10px;
@@ -250,7 +250,7 @@ body {
 }
 
 h2 {
-  color: #F2921D;
+  color: #f2921d;
   font-family: 'Gagalin';
   margin-bottom: 1rem;
 }
@@ -265,22 +265,24 @@ h2 {
 
 .btn-perfil {
   background: transparent;
-  border: 2px solid #F2CA52;
-  color: #F2CA52;
+  border: 2px solid #f2ca52;
+  color: #f2ca52;
   font-family: 'VT323', monospace;
   font-size: 1.2rem;
   padding: 0.3rem 1rem;
   border-radius: 6px;
   text-decoration: none;
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 .btn-perfil.active,
 .btn-perfil:focus,
 .btn-perfil:hover {
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
 }
 
 /* Estados de carga y error */
@@ -288,7 +290,7 @@ h2 {
   text-align: center;
   padding: 2rem;
   background: rgba(246, 146, 29, 0.1);
-  border: 2px solid #F2921D;
+  border: 2px solid #f2921d;
   border-radius: 8px;
   margin: 1rem 0;
   color: #2607f2;

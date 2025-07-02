@@ -5,11 +5,11 @@ import { catchError, tap, map } from 'rxjs/operators';
 
 /**
  * Interfaz que define la estructura de un Quiz/Pregunta en el sistema
- * 
+ *
  * @interface Quiz
  * @description Representa una pregunta de opción múltiple con 4 alternativas (A, B, C, D)
  *              utilizada en la evaluación de módulos de cursos
- * 
+ *
  * @property {number} id - Identificador único del quiz (opcional para nuevas preguntas)
  * @property {string} pregunta - Texto de la pregunta a responder
  * @property {string} opcion_a - Primera opción de respuesta (A)
@@ -36,11 +36,11 @@ export interface Quiz {
 
 /**
  * Servicio de gestión de Quizzes/Preguntas
- * 
+ *
  * @class QuizService
  * @description Maneja todas las operaciones CRUD relacionadas con quizzes/preguntas de opción múltiple.
  *              Proporciona métodos tanto para API REST como para datos locales (fallback).
- *              
+ *
  * Funcionalidades principales:
  * - Gestión completa de preguntas de opción múltiple
  * - Integración con API REST del backend Django
@@ -48,7 +48,7 @@ export interface Quiz {
  * - Autenticación JWT automática
  * - Filtrado por módulo
  * - Gestión de profesores y fecha de creación
- * 
+ *
  * @author Sistema Kütsa
  * @version 1.0
  */
@@ -58,16 +58,16 @@ export interface Quiz {
 export class QuizService {
   /** URL base de la API REST para quizzes */
   private apiUrl = 'http://127.0.0.1:8000/api/v1/quiz/';
-  
+
   /** Opciones HTTP con headers por defecto incluyendo autenticación JWT */
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('access_token') || ''}`
-    })
+      Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
+    }),
   };
 
-  /** 
+  /**
    * Datos locales de quizzes para fallback
    * @description Array de preguntas predefinidas que se utilizan cuando la API no está disponible
    *              o como datos de ejemplo para desarrollo
@@ -82,7 +82,7 @@ export class QuizService {
       opcion_d: 'Hyperlink and Text Markup Language',
       respuesta_correcta: 'A',
       id_modulo: 1,
-      fecha_creacion: '2024-01-15'
+      fecha_creacion: '2024-01-15',
     },
     {
       id: 2,
@@ -93,8 +93,8 @@ export class QuizService {
       opcion_d: 'Gestionar servidores',
       respuesta_correcta: 'B',
       id_modulo: 1,
-      fecha_creacion: '2024-01-16'
-    }
+      fecha_creacion: '2024-01-16',
+    },
   ];
 
   /**
@@ -117,8 +117,8 @@ export class QuizService {
     this.httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('access_token') || ''}`
-      })
+        Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
+      }),
     };
   }
 
@@ -165,11 +165,10 @@ export class QuizService {
    */
   getTodosAPI(): Observable<Quiz[]> {
     this.updateHttpOptions();
-    return this.http.get<Quiz[]>(this.apiUrl, this.httpOptions)
-      .pipe(
-        tap(quizzes => console.log('Quizzes obtenidos desde API:', quizzes)),
-        catchError(this.handleError<Quiz[]>('getTodosAPI', []))
-      );
+    return this.http.get<Quiz[]>(this.apiUrl, this.httpOptions).pipe(
+      tap((quizzes) => console.log('Quizzes obtenidos desde API:', quizzes)),
+      catchError(this.handleError<Quiz[]>('getTodosAPI', [])),
+    );
   }
 
   /**
@@ -181,11 +180,10 @@ export class QuizService {
   obtenerPorIdAPI(id: number): Observable<Quiz | null> {
     this.updateHttpOptions();
     const url = `${this.apiUrl}${id}/`;
-    return this.http.get<Quiz>(url, this.httpOptions)
-      .pipe(
-        tap(quiz => console.log('Quiz obtenido por ID desde API:', quiz)),
-        catchError(this.handleError<Quiz | null>('obtenerPorIdAPI', null))
-      );
+    return this.http.get<Quiz>(url, this.httpOptions).pipe(
+      tap((quiz) => console.log('Quiz obtenido por ID desde API:', quiz)),
+      catchError(this.handleError<Quiz | null>('obtenerPorIdAPI', null)),
+    );
   }
 
   /**
@@ -197,11 +195,10 @@ export class QuizService {
   obtenerPorModuloAPI(idModulo: number): Observable<Quiz[]> {
     this.updateHttpOptions();
     const url = `${this.apiUrl}?id_modulo=${idModulo}`;
-    return this.http.get<Quiz[]>(url, this.httpOptions)
-      .pipe(
-        tap(quizzes => console.log('Quizzes obtenidos por módulo desde API:', quizzes)),
-        catchError(this.handleError<Quiz[]>('obtenerPorModuloAPI', []))
-      );
+    return this.http.get<Quiz[]>(url, this.httpOptions).pipe(
+      tap((quizzes) => console.log('Quizzes obtenidos por módulo desde API:', quizzes)),
+      catchError(this.handleError<Quiz[]>('obtenerPorModuloAPI', [])),
+    );
   }
 
   /**
@@ -216,14 +213,13 @@ export class QuizService {
     const quizData = {
       ...quiz,
       fecha_creacion: new Date().toISOString().split('T')[0], // Fecha actual en formato YYYY-MM-DD
-      id_profesor: this.getCurrentProfesorId() // ID del profesor logueado
+      id_profesor: this.getCurrentProfesorId(), // ID del profesor logueado
     };
 
-    return this.http.post<Quiz>(this.apiUrl, quizData, this.httpOptions)
-      .pipe(
-        tap(nuevoQuiz => console.log('Quiz agregado via API:', nuevoQuiz)),
-        catchError(this.handleError<Quiz | null>('agregarAPI', null))
-      );
+    return this.http.post<Quiz>(this.apiUrl, quizData, this.httpOptions).pipe(
+      tap((nuevoQuiz) => console.log('Quiz agregado via API:', nuevoQuiz)),
+      catchError(this.handleError<Quiz | null>('agregarAPI', null)),
+    );
   }
 
   /**
@@ -236,11 +232,10 @@ export class QuizService {
   actualizarAPI(id: number, quiz: Quiz): Observable<Quiz | null> {
     this.updateHttpOptions();
     const url = `${this.apiUrl}${id}/`;
-    return this.http.put<Quiz>(url, quiz, this.httpOptions)
-      .pipe(
-        tap(quizActualizado => console.log('Quiz actualizado via API:', quizActualizado)),
-        catchError(this.handleError<Quiz | null>('actualizarAPI', null))
-      );
+    return this.http.put<Quiz>(url, quiz, this.httpOptions).pipe(
+      tap((quizActualizado) => console.log('Quiz actualizado via API:', quizActualizado)),
+      catchError(this.handleError<Quiz | null>('actualizarAPI', null)),
+    );
   }
 
   /**
@@ -252,12 +247,11 @@ export class QuizService {
   eliminarAPI(id: number): Observable<boolean> {
     this.updateHttpOptions();
     const url = `${this.apiUrl}${id}/`;
-    return this.http.delete(url, this.httpOptions)
-      .pipe(
-        tap(() => console.log('Quiz eliminado via API:', id)),
-        map(() => true), // Mapea respuesta exitosa a true
-        catchError(() => of(false)) // En caso de error retorna false
-      );
+    return this.http.delete(url, this.httpOptions).pipe(
+      tap(() => console.log('Quiz eliminado via API:', id)),
+      map(() => true), // Mapea respuesta exitosa a true
+      catchError(() => of(false)), // En caso de error retorna false
+    );
   }
 
   // ===================================
@@ -279,7 +273,7 @@ export class QuizService {
    * @description Filtra los quizzes locales por id_modulo
    */
   obtenerPorModulo(idModulo: number): Quiz[] {
-    return this.quizzes.filter(q => q.id_modulo === idModulo);
+    return this.quizzes.filter((q) => q.id_modulo === idModulo);
   }
 
   /**
@@ -291,7 +285,7 @@ export class QuizService {
     const nuevoQuiz = {
       ...quiz,
       id: Date.now(), // ID único basado en timestamp
-      fecha_creacion: new Date().toISOString().split('T')[0] // Fecha actual
+      fecha_creacion: new Date().toISOString().split('T')[0], // Fecha actual
     };
     this.quizzes.push(nuevoQuiz);
   }
@@ -302,7 +296,7 @@ export class QuizService {
    * @description Busca el quiz por ID y reemplaza sus datos completamente
    */
   actualizar(quiz: Quiz): void {
-    const index = this.quizzes.findIndex(q => q.id === quiz.id);
+    const index = this.quizzes.findIndex((q) => q.id === quiz.id);
     if (index !== -1) {
       this.quizzes[index] = { ...quiz };
     }
@@ -314,7 +308,7 @@ export class QuizService {
    * @description Filtra el array removiendo el quiz con el ID especificado
    */
   eliminar(id: number): void {
-    this.quizzes = this.quizzes.filter(q => q.id !== id);
+    this.quizzes = this.quizzes.filter((q) => q.id !== id);
   }
 
   /**
@@ -324,6 +318,6 @@ export class QuizService {
    * @description Busca un quiz específico en los datos locales por su ID
    */
   obtenerPorId(id: number): Quiz | undefined {
-    return this.quizzes.find(q => q.id === id);
+    return this.quizzes.find((q) => q.id === id);
   }
 }

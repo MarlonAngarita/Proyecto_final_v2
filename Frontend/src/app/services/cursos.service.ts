@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 
 /**
  * Servicio de Cursos para la plataforma Kütsa
- * 
+ *
  * Funcionalidades principales:
  * - Gestión completa de cursos (CRUD)
  * - Integración con API REST del backend
@@ -16,11 +16,11 @@ import { Observable } from 'rxjs';
  * - Manejo de errores robusto
  * - Datos de prueba para desarrollo
  * - Filtrado y búsqueda de cursos
- * 
+ *
  * Este servicio actúa como intermediario entre los componentes
  * y la API del backend, proporcionando métodos para todas las
  * operaciones relacionadas con cursos y contenido educativo.
- * 
+ *
  * @author Sistema Kütsa
  * @version 2.0 - Servicio completo con API y datos locales
  */
@@ -31,14 +31,14 @@ export class CursosService {
   // ===================================================================================================
   // CONFIGURACIÓN DEL SERVICIO
   // ===================================================================================================
-  
+
   /** URL base de la API para operaciones de cursos */
   private apiUrl = 'http://127.0.0.1:8000/api/v1/cursos/';
 
   // ===================================================================================================
   // DATOS DE PRUEBA PARA DESARROLLO
   // ===================================================================================================
-  
+
   /** Datos locales para desarrollo y testing */
   private cursos = [
     {
@@ -48,7 +48,7 @@ export class CursosService {
       categoria: 'Programación',
       activo: true,
       modulos: ['Módulo 1: Patrones clásicos', 'Módulo 2: Secuencias numéricas'],
-      desafios: [1, 2] // IDs de desafíos asociados
+      desafios: [1, 2], // IDs de desafíos asociados
     },
     {
       id: 2,
@@ -57,8 +57,8 @@ export class CursosService {
       categoria: 'Diseño',
       activo: false,
       modulos: ['Módulo 1: Tipografías retro'],
-      desafios: [3] // IDs de desafíos asociados
-    }
+      desafios: [3], // IDs de desafíos asociados
+    },
   ];
 
   // ===================================================================================================
@@ -67,7 +67,7 @@ export class CursosService {
 
   /**
    * Constructor del servicio de cursos
-   * 
+   *
    * @param http - Cliente HTTP de Angular para peticiones a la API
    */
   constructor(private http: HttpClient) {}
@@ -79,20 +79,20 @@ export class CursosService {
   /**
    * Genera headers HTTP con autenticación JWT
    * Obtiene el token del localStorage y lo incluye en las peticiones
-   * 
+   *
    * @returns HttpHeaders con token de autorización y content-type
    */
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': token ? `Bearer ${token}` : ''
+      Authorization: token ? `Bearer ${token}` : '',
     });
   }
 
   /**
    * Obtiene el ID del usuario actual desde localStorage
-   * 
+   *
    * @returns ID del usuario actual o 1 como valor por defecto
    */
   private getCurrentUserId(): number {
@@ -106,7 +106,7 @@ export class CursosService {
 
   /**
    * Obtiene todos los cursos desde la API
-   * 
+   *
    * @returns Observable con la lista de cursos
    */
   getTodosAPI(): Observable<any[]> {
@@ -115,7 +115,7 @@ export class CursosService {
 
   /**
    * Crea un nuevo curso en la API
-   * 
+   *
    * @param curso - Datos del curso a crear
    * @returns Observable con el curso creado
    */
@@ -127,15 +127,15 @@ export class CursosService {
       fecha_inicio: curso.fecha_inicio || new Date().toISOString().split('T')[0],
       fecha_fin: curso.fecha_fin || new Date().toISOString().split('T')[0],
       fecha_creacion: new Date().toISOString().split('T')[0],
-      id_profesor: this.getCurrentUserId()
+      id_profesor: this.getCurrentUserId(),
     };
-    
+
     return this.http.post<any>(this.apiUrl, cursoData, { headers: this.getAuthHeaders() });
   }
 
   /**
    * Actualiza un curso existente en la API
-   * 
+   *
    * @param curso - Datos actualizados del curso
    * @returns Observable con el curso actualizado
    */
@@ -145,17 +145,19 @@ export class CursosService {
       descripcion_curso: curso.descripcion,
       fecha_inicio: curso.fecha_inicio,
       fecha_fin: curso.fecha_fin,
-      id_profesor: this.getCurrentUserId()
+      id_profesor: this.getCurrentUserId(),
     };
-    
+
     // Usar id_curso que es la clave primaria en el backend
     const cursoId = curso.id_curso || curso.id;
-    return this.http.put<any>(`${this.apiUrl}${cursoId}/`, cursoData, { headers: this.getAuthHeaders() });
+    return this.http.put<any>(`${this.apiUrl}${cursoId}/`, cursoData, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   /**
    * Elimina un curso de la API
-   * 
+   *
    * @param id - ID del curso a eliminar
    * @returns Observable con la respuesta de eliminación
    */
@@ -165,7 +167,7 @@ export class CursosService {
 
   /**
    * Obtiene un curso específico por ID desde la API
-   * 
+   *
    * @param id - ID del curso a obtener
    * @returns Observable con los datos del curso
    */
@@ -180,7 +182,7 @@ export class CursosService {
   /**
    * Obtiene todos los cursos locales
    * Método de fallback para cuando la API no está disponible
-   * 
+   *
    * @returns Array con todos los cursos locales
    */
   getTodos(): any[] {
@@ -189,16 +191,16 @@ export class CursosService {
 
   /**
    * Obtiene solo los cursos activos
-   * 
+   *
    * @returns Array con cursos marcados como activos
    */
   getActivos(): any[] {
-    return this.cursos.filter(c => c.activo);
+    return this.cursos.filter((c) => c.activo);
   }
 
   /**
    * Agrega un nuevo curso al array local
-   * 
+   *
    * @param curso - Datos del curso a agregar
    */
   agregar(curso: any): void {
@@ -208,11 +210,11 @@ export class CursosService {
 
   /**
    * Actualiza un curso en el array local
-   * 
+   *
    * @param curso - Datos actualizados del curso
    */
   actualizar(curso: any): void {
-    const index = this.cursos.findIndex(c => c.id === curso.id);
+    const index = this.cursos.findIndex((c) => c.id === curso.id);
     if (index !== -1) {
       this.cursos[index] = { ...curso };
     }
@@ -220,21 +222,21 @@ export class CursosService {
 
   /**
    * Elimina un curso del array local
-   * 
+   *
    * @param id - ID del curso a eliminar
    */
   eliminar(id: number): void {
-    this.cursos = this.cursos.filter(c => c.id !== id);
+    this.cursos = this.cursos.filter((c) => c.id !== id);
   }
 
   /**
    * Asigna desafíos a un curso específico
-   * 
+   *
    * @param cursoId - ID del curso
    * @param desafiosIds - Array de IDs de desafíos a asignar
    */
   asignarDesafios(cursoId: number, desafiosIds: number[]): void {
-    const curso = this.cursos.find(c => c.id === cursoId);
+    const curso = this.cursos.find((c) => c.id === cursoId);
     if (curso) {
       curso.desafios = [...desafiosIds];
     }
@@ -242,12 +244,12 @@ export class CursosService {
 
   /**
    * Asigna módulos a un curso específico
-   * 
+   *
    * @param cursoId - ID del curso
    * @param modulos - Array de nombres de módulos a asignar
    */
   asignarModulos(cursoId: number, modulos: string[]): void {
-    const curso = this.cursos.find(c => c.id === cursoId);
+    const curso = this.cursos.find((c) => c.id === cursoId);
     if (curso) {
       curso.modulos = [...modulos];
     }

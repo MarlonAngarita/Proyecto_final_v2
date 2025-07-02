@@ -8,7 +8,10 @@ html {
   padding: 0;
 }
 
-body, h2, p, nav a {
+body,
+h2,
+p,
+nav a {
   font-family: 'VT323', monospace;
 }
 
@@ -77,7 +80,9 @@ body, h2, p, nav a {
 .btn-iniciar {
   display: inline-block;
   cursor: pointer;
-  transition: transform 0.3s ease, filter 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
   margin-top: 0.5rem;
   margin-left: 3rem;
 }
@@ -85,7 +90,9 @@ body, h2, p, nav a {
 .btn-iniciar img {
   width: 220px;
   max-width: 90%;
-  transition: transform 0.3s ease, filter 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
   filter: brightness(1);
 }
 
@@ -154,7 +161,7 @@ body, h2, p, nav a {
 }
 
 .footer {
-  background: linear-gradient(90deg, #1B1363, #5A397C, #F2921D);
+  background: linear-gradient(90deg, #1b1363, #5a397c, #f2921d);
   padding: 2rem 2rem;
   color: #ffffff88;
   font-family: 'VT323', monospace;
@@ -191,7 +198,7 @@ body, h2, p, nav a {
 .titulo-escribenos {
   font-family: 'Gagalin', cursive;
   font-size: 2.2rem;
-  color: #F2921D;
+  color: #f2921d;
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
@@ -200,7 +207,7 @@ body, h2, p, nav a {
 .subtexto-ansiosos {
   font-family: 'VT323', monospace;
   font-size: 2.2rem;
-  color: #F2CA52;
+  color: #f2ca52;
   margin: 0;
 }
 
@@ -234,7 +241,7 @@ body, h2, p, nav a {
   resize: none;
   padding: 0.75rem 0.5rem;
   border: none;
-  border-bottom: 2px solid #F2CA52;
+  border-bottom: 2px solid #f2ca52;
   background: transparent;
   color: #fff;
   font-size: 1.3rem;
@@ -259,13 +266,13 @@ body, h2, p, nav a {
   top: -1rem;
   left: 0;
   font-size: 1.5rem;
-  color: #F2CA52;
+  color: #f2ca52;
 }
 
 .footer-formulario button {
   width: 100%;
   padding: 0.75rem;
-  background: #1B1363;
+  background: #1b1363;
   color: white;
   font-weight: bold;
   border: none;
@@ -275,7 +282,7 @@ body, h2, p, nav a {
 }
 
 .footer-formulario button:hover {
-  background: #F2921D;
+  background: #f2921d;
 }
 
 @media screen and (max-width: 768px) {
@@ -332,7 +339,7 @@ body, h2, p, nav a {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
   font-size: 1.5rem;
-  background-color: #1B1363;
+  background-color: #1b1363;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -340,9 +347,8 @@ body, h2, p, nav a {
 }
 
 .modal-contenido button:hover {
-  background-color: #F2921D;
+  background-color: #f2921d;
 }
-
 
 @media screen and (max-width: 768px) {
   .contenedor-parrafo {

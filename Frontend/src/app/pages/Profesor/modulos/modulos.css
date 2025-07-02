@@ -18,7 +18,7 @@
 
 /* Fondo general del módulo */
 body.modulo-bg {
-  background: linear-gradient(90deg, #1B1363, #5A397C);
+  background: linear-gradient(90deg, #1b1363, #5a397c);
   min-height: 100vh;
   font-family: 'VT323', monospace;
   color: #fff;
@@ -35,7 +35,7 @@ app-root,
 }
 
 .modulo-form-container {
-  background: linear-gradient(120deg, #1B1363 60%, #5A397C 100%);
+  background: linear-gradient(120deg, #1b1363 60%, #5a397c 100%);
   min-height: 100vh;
   padding: 3rem 0;
   font-family: 'VT323', monospace;
@@ -46,7 +46,7 @@ app-root,
   max-width: 480px;
   margin: 0 auto;
   border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(27,19,99,0.13);
+  box-shadow: 0 4px 16px rgba(27, 19, 99, 0.13);
   padding: 2.5rem 2rem 2rem 2rem;
   display: flex;
   flex-direction: column;
@@ -57,7 +57,7 @@ app-root,
 .modulo-form h2,
 .modulo-form h1 {
   font-family: 'Gagalin', cursive;
-  color: #F2CA52;
+  color: #f2ca52;
   text-align: center;
   font-size: 2rem;
   margin-bottom: 1.2rem;
@@ -71,7 +71,7 @@ app-root,
 }
 .modulo-form label {
   font-family: 'VT323', monospace;
-  color: #1B1363;
+  color: #1b1363;
   font-size: 1.1rem;
   margin-bottom: 0.3rem;
 }
@@ -83,12 +83,14 @@ app-root,
   width: 100%;
   padding: 0.7rem 1rem;
   border-radius: 8px;
-  border: 2px solid #F2CA52;
+  border: 2px solid #f2ca52;
   font-size: 1.1rem;
   font-family: 'VT323', monospace;
   background: #f9f9f9;
-  color: #1B1363;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  color: #1b1363;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   margin-bottom: 0.2rem;
   box-sizing: border-box;
 }
@@ -96,10 +98,10 @@ app-root,
 .modulo-form input:focus,
 .modulo-form textarea:focus,
 .modulo-form select:focus {
-  border-color: #5A397C;
+  border-color: #5a397c;
   outline: none;
   background: #fff;
-  box-shadow: 0 0 0 2px #F2CA5233;
+  box-shadow: 0 0 0 2px #f2ca5233;
 }
 
 .modulo-form textarea {
@@ -108,9 +110,9 @@ app-root,
 }
 
 .btn-guardar,
-.modulo-form button[type="submit"] {
-  background: linear-gradient(90deg, #F2CA52 60%, #F2921D 100%);
-  color: #1B1363;
+.modulo-form button[type='submit'] {
+  background: linear-gradient(90deg, #f2ca52 60%, #f2921d 100%);
+  color: #1b1363;
   font-family: 'Gagalin', cursive;
   font-size: 1.2rem;
   font-weight: bold;
@@ -119,8 +121,10 @@ app-root,
   padding: 0.9rem 0;
   margin-top: 0.5rem;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(242,202,82,0.10);
-  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 2px 8px rgba(242, 202, 82, 0.1);
+  transition:
+    background 0.2s,
+    transform 0.1s;
 }
 .btn-guardar:disabled,
 .modulo-form button[disabled] {
@@ -129,13 +133,13 @@ app-root,
   cursor: not-allowed;
 }
 .btn-guardar:not(:disabled):hover,
-.modulo-form button[type="submit"]:not(:disabled):hover {
-  background: linear-gradient(90deg, #F2921D 60%, #F2CA52 100%);
+.modulo-form button[type='submit']:not(:disabled):hover {
+  background: linear-gradient(90deg, #f2921d 60%, #f2ca52 100%);
   transform: translateY(-2px) scale(1.03);
 }
 
 .error-campo {
-  color: #F2921D;
+  color: #f2921d;
   font-size: 0.95rem;
   margin: 0 0 0.2rem 0.2rem;
   font-family: 'VT323', monospace;
@@ -150,8 +154,8 @@ app-root,
 }
 
 .btn-volver {
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
@@ -162,7 +166,7 @@ app-root,
 }
 
 .btn-volver:hover {
-  background: #F2921D;
+  background: #f2921d;
   transform: scale(1.05);
 }
 
@@ -170,7 +174,7 @@ app-root,
 .loading-indicator {
   text-align: center;
   padding: 2rem;
-  color: #F2921D;
+  color: #f2921d;
   font-family: 'VT323', monospace;
   font-size: 1.2rem;
 }
@@ -184,8 +188,8 @@ app-root,
 }
 
 .modulo-card {
-  background: linear-gradient(135deg, #1B1363, #5A397C);
-  border: 2px solid #F2CA52;
+  background: linear-gradient(135deg, #1b1363, #5a397c);
+  border: 2px solid #f2ca52;
   border-radius: 8px;
   padding: 1.5rem;
   transition: transform 0.3s ease;
@@ -203,7 +207,7 @@ app-root,
 }
 
 .modulo-header h4 {
-  color: #F2CA52;
+  color: #f2ca52;
   margin: 0;
   font-family: 'VT323', monospace;
   font-size: 1.2rem;
@@ -226,26 +230,26 @@ app-root,
 }
 
 .modulo-curso {
-  color: #F2921D;
+  color: #f2921d;
   margin: 0.8rem 0;
   font-size: 0.9rem;
 }
 
 .modulo-contenido {
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 1rem 0;
   font-size: 0.9rem;
   line-height: 1.4;
 }
 
 .modulo-info {
-  border-top: 1px solid #F2CA52;
+  border-top: 1px solid #f2ca52;
   padding-top: 0.8rem;
   margin-top: 1rem;
 }
 
 .modulo-info small {
-  color: #F2921D;
+  color: #f2921d;
   font-size: 0.8rem;
 }
 
@@ -253,10 +257,10 @@ app-root,
 .sin-modulos {
   text-align: center;
   padding: 3rem;
-  color: #F2921D;
+  color: #f2921d;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
-  border: 2px dashed #F2CA52;
+  border: 2px dashed #f2ca52;
   margin-top: 2rem;
 }
 
@@ -273,7 +277,7 @@ app-root,
 }
 
 .modulos-creados h3 {
-  color: #F2CA52;
+  color: #f2ca52;
   font-family: 'VT323', monospace;
   font-size: 1.5rem;
   margin-bottom: 1rem;

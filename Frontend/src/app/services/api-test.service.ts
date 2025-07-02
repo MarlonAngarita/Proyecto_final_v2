@@ -4,23 +4,23 @@ import { Observable } from 'rxjs';
 
 /**
  * Servicio de pruebas de conectividad con la API
- * 
+ *
  * @class ApiTestService
  * @description Servicio utilitario para probar la conectividad y funcionalidad
  *              básica de la API del backend. Útil para debugging y verificación
  *              de que el servidor está respondiendo correctamente.
- *              
+ *
  * Funcionalidades principales:
  * - Prueba de conexión básica con el backend
  * - Verificación del endpoint de usuarios
  * - Prueba directa del sistema de autenticación
  * - Útil para diagnóstico de problemas de conectividad
- * 
+ *
  * @author Sistema Kütsa
  * @version 1.0
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiTestService {
   /** URL base de la API para las pruebas de conectividad */

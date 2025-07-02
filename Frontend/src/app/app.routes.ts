@@ -57,86 +57,85 @@ import { AdminComponent } from './pages/admin/admin';
 
 /**
  * Configuración principal de rutas de la aplicación Kütsa
- * 
+ *
  * Organización:
  * 1. Rutas públicas (acceso sin autenticación)
  * 2. Rutas del profesor (requieren rol de profesor)
  * 3. Rutas del usuario/estudiante (requieren rol de usuario)
  * 4. Rutas administrativas (requieren rol de admin)
- * 
+ *
  * TODO: Implementar guards de autenticación y autorización por roles
  */
 export const routes: Routes = [
-  
   // ===========================================================================================
   // RUTAS PÚBLICAS - Acceso sin autenticación
   // ===========================================================================================
-  
+
   /** Página de inicio/landing page */
   { path: '', component: Inicio },
-  
+
   /** Página de inicio de sesión */
   { path: 'login', component: Login },
-  
+
   /** Página de registro general */
   { path: 'registro', component: Registro },
-  
+
   /** Registro específico para profesores */
   { path: 'registro/profesor', component: RegistroProfesor },
-  
+
   /** Registro específico para administradores */
   { path: 'registro/admin', component: RegistroAdmin },
-  
+
   // ===========================================================================================
   // RUTAS DEL PROFESOR - Gestión académica y contenido
   // ===========================================================================================
-  
+
   /** Gestión de cursos del profesor */
   { path: 'profesor/cursos', component: Cursos },
-  
+
   /** Dashboard principal del profesor */
   { path: 'profesor/dashboard-profesor', component: DashboardProfesor },
-  
+
   /** Creación y gestión de desafíos */
   { path: 'profesor/desafios', component: Desafios },
-  
+
   /** Moderación del foro académico */
   { path: 'profesor/foro', component: Foro },
-  
+
   /** Gestión de módulos de aprendizaje */
   { path: 'profesor/modulos', component: Modulos },
-  
+
   /** Creación y gestión de quizzes/evaluaciones */
-  { path: 'profesor/quiz', component: Quiz }, 
-  
+  { path: 'profesor/quiz', component: Quiz },
+
   // ===========================================================================================
   // RUTAS DEL USUARIO/ESTUDIANTE - Experiencia de aprendizaje
   // ===========================================================================================
-  
-/** Creación y gestión de quizzes/evaluaciones */
-{ path: 'profesor/quiz', component: Quiz }, 
-{ path: 'profesor/perfil', component: PerfilProfesor },
-{ path: 'usuario/dashboard-usuario', component: DashboardUsuario },
+
+  /** Creación y gestión de quizzes/evaluaciones */
+  { path: 'profesor/quiz', component: Quiz },
+  { path: 'profesor/perfil', component: PerfilProfesor },
+  { path: 'usuario/dashboard-usuario', component: DashboardUsuario },
   { path: 'usuario/foro', component: ForoUsuario },
-  
+
   /** Sistema de medallas y logros */
   { path: 'usuario/medallas', component: MedallasUsuario },
-  
+
   /** Seguimiento de progreso académico */
   { path: 'usuario/progreso', component: ProgresoUsuario },
-  
+
   /** Sistema de rachas de actividad */
   { path: 'usuario/rachas', component: RachasUsuario },
-  
+
   /** Gestión del perfil personal */
   { path: 'usuario/perfil', component: Perfil },
-  
+
   // ===========================================================================================
   // RUTAS ADMINISTRATIVAS - Gestión del sistema
   // ===========================================================================================
-  
+
   /** Panel de administración del sistema */
-  { path: 'admin', component: AdminComponent }
-  
+  { path: 'admin', component: AdminComponent },
+
   // TODO: Agregar rutas de error 404, redirecciones y guards de seguridad
 ];

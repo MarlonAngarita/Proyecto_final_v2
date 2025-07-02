@@ -24,13 +24,13 @@ import { Router, NavigationEnd } from '@angular/router';
 
 /**
  * Componente principal de la aplicación Kütsa
- * 
+ *
  * Funcionalidades:
  * - Gestión del layout principal con RouterOutlet
  * - Control condicional del navbar según la ruta
  * - Navegación automática a fragmentos de URL (#section)
  * - Compatibilidad SSR con verificaciones de browser
- * 
+ *
  * Rutas especiales:
  * - /login y /registro: Muestran el navbar
  * - Otras rutas: Ocultan el navbar (gestionado por componentes específicos)
@@ -42,7 +42,6 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrl: './app.css',
 })
 export class App {
-  
   /**
    * Controla la visibilidad del navbar según la ruta actual
    * true: Mostrar navbar | false: Ocultar navbar
@@ -52,7 +51,7 @@ export class App {
   /**
    * Constructor del componente principal
    * Configura la lógica de navegación y control del navbar
-   * 
+   *
    * @param router - Servicio de enrutamiento de Angular
    */
   constructor(private router: Router) {
@@ -62,19 +61,23 @@ export class App {
         // Rutas que deben mostrar el navbar (páginas públicas)
         const rutasConNavbar = ['/login', '/registro'];
         this.mostrarNavbar = rutasConNavbar.includes(event.urlAfterRedirects);
-        
+
         // Gestión de scroll automático a fragmentos de URL
         // Solo ejecutar en el navegador (compatibilidad SSR)
-        if (typeof window !== 'undefined' && event.urlAfterRedirects.startsWith('/') && window.location.hash) {
+        if (
+          typeof window !== 'undefined' &&
+          event.urlAfterRedirects.startsWith('/') &&
+          window.location.hash
+        ) {
           const fragment = window.location.hash.replace('#', '');
-          
+
           // Timeout para asegurar que el DOM esté renderizado
           setTimeout(() => {
             const el = document.getElementById(fragment);
             if (el) {
               // Scroll suave al elemento objetivo
               el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              
+
               // Limpiar el fragmento de la URL después del scroll para UX limpia
               history.replaceState(null, '', window.location.pathname);
             }

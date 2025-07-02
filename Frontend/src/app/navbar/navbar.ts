@@ -3,18 +3,18 @@ import { Router } from '@angular/router';
 
 /**
  * Componente de barra de navegación principal
- * 
+ *
  * @class navbar
  * @description Componente que proporciona la navegación principal de la aplicación.
  *              Incluye enlaces a las diferentes secciones de la landing page,
  *              navegación entre rutas y funcionalidades de scroll suave.
- *              
+ *
  * Funcionalidades principales:
  * - Navegación entre rutas de la aplicación
  * - Redirección a secciones específicas con fragmentos
  * - Scroll suave a elementos dentro de la página
  * - Interfaz de navegación consistente en toda la app
- * 
+ *
  * @author Sistema Kütsa
  * @version 1.0
  */
@@ -25,7 +25,6 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.css',
 })
 export class navbar {
-  
   /**
    * Constructor del componente navbar
    * @param {Router} router - Servicio de enrutamiento de Angular para navegación
@@ -41,7 +40,7 @@ export class navbar {
   irASeccion(seccion: string): void {
     this.router.navigate(['/'], { fragment: seccion });
   }
-  
+
   /**
    * Realiza scroll suave a una sección específica de la página actual
    * @param {string} id - ID del elemento HTML al que hacer scroll

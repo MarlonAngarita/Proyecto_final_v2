@@ -24,11 +24,11 @@ export class MedallasUsuario implements OnInit, OnDestroy {
   medallas: Medalla[] = [];
   medallasObtenidas: Medalla[] = [];
   medallasPorCategoria: any = {};
-  
+
   // Notificaciones
   notificacionesRecientes: NotificacionMedalla[] = [];
   mostrarNotificaciones = false;
-  
+
   // Estadísticas
   estadisticas: any = {};
   estadoUsuario: any = {};
@@ -47,7 +47,7 @@ export class MedallasUsuario implements OnInit, OnDestroy {
 
   constructor(
     private medallasService: MedallasService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +59,7 @@ export class MedallasUsuario implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.suscripciones.forEach(sub => sub.unsubscribe());
+    this.suscripciones.forEach((sub) => sub.unsubscribe());
   }
 
   private configurarSuscripciones(): void {
@@ -69,7 +69,7 @@ export class MedallasUsuario implements OnInit, OnDestroy {
         console.log('🎉 Nueva medalla obtenida:', notificacion.medalla.nombre);
         this.notificacionesRecientes.unshift(notificacion);
         this.mostrarNotificacionMedalla(notificacion.medalla);
-      }
+      },
     );
     this.suscripciones.push(suscripcionNuevas);
 
@@ -78,7 +78,7 @@ export class MedallasUsuario implements OnInit, OnDestroy {
       (medallas: Medalla[]) => {
         this.medallasObtenidas = medallas;
         this.estadisticas = this.medallasService.obtenerEstadisticas();
-      }
+      },
     );
     this.suscripciones.push(suscripcionObtenidas);
   }
@@ -90,30 +90,29 @@ export class MedallasUsuario implements OnInit, OnDestroy {
   private cargarMedallas(): void {
     this.cargando = true;
     this.errorCarga = '';
-    
+
     try {
       // Obtener estado actual del usuario
       this.estadoUsuario = this.medallasService.obtenerEstadoUsuario();
-      
+
       // Obtener medallas con estado actual
       this.medallas = this.medallasService.obtenerMedallas(this.estadoUsuario);
-      
+
       // Filtrar medallas obtenidas
-      this.medallasObtenidas = this.medallas.filter(m => m.obtenida);
-      
+      this.medallasObtenidas = this.medallas.filter((m) => m.obtenida);
+
       // Agrupar por categoría
       this.agruparPorCategoria();
-      
+
       // Obtener estadísticas
       this.estadisticas = this.medallasService.obtenerEstadisticas();
-      
+
       this.cargando = false;
       console.log('✅ Medallas cargadas:', {
         total: this.medallas.length,
         obtenidas: this.medallasObtenidas.length,
-        estado: this.estadoUsuario
+        estado: this.estadoUsuario,
       });
-      
     } catch (error) {
       console.error('❌ Error al cargar medallas:', error);
       this.errorCarga = 'Error al cargar las medallas';
@@ -123,15 +122,15 @@ export class MedallasUsuario implements OnInit, OnDestroy {
 
   private agruparPorCategoria(): void {
     this.medallasPorCategoria = {};
-    
-    this.categorias.slice(1).forEach(categoria => {
-      this.medallasPorCategoria[categoria] = this.medallas.filter(m => m.categoria === categoria);
+
+    this.categorias.slice(1).forEach((categoria) => {
+      this.medallasPorCategoria[categoria] = this.medallas.filter((m) => m.categoria === categoria);
     });
   }
 
   private verificarNuevasMedallas(): void {
     const nuevasMedallas = this.medallasService.verificarNuevasMedallas();
-    
+
     if (nuevasMedallas.length > 0) {
       console.log('🎉 ¡Nuevas medallas obtenidas!', nuevasMedallas);
       // Aquí podrías mostrar una notificación o modal de celebración
@@ -143,17 +142,17 @@ export class MedallasUsuario implements OnInit, OnDestroy {
 
     // Filtrar por categoría
     if (this.categoriaSeleccionada !== 'Todas') {
-      filtradas = filtradas.filter(m => m.categoria === this.categoriaSeleccionada);
+      filtradas = filtradas.filter((m) => m.categoria === this.categoriaSeleccionada);
     }
 
     // Filtrar por dificultad
     if (this.dificultadSeleccionada !== 'Todas') {
-      filtradas = filtradas.filter(m => m.dificultad === this.dificultadSeleccionada);
+      filtradas = filtradas.filter((m) => m.dificultad === this.dificultadSeleccionada);
     }
 
     // Filtrar solo obtenidas
     if (this.soloObtenidas) {
-      filtradas = filtradas.filter(m => m.obtenida);
+      filtradas = filtradas.filter((m) => m.obtenida);
     }
 
     return filtradas;
@@ -171,10 +170,10 @@ export class MedallasUsuario implements OnInit, OnDestroy {
 
   obtenerClaseDificultad(dificultad: string): string {
     const clases: { [key: string]: string } = {
-      'bronce': 'dificultad-bronce',
-      'plata': 'dificultad-plata',
-      'oro': 'dificultad-oro',
-      'diamante': 'dificultad-diamante'
+      bronce: 'dificultad-bronce',
+      plata: 'dificultad-plata',
+      oro: 'dificultad-oro',
+      diamante: 'dificultad-diamante',
     };
     return clases[dificultad] || '';
   }
@@ -210,19 +209,19 @@ export class MedallasUsuario implements OnInit, OnDestroy {
 
   getMedallasMasRecientes(): Medalla[] {
     return this.medallasObtenidas
-      .filter(m => m.fechaObtencion)
+      .filter((m) => m.fechaObtencion)
       .sort((a, b) => new Date(b.fechaObtencion!).getTime() - new Date(a.fechaObtencion!).getTime())
       .slice(0, 3);
   }
 
   formatearFecha(fecha?: string): string {
     if (!fecha) return '';
-    
+
     try {
       return new Date(fecha).toLocaleDateString('es-ES', {
         day: 'numeric',
         month: 'long',
-        year: 'numeric'
+        year: 'numeric',
       });
     } catch (error) {
       return '';
@@ -235,7 +234,7 @@ export class MedallasUsuario implements OnInit, OnDestroy {
         day: 'numeric',
         month: 'short',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
       });
     } catch (error) {
       return '';
@@ -252,8 +251,8 @@ export class MedallasUsuario implements OnInit, OnDestroy {
       filtros: {
         categoria: this.categoriaSeleccionada,
         dificultad: this.dificultadSeleccionada,
-        soloObtenidas: this.soloObtenidas
-      }
+        soloObtenidas: this.soloObtenidas,
+      },
     });
   }
 
@@ -271,12 +270,12 @@ export class MedallasUsuario implements OnInit, OnDestroy {
         </div>
       </div>
     `;
-    
+
     document.body.appendChild(notificacion);
-    
+
     // Animar entrada
     setTimeout(() => notificacion.classList.add('mostrar'), 100);
-    
+
     // Remover después de 4 segundos
     setTimeout(() => {
       notificacion.classList.remove('mostrar');
@@ -290,7 +289,9 @@ export class MedallasUsuario implements OnInit, OnDestroy {
 
   marcarNotificacionLeida(notificacion: NotificacionMedalla): void {
     this.medallasService.marcarNotificacionLeida(notificacion.timestamp);
-    const index = this.notificacionesRecientes.findIndex(n => n.timestamp === notificacion.timestamp);
+    const index = this.notificacionesRecientes.findIndex(
+      (n) => n.timestamp === notificacion.timestamp,
+    );
     if (index !== -1) {
       this.notificacionesRecientes.splice(index, 1);
     }

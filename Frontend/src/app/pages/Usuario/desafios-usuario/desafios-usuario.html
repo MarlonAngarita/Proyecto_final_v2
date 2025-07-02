@@ -36,21 +36,19 @@
 
   <!-- Grid de desafíos -->
   <div class="grid-desafios" *ngIf="!cargandoDesafios && desafios.length > 0">
-    <div 
-      class="tarjeta-desafio" 
+    <div
+      class="tarjeta-desafio"
       *ngFor="let desafio of desafios"
       [class.completado]="estaCompletado(desafio.id || 0)"
     >
       <!-- Estado completado -->
-      <div class="badge-completado" *ngIf="estaCompletado(desafio.id || 0)">
-        ✅ Completado
-      </div>
+      <div class="badge-completado" *ngIf="estaCompletado(desafio.id || 0)">✅ Completado</div>
 
       <!-- Contenido del desafío -->
       <div class="desafio-header">
         <h3>{{ desafio.titulo || desafio.nombre_desafio }}</h3>
-        <span 
-          class="nivel-badge" 
+        <span
+          class="nivel-badge"
           [style.background-color]="getColorDificultad(desafio.nivel || desafio.dificultad)"
         >
           {{ desafio.nivel || desafio.dificultad }}
@@ -64,7 +62,7 @@
           <span class="puntos">🏆 {{ desafio.puntos || desafio.recompensa }} puntos</span>
         </div>
 
-        <button 
+        <button
           class="btn-comenzar"
           (click)="comenzarDesafio(desafio)"
           [disabled]="estaCompletado(desafio.id || 0) || cargando"
@@ -86,11 +84,11 @@
   <div class="modal" *ngIf="modalDesafioActivo">
     <div class="modal-contenido">
       <button class="modal-cerrar" (click)="cerrarModal()">✖</button>
-      
+
       <div class="modal-header">
         <h2>{{ desafioActual?.titulo || desafioActual?.nombre_desafio }}</h2>
-        <span 
-          class="nivel-badge" 
+        <span
+          class="nivel-badge"
           [style.background-color]="getColorDificultad(desafioActual?.nivel || desafioActual?.dificultad || '')"
         >
           {{ desafioActual?.nivel || desafioActual?.dificultad }}
@@ -100,9 +98,12 @@
       <div class="modal-body">
         <p><strong>Descripción:</strong></p>
         <p>{{ desafioActual?.descripcion }}</p>
-        
+
         <div class="recompensa-info">
-          <p><strong>Recompensa:</strong> 🏆 {{ desafioActual?.puntos || desafioActual?.recompensa }} puntos</p>
+          <p>
+            <strong>Recompensa:</strong> 🏆 {{ desafioActual?.puntos || desafioActual?.recompensa }}
+            puntos
+          </p>
         </div>
 
         <div class="instrucciones">
@@ -117,11 +118,7 @@
       </div>
 
       <div class="modal-footer">
-        <button 
-          class="btn-completar" 
-          (click)="completarDesafio()"
-          [disabled]="cargando"
-        >
+        <button class="btn-completar" (click)="completarDesafio()" [disabled]="cargando">
           {{ cargando ? 'Completando...' : '✅ Marcar como completado' }}
         </button>
         <button class="btn-cancelar" (click)="cerrarModal()" [disabled]="cargando">
@@ -135,22 +132,25 @@
   <div class="modal" *ngIf="modalCompletadoActivo">
     <div class="modal-contenido exito">
       <button class="modal-cerrar" (click)="cerrarModalCompletado()">✖</button>
-      
+
       <div class="celebracion">
         <div class="icono-exito">🎉</div>
         <h2>¡Felicitaciones!</h2>
         <p>Has completado el desafío exitosamente</p>
-        
+
         <div class="recompensa-obtenida">
-          <p>🏆 <strong>+{{ desafioActual?.puntos || desafioActual?.recompensa }} puntos ganados</strong></p>
+          <p>
+            🏆
+            <strong
+              >+{{ desafioActual?.puntos || desafioActual?.recompensa }} puntos ganados</strong
+            >
+          </p>
           <p>🔥 <strong>¡Tu racha continúa!</strong></p>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button class="btn-continuar" (click)="cerrarModalCompletado()">
-          🚀 ¡Continuar!
-        </button>
+        <button class="btn-continuar" (click)="cerrarModalCompletado()">🚀 ¡Continuar!</button>
       </div>
     </div>
   </div>

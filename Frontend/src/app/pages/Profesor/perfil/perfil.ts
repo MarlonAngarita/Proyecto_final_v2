@@ -45,8 +45,7 @@ export class PerfilProfesor implements OnInit {
 
   validarContrasenas() {
     this.contrasenasCoinciden =
-      !this.nuevaContrasena ||
-      this.nuevaContrasena === this.confirmarContrasena;
+      !this.nuevaContrasena || this.nuevaContrasena === this.confirmarContrasena;
   }
 
   guardarCambios() {

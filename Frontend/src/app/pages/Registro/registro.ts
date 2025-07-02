@@ -9,21 +9,21 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './registro.html',
-  styleUrl: './registro.css'
+  styleUrl: './registro.css',
 })
 export class Registro {
   mostrarConfirmacion = false;
   errorConfirmacion = false;
   errorRegistro = '';
   cargando = false;
-  
+
   // Propiedades para personalización (con valores por defecto)
   tituloFormulario = 'Registro de Usuario';
   textoBoton = 'Registrarse';
 
   constructor(
     public router: Router,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   scrollToSection(id: string): void {
@@ -37,7 +37,7 @@ export class Registro {
     const confirmar = valores.confirmar;
 
     if (!form.valid) {
-      Object.values(form.controls).forEach(control => control?.markAsTouched());
+      Object.values(form.controls).forEach((control) => control?.markAsTouched());
       return;
     }
 
@@ -55,7 +55,7 @@ export class Registro {
       username: valores.email, // El username será igual al email
       email: valores.email,
       nombre: `${valores.nombre} ${valores.apellido}`.trim(), // Combinar nombre y apellido
-      password: contrasena
+      password: contrasena,
     };
 
     this.authService.registrar(nuevoUsuario).subscribe({
@@ -64,7 +64,7 @@ export class Registro {
         this.mostrarConfirmacion = true;
         form.resetForm();
         console.log('Usuario registrado:', response);
-        
+
         // Redirigir automáticamente al dashboard del usuario después de 2 segundos
         setTimeout(() => {
           this.router.navigate(['/usuario/dashboard-usuario']);
@@ -86,7 +86,7 @@ export class Registro {
           this.errorRegistro = error.error?.detail || 'Error al registrar usuario';
         }
         console.error('Error de registro:', error);
-      }
+      },
     });
   }
 

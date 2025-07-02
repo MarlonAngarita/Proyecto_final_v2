@@ -51,13 +51,13 @@ export class Desafios {
     console.log('🔄 Cargando desafíos...');
     this.cargandoDesafios = true;
     this.errorCarga = '';
-    
+
     this.desafiosService.getTodosAPI().subscribe({
       next: (desafios) => {
         console.log('✅ Desafíos cargados desde API:', desafios);
         this.desafios = desafios || [];
         this.cargandoDesafios = false;
-        
+
         // Fallback a datos locales si la API no devuelve datos
         if (this.desafios.length === 0) {
           console.log('⚠️ API no devolvió desafíos, usando datos locales');
@@ -68,11 +68,11 @@ export class Desafios {
         console.error('❌ Error al cargar desafíos desde API:', error);
         this.errorCarga = 'Error al cargar desafíos desde la API';
         this.cargandoDesafios = false;
-        
+
         // Fallback a datos locales en caso de error
         console.log('🔄 Cargando datos locales como fallback...');
         this.desafios = this.desafiosService.getTodos() || [];
-      }
+      },
     });
   }
 
@@ -90,7 +90,7 @@ export class Desafios {
       next: (desafioCreado) => {
         console.log('✅ Desafío creado:', desafioCreado);
         this.guardando = false;
-        
+
         if (desafioCreado) {
           this.cargarDesafios(); // Recargar lista
           this.nuevoDesafio = {
@@ -108,7 +108,7 @@ export class Desafios {
             titulo: this.nuevoDesafio.nombre_desafio,
             descripcion: this.nuevoDesafio.descripcion,
             nivel: this.nuevoDesafio.dificultad,
-            activo: this.nuevoDesafio.activo
+            activo: this.nuevoDesafio.activo,
           });
           this.desafios = this.desafiosService.getTodos();
           this.mensajeConfirmacion = 'Desafío creado localmente';
@@ -118,7 +118,7 @@ export class Desafios {
         console.error('❌ Error al crear desafío:', error);
         this.guardando = false;
         this.mensajeConfirmacion = 'Error al crear el desafío';
-      }
+      },
     });
   }
 
@@ -141,7 +141,7 @@ export class Desafios {
       next: (desafioActualizado) => {
         console.log('✅ Desafío actualizado:', desafioActualizado);
         this.guardando = false;
-        
+
         if (desafioActualizado) {
           this.cargarDesafios(); // Recargar lista
           this.desafioEditando = null;
@@ -159,7 +159,7 @@ export class Desafios {
         console.error('❌ Error al actualizar desafío:', error);
         this.guardando = false;
         this.mensajeConfirmacion = 'Error al actualizar el desafío';
-      }
+      },
     });
   }
 
@@ -187,7 +187,7 @@ export class Desafios {
       next: (eliminado) => {
         console.log('✅ Resultado eliminación:', eliminado);
         this.eliminando = false;
-        
+
         if (eliminado) {
           this.cargarDesafios(); // Recargar lista
           this.desafioEliminar = null;
@@ -207,7 +207,7 @@ export class Desafios {
         console.error('❌ Error al eliminar desafío:', error);
         this.eliminando = false;
         this.mensajeConfirmacion = 'Error al eliminar el desafío';
-      }
+      },
     });
   }
 

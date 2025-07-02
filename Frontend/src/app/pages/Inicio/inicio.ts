@@ -5,19 +5,19 @@ import { FormsModule, NgForm } from '@angular/forms';
 
 /**
  * Componente de página de inicio/landing page
- * 
+ *
  * @class Inicio
  * @description Componente principal que muestra la página de bienvenida de Kütsa.
  *              Incluye información sobre la plataforma, funcionalidades principales,
  *              formulario de contacto y navegación hacia el registro/login.
- *              
+ *
  * Funcionalidades principales:
  * - Presentación visual de la plataforma
  * - Formulario de contacto con validación
  * - Navegación suave entre secciones (smooth scroll)
  * - Modal de confirmación para envío de formulario
  * - Enlaces a registro y login
- * 
+ *
  * @author Sistema Kütsa
  * @version 1.0
  */
@@ -26,20 +26,20 @@ import { FormsModule, NgForm } from '@angular/forms';
   standalone: true,
   templateUrl: './inicio.html',
   styleUrls: ['./inicio.css'],
-  imports: [CommonModule, RouterModule, FormsModule]
+  imports: [CommonModule, RouterModule, FormsModule],
 })
 export class Inicio {
   /** Controla la visibilidad del modal de confirmación */
   mostrarConfirmacion = false;
 
-  /** 
+  /**
    * Modelo del formulario de contacto
    * @description Almacena los datos del formulario de contacto con la plataforma
    */
   formulario = {
     nombre: '',
     email: '',
-    mensaje: ''
+    mensaje: '',
   };
 
   /**
@@ -82,4 +82,3 @@ export class Inicio {
     this.mostrarConfirmacion = false;
   }
 }
-

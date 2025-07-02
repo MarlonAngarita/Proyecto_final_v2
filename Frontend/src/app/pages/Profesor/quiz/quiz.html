@@ -2,7 +2,7 @@
   <!-- Encabezado -->
   <div class="encabezado-logo">
     <h2>Gestión de Quizzes</h2>
-    <img src="/assets/Logo.png" alt="Logo" class="logo-proyecto"/>
+    <img src="/assets/Logo.png" alt="Logo" class="logo-proyecto" />
     <button class="btn-volver-quiz" (click)="volverAlDashboard()">⏎ Volver</button>
   </div>
 
@@ -10,15 +10,15 @@
   <div class="quiz-form-container">
     <form class="quiz-form" (ngSubmit)="crearQuiz()" #quizForm="ngForm">
       <h3 class="titulo-form">Crear Nuevo Quiz</h3>
-      
+
       <div class="form-group">
         <label for="pregunta">Pregunta *</label>
-        <textarea 
-          id="pregunta" 
-          [(ngModel)]="quiz.pregunta" 
-          name="pregunta" 
-          required 
-          rows="3" 
+        <textarea
+          id="pregunta"
+          [(ngModel)]="quiz.pregunta"
+          name="pregunta"
+          required
+          rows="3"
           class="input-form"
           [disabled]="guardando"
           placeholder="Escribe la pregunta del quiz..."
@@ -28,12 +28,12 @@
       <div class="opciones-grid">
         <div class="form-group">
           <label for="opcion_a">Opción A *</label>
-          <input 
-            id="opcion_a" 
-            type="text" 
-            [(ngModel)]="quiz.opcion_a" 
-            name="opcion_a" 
-            required 
+          <input
+            id="opcion_a"
+            type="text"
+            [(ngModel)]="quiz.opcion_a"
+            name="opcion_a"
+            required
             class="input-form"
             [disabled]="guardando"
             placeholder="Primera opción..."
@@ -42,12 +42,12 @@
 
         <div class="form-group">
           <label for="opcion_b">Opción B *</label>
-          <input 
-            id="opcion_b" 
-            type="text" 
-            [(ngModel)]="quiz.opcion_b" 
-            name="opcion_b" 
-            required 
+          <input
+            id="opcion_b"
+            type="text"
+            [(ngModel)]="quiz.opcion_b"
+            name="opcion_b"
+            required
             class="input-form"
             [disabled]="guardando"
             placeholder="Segunda opción..."
@@ -56,12 +56,12 @@
 
         <div class="form-group">
           <label for="opcion_c">Opción C *</label>
-          <input 
-            id="opcion_c" 
-            type="text" 
-            [(ngModel)]="quiz.opcion_c" 
-            name="opcion_c" 
-            required 
+          <input
+            id="opcion_c"
+            type="text"
+            [(ngModel)]="quiz.opcion_c"
+            name="opcion_c"
+            required
             class="input-form"
             [disabled]="guardando"
             placeholder="Tercera opción..."
@@ -70,12 +70,12 @@
 
         <div class="form-group">
           <label for="opcion_d">Opción D *</label>
-          <input 
-            id="opcion_d" 
-            type="text" 
-            [(ngModel)]="quiz.opcion_d" 
-            name="opcion_d" 
-            required 
+          <input
+            id="opcion_d"
+            type="text"
+            [(ngModel)]="quiz.opcion_d"
+            name="opcion_d"
+            required
             class="input-form"
             [disabled]="guardando"
             placeholder="Cuarta opción..."
@@ -86,11 +86,11 @@
       <div class="form-row">
         <div class="form-group">
           <label for="respuesta_correcta">Respuesta Correcta *</label>
-          <select 
-            id="respuesta_correcta" 
-            [(ngModel)]="quiz.respuesta_correcta" 
-            name="respuesta_correcta" 
-            required 
+          <select
+            id="respuesta_correcta"
+            [(ngModel)]="quiz.respuesta_correcta"
+            name="respuesta_correcta"
+            required
             class="input-form"
             [disabled]="guardando"
           >
@@ -103,11 +103,11 @@
 
         <div class="form-group">
           <label for="id_modulo">Módulo *</label>
-          <select 
-            id="id_modulo" 
-            [(ngModel)]="quiz.id_modulo" 
-            name="id_modulo" 
-            required 
+          <select
+            id="id_modulo"
+            [(ngModel)]="quiz.id_modulo"
+            name="id_modulo"
+            required
             class="input-form"
             [disabled]="guardando || cargandoModulos"
           >
@@ -119,11 +119,7 @@
         </div>
       </div>
 
-      <button 
-        type="submit" 
-        class="btn-guardar" 
-        [disabled]="!quizForm.form.valid || guardando"
-      >
+      <button type="submit" class="btn-guardar" [disabled]="!quizForm.form.valid || guardando">
         {{ guardando ? 'Guardando...' : 'Crear Quiz' }}
       </button>
     </form>
@@ -134,14 +130,10 @@
     <h3>Quizzes Creados</h3>
 
     <!-- Indicador de carga -->
-    <div *ngIf="cargandoQuizzes" class="mensaje-carga">
-      🔄 Cargando quizzes...
-    </div>
+    <div *ngIf="cargandoQuizzes" class="mensaje-carga">🔄 Cargando quizzes...</div>
 
     <!-- Mensaje de error -->
-    <div *ngIf="errorCarga" class="mensaje-error">
-      ⚠️ {{ errorCarga }}
-    </div>
+    <div *ngIf="errorCarga" class="mensaje-error">⚠️ {{ errorCarga }}</div>
 
     <!-- Tabla de quizzes -->
     <table class="tabla-quiz" *ngIf="!cargandoQuizzes">
@@ -161,15 +153,15 @@
           <td>{{ quizItem.respuesta_correcta }}</td>
           <td>{{ quizItem.fecha_creacion || 'Sin fecha' }}</td>
           <td>
-            <button 
-              (click)="editarQuiz(quizItem)" 
+            <button
+              (click)="editarQuiz(quizItem)"
               [disabled]="guardando || eliminando"
               class="btn-editar"
             >
               ✏️
             </button>
-            <button 
-              (click)="eliminarQuiz(quizItem)" 
+            <button
+              (click)="eliminarQuiz(quizItem)"
               [disabled]="guardando || eliminando"
               class="btn-eliminar"
             >
@@ -178,7 +170,7 @@
           </td>
         </tr>
         <tr *ngIf="quizzes.length === 0 && !cargandoQuizzes">
-          <td colspan="5" style="text-align: center; color: #666;">No hay quizzes disponibles</td>
+          <td colspan="5" style="text-align: center; color: #666">No hay quizzes disponibles</td>
         </tr>
       </tbody>
     </table>
@@ -246,9 +238,7 @@
   <div class="modal" *ngIf="quizEliminar">
     <div class="modal-contenido">
       <h3>¿Eliminar quiz?</h3>
-      <p>
-        ¿Estás seguro de eliminar el quiz <strong>"{{ quizEliminar.pregunta }}"</strong>?
-      </p>
+      <p>¿Estás seguro de eliminar el quiz <strong>"{{ quizEliminar.pregunta }}"</strong>?</p>
       <div class="acciones-modal">
         <button (click)="confirmarEliminar()" [disabled]="eliminando">
           {{ eliminando ? 'Eliminando...' : 'Sí, eliminar' }}

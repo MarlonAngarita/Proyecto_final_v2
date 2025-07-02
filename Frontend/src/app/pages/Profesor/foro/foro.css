@@ -11,8 +11,8 @@
 body {
   font-family: 'VT323', monospace;
   background-color: #ffffff;
-  color: #F2921D;
-  
+  color: #f2921d;
+
   margin: 0;
   padding: 0;
   text-align: center;
@@ -22,7 +22,7 @@ body {
 /* Estilos generales */
 .foro-profesor-dashboard {
   padding: 3rem 0.5rem;
-  background: linear-gradient(90deg, #1B1363, #5A397C);
+  background: linear-gradient(90deg, #1b1363, #5a397c);
   color: #fff;
   font-family: 'VT323', monospace;
   min-height: 100vh;
@@ -31,9 +31,8 @@ body {
 /* Navbar ocupa todo el ancho */
 header {
   width: 100%;
-  background-color: #4F2A77;
-  color:#F2CA52;
-;
+  background-color: #4f2a77;
+  color: #f2ca52;
   padding: 4px;
   text-align: center;
   font-size: 1.3rem;
@@ -55,12 +54,10 @@ main {
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;
-  background-color: #F2921D;
+  background-color: #f2921d;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  color:   white;
-;
-;
+  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,18 +69,16 @@ main {
   width: 90%;
   padding: 10px;
   margin-bottom: 10px;
-  border: 2px solid #F2CA52 ;
+  border: 2px solid #f2ca52;
   border-radius: 5px;
-  background-color: #F2CA52 ;
+  background-color: #f2ca52;
   color: white;
-;
   font-size: 1rem;
 }
 
 .crear-post textarea {
   height: 80px;
   resize: none;
-  
 }
 
 /* Sección de publicaciones */
@@ -92,10 +87,10 @@ main {
   max-width: 600px;
   margin: 40px auto;
   padding: 20px;
-  background-color: #F2921D;
+  background-color: #f2921d;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  color:white;
+  color: white;
   text-align: center;
 }
 
@@ -182,13 +177,13 @@ main {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  border: 3px solid #F2CA52;
+  border: 3px solid #f2ca52;
 }
 
 .foro-cabecera h1 {
   font-size: 2.5rem;
   font-family: 'Gagalin', cursive;
-  color: #F2921D;
+  color: #f2921d;
   margin: 0;
 }
 
@@ -201,8 +196,8 @@ main {
 }
 
 .foro-panel {
-  background-color: #F2CA52;
-  color: #1B1363;
+  background-color: #f2ca52;
+  color: #1b1363;
   padding: 0.7rem 2rem;
   border-radius: 8px;
   font-size: 1.2rem;
@@ -213,7 +208,7 @@ main {
   font-family: 'VT323', monospace;
 }
 .foro-panel-activo {
-  background: #F2921D;
+  background: #f2921d;
   color: #fff;
   border: 2px solid #fff;
 }
@@ -223,17 +218,17 @@ main {
   max-width: 600px;
   margin: 0 auto 2rem auto;
   padding: 2rem;
-  background: #F2CA52;
+  background: #f2ca52;
   border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-  color: #1B1363;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+  color: #1b1363;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .foro-crear-post h2 {
   font-family: 'Gagalin', cursive;
-  color: #5A397C;
+  color: #5a397c;
   margin-bottom: 1rem;
 }
 .foro-crear-post input,
@@ -241,10 +236,10 @@ main {
   width: 90%;
   padding: 10px;
   margin-bottom: 10px;
-  border: 2px solid #F2921D;
+  border: 2px solid #f2921d;
   border-radius: 5px;
   background-color: #fff;
-  color: #1B1363;
+  color: #1b1363;
   font-size: 1.1rem;
   font-family: 'VT323', monospace;
 }
@@ -253,8 +248,8 @@ main {
   resize: none;
 }
 .foro-btn-publicar {
-  background: #1B1363;
-  color: #F2CA52;
+  background: #1b1363;
+  color: #f2ca52;
   padding: 10px 24px;
   font-weight: bold;
   border: none;
@@ -265,7 +260,7 @@ main {
   transition: background 0.3s;
 }
 .foro-btn-publicar:hover {
-  background: #5A397C;
+  background: #5a397c;
 }
 
 /* Sección de publicaciones en el foro */
@@ -277,7 +272,7 @@ main {
   padding: 1rem 0;
 }
 .foro-publicaciones h2 {
-  color: #F2CA52;
+  color: #f2ca52;
   font-family: 'Gagalin', cursive;
   margin-bottom: 1.5rem;
   text-align: center;
@@ -289,9 +284,9 @@ main {
 }
 .foro-tarjeta {
   background: #fff;
-  color: #1B1363;
+  color: #1b1363;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 1.5rem 1.2rem;
   font-size: 1.1rem;
   font-family: 'VT323', monospace;
@@ -315,26 +310,26 @@ main {
   height: 55px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #F2CA52;
+  border: 2px solid #f2ca52;
 }
 .foro-autor {
-  color: #5A397C;
+  color: #5a397c;
   font-size: 1.2rem;
   font-family: 'Gagalin', cursive;
   margin: 0;
 }
 .foro-tiempo {
-  color: #F2921D;
+  color: #f2921d;
   font-size: 1rem;
 }
 .foro-titulo {
-  color: #1B1363;
+  color: #1b1363;
   font-size: 1.3rem;
   font-family: 'Gagalin', cursive;
   margin: 0 0 0.2rem 0;
 }
 .foro-contenido {
-  color: #5A397C;
+  color: #5a397c;
   font-size: 1.1rem;
   margin: 0;
 }
@@ -343,7 +338,7 @@ main {
   justify-content: flex-end;
 }
 .foro-btn-eliminar {
-  background: #F2921D;
+  background: #f2921d;
   color: #fff;
   border: none;
   padding: 8px 18px;
@@ -354,14 +349,14 @@ main {
   transition: background 0.3s;
 }
 .foro-btn-eliminar:hover {
-  background: #B86B1B;
+  background: #b86b1b;
 }
 
 /* Botón de volver */
 .foro-btn-volver {
   background: transparent;
-  border: 2px solid #F2CA52;
-  color: #F2CA52;
+  border: 2px solid #f2ca52;
+  color: #f2ca52;
   font-family: 'VT323', monospace;
   font-size: 1.1rem;
   padding: 0.3rem 1.2rem;
@@ -369,18 +364,20 @@ main {
   margin-left: auto;
   margin-right: 0;
   cursor: pointer;
-  transition: background 0.3s, color 0.3s;
+  transition:
+    background 0.3s,
+    color 0.3s;
 }
 .foro-btn-volver:hover {
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
 }
 
 /* Estilos para indicador de carga */
 .foro-loading {
   text-align: center;
   padding: 2rem;
-  color: #F2921D;
+  color: #f2921d;
   font-family: 'VT323', monospace;
   font-size: 1.2rem;
 }
@@ -389,10 +386,10 @@ main {
 .foro-sin-publicaciones {
   text-align: center;
   padding: 3rem;
-  color: #F2921D;
+  color: #f2921d;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
-  border: 2px dashed #F2CA52;
+  border: 2px dashed #f2ca52;
   margin-top: 2rem;
 }
 
@@ -405,7 +402,7 @@ main {
 .foro-btn-eliminar-header {
   background: none;
   border: none;
-  color: #F2921D;
+  color: #f2921d;
   cursor: pointer;
   font-size: 1.2rem;
   margin-left: auto;
@@ -511,7 +508,8 @@ textarea:disabled {
 
 /* Media queries para tablets y móviles */
 @media (max-width: 900px) {
-  .foro-publicaciones, .foro-crear-post {
+  .foro-publicaciones,
+  .foro-crear-post {
     max-width: 98vw;
     padding: 1rem;
   }

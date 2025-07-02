@@ -18,7 +18,6 @@
 -->
 
 <section class="contenedor-rachas-usuario">
-  
   <!-- ===========================================================================================
        ENCABEZADO CON NAVEGACIÓN
        =========================================================================================== -->
@@ -31,7 +30,7 @@
   <!-- ===========================================================================================
        ESTADOS DE CARGA Y ERROR
        =========================================================================================== -->
-       
+
   <!-- Indicador de carga con spinner animado -->
   <div *ngIf="cargando" class="loading-rachas">
     <div class="spinner-rachas"></div>
@@ -48,7 +47,6 @@
        CONTENIDO PRINCIPAL DEL SISTEMA DE RACHAS
        =========================================================================================== -->
   <div *ngIf="!cargando && !errorCarga">
-    
     <!-- Panel de estadísticas principales con métricas clave -->
     <div class="panel-estadisticas">
       <!-- Estadística principal: racha actual destacada -->
@@ -56,7 +54,7 @@
         <div class="numero-racha">{{ estadisticas.rachaActual }}</div>
         <div class="label-racha">Días de racha actual</div>
       </div>
-      
+
       <!-- Estadísticas secundarias en grid horizontal -->
       <div class="stats-secundarias">
         <div class="stat-item">
@@ -75,60 +73,62 @@
     </div>
 
     <!-- Panel de estado dinámico de la racha con acciones contextuales -->
-    <div class="estado-racha-panel" [ngClass]="{
+    <div
+      class="estado-racha-panel"
+      [ngClass]="{
       'activa': estadisticas.rachaActual > 0,
       'en-peligro': rachaEnPeligro,
       'perdida': estadisticas.rachaActual === 0 && puedeUsarRecuperacion
-    }">
+    }"
+    >
       <!-- Icono dinámico que refleja el estado actual de la racha -->
       <div class="icono-estado">
-        <span *ngIf="estadisticas.rachaActual > 0 && !rachaEnPeligro">🔥</span> <!-- Racha activa -->
-        <span *ngIf="rachaEnPeligro">⚠️</span>                                    <!-- En peligro -->
-        <span *ngIf="estadisticas.rachaActual === 0">💔</span>                   <!-- Perdida -->
+        <span *ngIf="estadisticas.rachaActual > 0 && !rachaEnPeligro">🔥</span>
+        <!-- Racha activa -->
+        <span *ngIf="rachaEnPeligro">⚠️</span>
+        <!-- En peligro -->
+        <span *ngIf="estadisticas.rachaActual === 0">💔</span>
+        <!-- Perdida -->
       </div>
-      
+
       <!-- Información contextual del estado actual -->
       <div class="info-estado">
         <h3 *ngIf="estadisticas.rachaActual > 0 && !rachaEnPeligro">¡Racha activa!</h3>
         <h3 *ngIf="rachaEnPeligro">Racha en peligro</h3>
         <h3 *ngIf="estadisticas.rachaActual === 0">Racha perdida</h3>
-        
+
         <!-- Mensajes contextuales según el estado -->
         <p *ngIf="estadisticas.rachaActual > 0 && !rachaEnPeligro">
           Última actividad: {{ getTiempoSinActividad() }}
         </p>
-        <p *ngIf="rachaEnPeligro">
-          No has tenido actividad hoy. ¡Tu racha está en riesgo!
-        </p>
-        <p *ngIf="estadisticas.rachaActual === 0">
-          Puedes recuperar parte de tu racha perdida.
-        </p>
+        <p *ngIf="rachaEnPeligro">No has tenido actividad hoy. ¡Tu racha está en riesgo!</p>
+        <p *ngIf="estadisticas.rachaActual === 0">Puedes recuperar parte de tu racha perdida.</p>
       </div>
 
       <!-- Botones de acción contextual según el estado de la racha -->
       <div class="acciones-estado">
         <!-- Botón para marcar actividad cuando la racha está activa -->
-        <button 
-          *ngIf="estadisticas.rachaActual > 0 && !rachaEnPeligro" 
-          class="btn-actividad" 
+        <button
+          *ngIf="estadisticas.rachaActual > 0 && !rachaEnPeligro"
+          class="btn-actividad"
           (click)="marcarActividadHoy()"
         >
           ✅ Marcar actividad hoy
         </button>
-        
+
         <!-- Botón para usar protección cuando la racha está en peligro -->
-        <button 
-          *ngIf="rachaEnPeligro && puedeUsarProteccion" 
-          class="btn-proteccion" 
+        <button
+          *ngIf="rachaEnPeligro && puedeUsarProteccion"
+          class="btn-proteccion"
           (click)="usarProteccionRacha()"
         >
           🛡️ Usar protección
         </button>
-        
+
         <!-- Botón para recuperar racha cuando está perdida -->
-        <button 
-          *ngIf="puedeUsarRecuperacion" 
-          class="btn-recuperacion" 
+        <button
+          *ngIf="puedeUsarRecuperacion"
+          class="btn-recuperacion"
           (click)="usarRecuperacionRacha()"
         >
           💪 Recuperar racha
@@ -141,7 +141,7 @@
          =========================================================================================== -->
     <div class="objetivos-racha">
       <h3>🎯 Objetivos de Racha</h3>
-      
+
       <!-- Grid responsive de tarjetas de objetivos -->
       <div class="grid-objetivos">
         <!-- 
@@ -150,8 +150,8 @@
           - Información del objetivo (título, descripción, días, recompensa)
           - Barra de progreso dinámica
         -->
-        <div 
-          *ngFor="let objetivo of objetivos" 
+        <div
+          *ngFor="let objetivo of objetivos"
           class="tarjeta-objetivo"
           [ngClass]="{
             'completado': objetivo.completado,
@@ -161,10 +161,10 @@
         >
           <!-- Badge visual para objetivos completados -->
           <div class="badge-completado" *ngIf="objetivo.completado">✅</div>
-          
+
           <!-- Icono representativo del objetivo -->
           <div class="icono-objetivo">{{ objetivo.icono }}</div>
-          
+
           <!-- Información detallada del objetivo -->
           <div class="info-objetivo">
             <h4>{{ objetivo.titulo }}</h4>
@@ -176,8 +176,8 @@
           <!-- Barra de progreso visual para objetivos no completados -->
           <div class="progreso-objetivo" *ngIf="!objetivo.completado">
             <div class="barra-progreso-objetivo">
-              <div 
-                class="relleno-progreso-objetivo" 
+              <div
+                class="relleno-progreso-objetivo"
                 [style.width.%]="objetivo.progreso"
                 [style.background-color]="obtenerColorProgreso(objetivo.progreso)"
               ></div>
@@ -210,7 +210,7 @@
   <div class="modal-rachas" *ngIf="modalRachaActivo">
     <div class="modal-contenido-rachas">
       <button class="modal-cerrar-rachas" (click)="cerrarModalRacha()">✖</button>
-      
+
       <div class="modal-header-rachas">
         <h2>📊 Estadísticas Detalladas</h2>
       </div>
@@ -227,7 +227,8 @@
             <strong>Total días activos:</strong> {{ estadisticas.totalDias }} días
           </div>
           <div class="detalle-item">
-            <strong>Última actividad:</strong> {{ formatearFecha(estadisticas.fechaUltimaActividad) }}
+            <strong>Última actividad:</strong> {{ formatearFecha(estadisticas.fechaUltimaActividad)
+            }}
           </div>
           <div class="detalle-item">
             <strong>Protecciones disponibles:</strong> {{ estadisticas.proteccionesDisponibles }}
@@ -257,7 +258,7 @@
   <div class="modal-rachas" *ngIf="modalProteccionActivo">
     <div class="modal-contenido-rachas">
       <button class="modal-cerrar-rachas" (click)="cerrarModalProteccion()">✖</button>
-      
+
       <div class="modal-header-rachas">
         <h2>🛡️ Usar Protección de Racha</h2>
       </div>
@@ -265,16 +266,16 @@
       <div class="modal-body-rachas">
         <p>¿Estás seguro de que quieres usar una protección de racha?</p>
         <div class="info-proteccion">
-          <p><strong>Protecciones disponibles:</strong> {{ estadisticas.proteccionesDisponibles }}</p>
+          <p>
+            <strong>Protecciones disponibles:</strong> {{ estadisticas.proteccionesDisponibles }}
+          </p>
           <p><strong>Efecto:</strong> Protege tu racha por 1 día de inactividad</p>
         </div>
         <p class="advertencia">Esta acción no se puede deshacer.</p>
       </div>
 
       <div class="modal-footer-rachas">
-        <button class="btn-cancelar-rachas" (click)="cerrarModalProteccion()">
-          ❌ Cancelar
-        </button>
+        <button class="btn-cancelar-rachas" (click)="cerrarModalProteccion()">❌ Cancelar</button>
         <button class="btn-confirmar-rachas" (click)="confirmarProteccion()">
           🛡️ Usar protección
         </button>
@@ -286,7 +287,7 @@
   <div class="modal-rachas" *ngIf="modalRecuperacionActivo">
     <div class="modal-contenido-rachas">
       <button class="modal-cerrar-rachas" (click)="cerrarModalRecuperacion()">✖</button>
-      
+
       <div class="modal-header-rachas">
         <h2>💪 Recuperar Racha</h2>
       </div>
@@ -302,9 +303,7 @@
       </div>
 
       <div class="modal-footer-rachas">
-        <button class="btn-cancelar-rachas" (click)="cerrarModalRecuperacion()">
-          ❌ Cancelar
-        </button>
+        <button class="btn-cancelar-rachas" (click)="cerrarModalRecuperacion()">❌ Cancelar</button>
         <button class="btn-confirmar-rachas" (click)="confirmarRecuperacion()">
           💪 Recuperar racha
         </button>

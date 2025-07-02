@@ -29,7 +29,7 @@
   overflow-y: auto;
   padding: 3rem;
   font-family: 'gagalin', cursive;
-  background: linear-gradient(#1B1363, #5A397C);
+  background: linear-gradient(#1b1363, #5a397c);
   color: #fff;
   min-height: 100vh;
   overflow-x: hidden; /* Evita que se desborde por dentro */
@@ -38,7 +38,7 @@
 
 /* Títulos */
 h2 {
-  color: #F2CA52;
+  color: #f2ca52;
   margin-left: 1rem;
   font-size: 2rem;
   margin-bottom: 1.5rem;
@@ -59,10 +59,10 @@ h2 {
   font-family: 'vt323', monospace;
   flex-direction: column;
   font-size: 1.3rem;
-  color: #F2CA52;
+  color: #f2ca52;
 }
 
-.formulario-desafio input[type="text"],
+.formulario-desafio input[type='text'],
 .formulario-desafio textarea,
 .formulario-desafio select {
   padding: 0.5rem;
@@ -74,7 +74,7 @@ h2 {
   resize: vertical;
 }
 
-.formulario-desafio input[type="checkbox"] {
+.formulario-desafio input[type='checkbox'] {
   margin-top: 0.6rem;
   transform: scale(1.2);
 }
@@ -82,18 +82,18 @@ h2 {
 .formulario-desafio button {
   align-self: start;
   padding: 0.6rem 1.2rem;
-  background: #F2CA52;
+  background: #f2ca52;
   border: none;
   border-radius: 6px;
   font-size: 1.1rem;
   font-family: inherit;
   cursor: pointer;
-  color: #1B1363;
+  color: #1b1363;
   transition: background 0.3s ease;
 }
 
 .formulario-desafio button:hover {
-  background: #F2921D;
+  background: #f2921d;
 }
 
 /* Tabla de desafíos */
@@ -114,7 +114,7 @@ h2 {
 
 .tabla-desafios th {
   font-family: 'gagalin', cursive;
-  color: #F2CA52;
+  color: #f2ca52;
   font-weight: bold;
 }
 
@@ -158,13 +158,13 @@ h2 {
 
 .modal-contenido,
 .submodal-contenido {
-  background: #1B1363;
+  background: #1b1363;
   color: #fff;
   padding: 2rem;
   border-radius: 10px;
   width: 90%;
   max-width: 420px;
-  box-shadow: 0 0 10px #F2CA52;
+  box-shadow: 0 0 10px #f2ca52;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -176,14 +176,14 @@ h2 {
 .modal-contenido h3 {
   font-size: 1.7rem;
   font-family: 'Gagalin', cursive;
-  color: #F2CA52;
+  color: #f2ca52;
 }
 
 .modal-contenido .campo {
   width: 100%;
 }
 
-.modal-contenido input[type="text"],
+.modal-contenido input[type='text'],
 .modal-contenido textarea,
 .modal-contenido select {
   width: 100%;
@@ -205,8 +205,8 @@ h2 {
 
 .acciones-modal button,
 .submodal-contenido button {
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
   border: none;
   padding: 0.5rem 1.2rem;
   font-family: 'VT323', monospace;
@@ -218,28 +218,30 @@ h2 {
 
 .acciones-modal button:hover,
 .submodal-contenido button:hover {
-  background: #F2921D;
+  background: #f2921d;
 }
 
 /* Estilos para el botón de volver en desafíos */
 .btn-volver-desafios {
   background: transparent;
-  border: 2px solid #F2CA52;
-  color: #F2CA52;
+  border: 2px solid #f2ca52;
+  color: #f2ca52;
   font-family: 'VT323', monospace;
   font-size: 1.1rem;
   padding: 0.3rem 1.2rem;
   border-radius: 6px;
   margin-left: 1.5rem;
   cursor: pointer;
-  transition: background 0.3s, color 0.3s;
+  transition:
+    background 0.3s,
+    color 0.3s;
   height: 40px;
   align-self: center;
 }
 
 .btn-volver-desafios:hover {
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
 }
 
 /* Estilos para indicadores de estado */

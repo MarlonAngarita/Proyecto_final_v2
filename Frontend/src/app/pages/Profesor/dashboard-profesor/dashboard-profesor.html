@@ -1,6 +1,12 @@
 <section class="dashboard-profesor">
   <div class="cabecera-profesor">
-    <img [src]="avatarURL" alt="Avatar Profesor" class="avatar" (click)="irAlPerfil()" style="cursor: pointer;" />
+    <img
+      [src]="avatarURL"
+      alt="Avatar Profesor"
+      class="avatar"
+      (click)="irAlPerfil()"
+      style="cursor: pointer"
+    />
     <div class="info-profesor">
       <h1>Bienvenido, {{ nombreProfesor }}</h1>
       <p class="email-profesor" *ngIf="emailProfesor">{{ emailProfesor }}</p>
@@ -13,18 +19,18 @@
     <div class="panel" routerLink="/profesor/cursos">➕ Crear curso</div>
     <div class="panel" routerLink="/profesor/modulos">📚 Crear módulo</div>
     <div class="panel" routerLink="/profesor/desafios">🏆 Crear desafío</div>
-    <div class="panel" routerLink="/profesor/quiz">🧠 Crear quiz </div> 
+    <div class="panel" routerLink="/profesor/quiz">🧠 Crear quiz</div>
     <div class="panel" routerLink="/profesor/foro">💬 Ir al foro</div>
   </div>
 
   <div class="seccion">
     <h2>Mis Cursos Creados</h2>
-    
+
     <!-- Indicador de carga -->
     <div *ngIf="cargandoCursos" class="loading-indicator">
       <p>Cargando cursos...</p>
     </div>
-    
+
     <!-- Lista de cursos -->
     <div *ngIf="!cargandoCursos" class="tarjetas">
       <div class="tarjeta" *ngFor="let curso of cursosAsignados">
@@ -38,7 +44,7 @@
         <button routerLink="/profesor/cursos">Ver detalles</button>
       </div>
     </div>
-    
+
     <!-- Mensaje si no hay cursos -->
     <div *ngIf="!cargandoCursos && cursosAsignados.length === 0" class="no-cursos">
       <p>No tienes cursos creados aún.</p>

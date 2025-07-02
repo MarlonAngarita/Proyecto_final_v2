@@ -14,7 +14,7 @@ import { MedallasService } from '../../../services/medallas.service';
   imports: [CommonModule, RouterModule],
   templateUrl: './dashboard-usuario.html',
   styleUrls: ['./dashboard-usuario.css'],
-  providers: [UserService]
+  providers: [UserService],
 })
 export class DashboardUsuario implements OnInit {
   // Datos del usuario
@@ -36,7 +36,7 @@ export class DashboardUsuario implements OnInit {
   desafiosActivos = 0;
   desafiosCompletados = 0;
   publicacionesForo = 0;
-  
+
   // Medallas
   medallas: any[] = [];
   medallasObtenidas = 0;
@@ -50,7 +50,7 @@ export class DashboardUsuario implements OnInit {
     { dias: 14, descripcion: '¡Dos semanas seguidas aprendiendo!', icono: '💪' },
     { dias: 30, descripcion: '¡Un mes completo de racha!', icono: '🏆' },
     { dias: 60, descripcion: '¡Dos meses sin fallar!', icono: '🌟' },
-    { dias: 100, descripcion: '¡100 días de constancia!', icono: '🎉' }
+    { dias: 100, descripcion: '¡100 días de constancia!', icono: '🎉' },
   ];
 
   constructor(
@@ -59,7 +59,7 @@ export class DashboardUsuario implements OnInit {
     private cursosService: CursosService,
     private desafiosService: DesafiosService,
     private foroService: ForoService,
-    private medallasService: MedallasService
+    private medallasService: MedallasService,
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +97,7 @@ export class DashboardUsuario implements OnInit {
       console.log('Datos de usuario cargados:', {
         nombre: this.nombreUsuario,
         email: this.correoUsuario,
-        racha: this.rachaDias
+        racha: this.rachaDias,
       });
     } catch (error) {
       console.error('Error al cargar datos del usuario:', error);
@@ -113,21 +113,19 @@ export class DashboardUsuario implements OnInit {
     console.log('Cargando datos del dashboard...');
 
     // Cargar datos en paralelo
-    Promise.all([
-      this.cargarCursos(),
-      this.cargarDesafios(),
-      this.cargarForoStats()
-    ]).then(() => {
-      this.calcularProgreso();
-      this.actualizarMedallas();
-      this.cargandoDatos = false;
-      console.log('Datos del dashboard cargados exitosamente');
-    }).catch((error) => {
-      console.error('Error al cargar datos del dashboard:', error);
-      this.errorCarga = 'Error al cargar algunos datos. Mostrando información disponible.';
-      this.cargarDatosLocales();
-      this.cargandoDatos = false;
-    });
+    Promise.all([this.cargarCursos(), this.cargarDesafios(), this.cargarForoStats()])
+      .then(() => {
+        this.calcularProgreso();
+        this.actualizarMedallas();
+        this.cargandoDatos = false;
+        console.log('Datos del dashboard cargados exitosamente');
+      })
+      .catch((error) => {
+        console.error('Error al cargar datos del dashboard:', error);
+        this.errorCarga = 'Error al cargar algunos datos. Mostrando información disponible.';
+        this.cargarDatosLocales();
+        this.cargandoDatos = false;
+      });
   }
 
   private async cargarCursos(): Promise<void> {
@@ -135,7 +133,7 @@ export class DashboardUsuario implements OnInit {
       this.cursosService.getTodosAPI().subscribe({
         next: (cursos) => {
           console.log('Cursos disponibles:', cursos.length);
-          
+
           // Obtener cursos inscritos desde localStorage
           try {
             const cursosInscritosData = localStorage.getItem('cursosInscritos');
@@ -146,7 +144,7 @@ export class DashboardUsuario implements OnInit {
 
           // Simular cursos completados (basado en progreso)
           this.cursosCompletados = Math.floor(this.cursosInscritos * 0.3);
-          
+
           resolve();
         },
         error: (error) => {
@@ -154,7 +152,7 @@ export class DashboardUsuario implements OnInit {
           this.cursosInscritos = 2; // Fallback
           this.cursosCompletados = 0;
           resolve(); // No rechazar para permitir que otros datos se carguen
-        }
+        },
       });
     });
   }
@@ -164,11 +162,11 @@ export class DashboardUsuario implements OnInit {
       this.desafiosService.getTodosAPI().subscribe({
         next: (desafios) => {
           console.log('Desafíos disponibles:', desafios.length);
-          
+
           // Simular desafíos activos y completados
           this.desafiosActivos = Math.min(desafios.length, 3);
           this.desafiosCompletados = Math.floor(this.rachaDias / 7); // 1 por semana de racha
-          
+
           resolve();
         },
         error: (error) => {
@@ -176,7 +174,7 @@ export class DashboardUsuario implements OnInit {
           this.desafiosActivos = 3; // Fallback
           this.desafiosCompletados = 1;
           resolve();
-        }
+        },
       });
     });
   }
@@ -186,17 +184,17 @@ export class DashboardUsuario implements OnInit {
       this.foroService.getHilosAPI().subscribe({
         next: (hilos) => {
           console.log('Hilos del foro:', hilos.length);
-          
+
           // Simular participación del usuario
           this.publicacionesForo = Math.floor(this.rachaDias / 10); // 1 cada 10 días
-          
+
           resolve();
         },
         error: (error) => {
           console.error('Error al cargar stats del foro:', error);
           this.publicacionesForo = 0; // Fallback
           resolve();
-        }
+        },
       });
     });
   }
@@ -216,7 +214,7 @@ export class DashboardUsuario implements OnInit {
     // Calcular progreso basado en actividades completadas
     const totalActividades = this.cursosInscritos + this.desafiosActivos;
     const actividadesCompletadas = this.cursosCompletados + this.desafiosCompletados;
-    
+
     if (totalActividades > 0) {
       this.progresoCurso = Math.round((actividadesCompletadas / totalActividades) * 100);
     } else {
@@ -236,10 +234,10 @@ export class DashboardUsuario implements OnInit {
       console.log('Cargando medallas del usuario...');
       const estadoUsuario = this.medallasService.obtenerEstadoUsuario();
       this.medallas = this.medallasService.obtenerMedallas(estadoUsuario);
-      this.medallasObtenidas = this.medallas.filter(m => m.obtenida).length;
-      
+      this.medallasObtenidas = this.medallas.filter((m) => m.obtenida).length;
+
       console.log(`Medallas cargadas: ${this.medallasObtenidas}/${this.medallas.length} obtenidas`);
-      
+
       // Verificar nuevas medallas
       const nuevasMedallas = this.medallasService.verificarNuevasMedallas();
       if (nuevasMedallas.length > 0) {
@@ -283,7 +281,7 @@ export class DashboardUsuario implements OnInit {
       // Limpiar datos del usuario
       localStorage.removeItem('user');
       localStorage.removeItem('token');
-      
+
       console.log('Sesión cerrada exitosamente');
       this.router.navigate(['/login']);
     } catch (error) {
@@ -299,12 +297,12 @@ export class DashboardUsuario implements OnInit {
   }
 
   getRachaActual(): string {
-    const rachaActual = this.rachas.find(r => this.rachaDias >= r.dias);
+    const rachaActual = this.rachas.find((r) => this.rachaDias >= r.dias);
     return rachaActual ? rachaActual.icono : '🔥';
   }
 
   getProximaMeta(): number | null {
-    const proximaRacha = this.rachas.find(r => r.dias > this.rachaDias);
+    const proximaRacha = this.rachas.find((r) => r.dias > this.rachaDias);
     return proximaRacha ? proximaRacha.dias : null;
   }
 
@@ -319,7 +317,7 @@ export class DashboardUsuario implements OnInit {
       foro: this.publicacionesForo,
       medallas: this.getMedallasObtenidas(),
       cargando: this.cargandoDatos,
-      error: this.errorCarga
+      error: this.errorCarga,
     });
   }
 }

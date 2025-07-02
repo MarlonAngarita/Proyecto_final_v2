@@ -19,7 +19,7 @@
 
 /* Fondo general del quiz */
 body.quiz-bg {
-  background: linear-gradient(90deg, #1B1363, #5A397C);
+  background: linear-gradient(90deg, #1b1363, #5a397c);
   min-height: 100vh;
   font-family: 'VT323', monospace;
   color: #fff;
@@ -38,7 +38,7 @@ app-root,
 
 /* Contenedor del formulario */
 .quiz-form-container {
-  background: linear-gradient(120deg, #1B1363 60%, #5A397C 100%);
+  background: linear-gradient(120deg, #1b1363 60%, #5a397c 100%);
   min-height: 100vh;
   padding: 3rem 0;
   font-family: 'VT323', monospace;
@@ -50,7 +50,7 @@ app-root,
   max-width: 480px;
   margin: 0 auto;
   border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(27,19,99,0.13);
+  box-shadow: 0 4px 16px rgba(27, 19, 99, 0.13);
   padding: 2.5rem 2rem 2rem 2rem;
   display: flex;
   flex-direction: column;
@@ -62,7 +62,7 @@ app-root,
 .quiz-form h2,
 .quiz-form h1 {
   font-family: 'Gagalin', cursive;
-  color: #F2CA52;
+  color: #f2ca52;
   text-align: center;
   font-size: 2rem;
   margin-bottom: 1.2rem;
@@ -77,7 +77,7 @@ app-root,
 }
 .form-group label {
   font-family: 'VT323', monospace;
-  color: #1B1363;
+  color: #1b1363;
   font-size: 1.1rem;
   margin-bottom: 0.3rem;
 }
@@ -90,12 +90,14 @@ app-root,
   width: 100%;
   padding: 0.7rem 1rem;
   border-radius: 8px;
-  border: 2px solid #F2CA52;
+  border: 2px solid #f2ca52;
   font-size: 1.1rem;
   font-family: 'VT323', monospace;
   background: #f9f9f9;
-  color: #1B1363;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  color: #1b1363;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   margin-bottom: 0.2rem;
   box-sizing: border-box;
 }
@@ -103,10 +105,10 @@ app-root,
 .quiz-form input:focus,
 .quiz-form textarea:focus,
 .quiz-form select:focus {
-  border-color: #5A397C;
+  border-color: #5a397c;
   outline: none;
   background: #fff;
-  box-shadow: 0 0 0 2px #F2CA5233;
+  box-shadow: 0 0 0 2px #f2ca5233;
 }
 
 /* Estilo específico para textarea */
@@ -117,9 +119,9 @@ app-root,
 
 /* Botones */
 .btn-guardar,
-.quiz-form button[type="submit"] {
-  background: linear-gradient(90deg, #F2CA52 60%, #F2921D 100%);
-  color: #1B1363;
+.quiz-form button[type='submit'] {
+  background: linear-gradient(90deg, #f2ca52 60%, #f2921d 100%);
+  color: #1b1363;
   font-family: 'Gagalin', cursive;
   font-size: 1.2rem;
   font-weight: bold;
@@ -128,8 +130,10 @@ app-root,
   padding: 0.9rem 0;
   margin-top: 0.5rem;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(242,202,82,0.10);
-  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 2px 8px rgba(242, 202, 82, 0.1);
+  transition:
+    background 0.2s,
+    transform 0.1s;
 }
 .btn-guardar:disabled,
 .quiz-form button[disabled] {
@@ -138,14 +142,14 @@ app-root,
   cursor: not-allowed;
 }
 .btn-guardar:not(:disabled):hover,
-.quiz-form button[type="submit"]:not(:disabled):hover {
-  background: linear-gradient(90deg, #F2921D 60%, #F2CA52 100%);
+.quiz-form button[type='submit']:not(:disabled):hover {
+  background: linear-gradient(90deg, #f2921d 60%, #f2ca52 100%);
   transform: translateY(-2px) scale(1.03);
 }
 
 /* Mensajes de error */
 .error-campo {
-  color: #F2921D;
+  color: #f2921d;
   font-size: 0.95rem;
   margin: 0 0 0.2rem 0.2rem;
   font-family: 'VT323', monospace;

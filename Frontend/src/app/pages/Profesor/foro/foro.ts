@@ -14,26 +14,26 @@ import { ForoService, Hilo } from '../../../services/foro.service';
 export class Foro implements OnInit {
   tituloPost: string = '';
   contenidoPost: string = '';
-  
+
   // Estados de carga
   cargando = false;
   cargandoHilos = false;
   errorCarga = '';
-  
+
   // Estados de operaciones
   guardando = false;
   eliminando = false;
   mensajeConfirmacion = '';
-  
+
   currentUser: any = null;
-  
+
   // Usar la interfaz Hilo directamente
   publicaciones: Hilo[] = [];
 
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private foroService: ForoService
+    private foroService: ForoService,
   ) {}
 
   ngOnInit(): void {
@@ -56,23 +56,23 @@ export class Foro implements OnInit {
     console.log('🔄 Cargando hilos del foro...');
     this.cargandoHilos = true;
     this.errorCarga = '';
-    
+
     this.foroService.getHilosAPI().subscribe({
       next: (hilos) => {
         console.log('✅ Hilos obtenidos desde API:', hilos);
-        
+
         // Asignar directamente los hilos desde la API
-        this.publicaciones = hilos.map(hilo => ({
+        this.publicaciones = hilos.map((hilo) => ({
           ...hilo,
-          autor: hilo.autor || 'Usuario Anónimo'
+          autor: hilo.autor || 'Usuario Anónimo',
         }));
-        
+
         // Fallback a datos locales si la API no devuelve datos
         if (this.publicaciones.length === 0) {
           console.log('⚠️ API no devolvió hilos, usando datos locales');
           this.publicaciones = this.foroService.getHilos() || [];
         }
-        
+
         console.log('Publicaciones procesadas:', this.publicaciones);
         this.cargandoHilos = false;
       },
@@ -80,11 +80,11 @@ export class Foro implements OnInit {
         console.error('❌ Error al cargar hilos desde API:', error);
         this.errorCarga = 'Error al cargar hilos desde la API';
         this.cargandoHilos = false;
-        
+
         // Fallback a datos locales en caso de error
         console.log('🔄 Cargando datos locales como fallback...');
         this.publicaciones = this.foroService.getHilos() || [];
-      }
+      },
     });
   }
 
@@ -100,13 +100,13 @@ export class Foro implements OnInit {
     const nuevoHilo: Hilo = {
       titulo: this.tituloPost,
       contenido: this.contenidoPost,
-      autor: this.currentUser?.nombre || 'Profesor'
+      autor: this.currentUser?.nombre || 'Profesor',
     };
 
     this.foroService.agregarHiloAPI(nuevoHilo).subscribe({
       next: (response) => {
         console.log('✅ Hilo creado exitosamente:', response);
-        
+
         if (response) {
           this.limpiarFormulario();
           this.cargarHilos(); // Recargar lista
@@ -124,14 +124,14 @@ export class Foro implements OnInit {
       },
       error: (error) => {
         console.error('❌ Error al crear hilo:', error);
-        
+
         // Fallback a método local
         this.foroService.agregarHilo(nuevoHilo);
         this.publicaciones = this.foroService.getHilos() || [];
         this.limpiarFormulario();
         this.guardando = false;
         this.mensajeConfirmacion = 'Publicación creada (modo local)';
-      }
+      },
     });
   }
 
@@ -158,11 +158,11 @@ export class Foro implements OnInit {
 
     if (confirm('¿Estás seguro de que deseas eliminar esta publicación?')) {
       console.log('🔄 Eliminando hilo...', publicacion.id);
-      
+
       this.foroService.eliminarHiloAPI(publicacion.id).subscribe({
         next: (eliminado) => {
           console.log('✅ Resultado eliminación:', eliminado);
-          
+
           if (eliminado) {
             this.publicaciones.splice(index, 1);
             this.mensajeConfirmacion = 'Publicación eliminada exitosamente';
@@ -178,7 +178,7 @@ export class Foro implements OnInit {
           // Fallback a eliminación local
           this.publicaciones.splice(index, 1);
           this.mensajeConfirmacion = 'Publicación eliminada (modo local)';
-        }
+        },
       });
     }
   }
@@ -191,15 +191,15 @@ export class Foro implements OnInit {
   // Obtener tiempo relativo
   getTiempoRelativo(fecha?: string): string {
     if (!fecha) return 'Hace un momento';
-    
+
     const ahora = new Date();
     const fechaPublicacion = new Date(fecha);
     const diferencia = ahora.getTime() - fechaPublicacion.getTime();
-    
+
     const minutos = Math.floor(diferencia / 60000);
     const horas = Math.floor(diferencia / 3600000);
     const dias = Math.floor(diferencia / 86400000);
-    
+
     if (minutos < 60) return `Hace ${minutos} min`;
     if (horas < 24) return `Hace ${horas} h`;
     return `Hace ${dias} días`;

@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 
 /**
  * Componente de Registro de Administrador para la plataforma Kütsa
- * 
+ *
  * Funcionalidades principales:
  * - Formulario especializado para registro de administradores
  * - Validación de contraseñas con confirmación
@@ -18,11 +18,11 @@ import { AuthService } from '../../services/auth.service';
  * - Estados de carga y feedback visual
  * - Modal de confirmación exitosa
  * - Navegación y redireccionamiento
- * 
+ *
  * Este componente permite crear nuevas cuentas de administrador
  * con permisos elevados en el sistema. Incluye validaciones
  * adicionales y un flujo de registro específico para este rol.
- * 
+ *
  * @author Sistema Kütsa
  * @version 2.0 - Registro de administrador con validaciones robustas
  */
@@ -31,29 +31,29 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './registro.html',
-  styleUrl: './registro.css'
+  styleUrl: './registro.css',
 })
 export class RegistroAdmin {
   // ===================================================================================================
   // PROPIEDADES DEL COMPONENTE
   // ===================================================================================================
-  
+
   /** Flag para mostrar el modal de confirmación exitosa */
   mostrarConfirmacion = false;
-  
+
   /** Flag para mostrar error de confirmación de contraseña */
   errorConfirmacion = false;
-  
+
   /** Mensaje de error de registro para mostrar al usuario */
   errorRegistro = '';
-  
+
   /** Estado de carga durante el proceso de registro */
   cargando = false;
-  
+
   // Personalización específica para administrador
   /** Título personalizado del formulario */
   tituloFormulario = 'Registro de Administrador';
-  
+
   /** Texto personalizado del botón de envío */
   textoBoton = 'Registrar Administrador';
 
@@ -63,13 +63,13 @@ export class RegistroAdmin {
 
   /**
    * Constructor del componente de registro de administrador
-   * 
+   *
    * @param router - Router de Angular para navegación
    * @param authService - Servicio de autenticación para registro
    */
   constructor(
     public router: Router,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   // ===================================================================================================
@@ -78,7 +78,7 @@ export class RegistroAdmin {
 
   /**
    * Navega suavemente a una sección específica de la página
-   * 
+   *
    * @param id - ID del elemento HTML al que navegar
    */
   scrollToSection(id: string): void {
@@ -92,7 +92,7 @@ export class RegistroAdmin {
 
   /**
    * Maneja el envío del formulario de registro de administrador
-   * 
+   *
    * Proceso completo:
    * 1. Valida el formulario y campos requeridos
    * 2. Verifica que las contraseñas coincidan
@@ -100,7 +100,7 @@ export class RegistroAdmin {
    * 4. Llama al servicio de registro específico para admin
    * 5. Maneja respuesta exitosa o errores
    * 6. Muestra modal de confirmación
-   * 
+   *
    * @param form - Formulario de Angular con los datos del administrador
    */
   onSubmit(form: NgForm): void {
@@ -110,7 +110,7 @@ export class RegistroAdmin {
 
     // Validación del formulario
     if (!form.valid) {
-      Object.values(form.controls).forEach(control => control?.markAsTouched());
+      Object.values(form.controls).forEach((control) => control?.markAsTouched());
       return;
     }
 
@@ -130,7 +130,7 @@ export class RegistroAdmin {
       username: valores.email, // El username será igual al email
       email: valores.email,
       nombre: `${valores.nombre} ${valores.apellido}`.trim(), // Combinar nombre y apellido
-      password: contrasena
+      password: contrasena,
     };
 
     // Usar endpoint específico para registro de administradores
@@ -140,7 +140,7 @@ export class RegistroAdmin {
         this.mostrarConfirmacion = true;
         form.resetForm();
         console.log('Administrador registrado exitosamente:', response);
-        
+
         // Redirigir automáticamente al inicio después de 2 segundos
         // TODO: Cambiar a dashboard de admin cuando esté implementado
         setTimeout(() => {
@@ -149,7 +149,7 @@ export class RegistroAdmin {
       },
       error: (error) => {
         this.cargando = false;
-        
+
         // Manejo detallado de errores del servidor
         if (error.error && typeof error.error === 'object') {
           const errores = [];
@@ -165,7 +165,7 @@ export class RegistroAdmin {
           this.errorRegistro = error.error?.detail || 'Error al registrar administrador';
         }
         console.error('Error de registro de administrador:', error);
-      }
+      },
     });
   }
 
@@ -175,7 +175,7 @@ export class RegistroAdmin {
 
   /**
    * Cierra el modal de confirmación y redirige al inicio
-   * 
+   *
    * TODO: Cambiar redirección a dashboard de admin cuando esté implementado
    */
   cerrarModal(): void {

@@ -27,7 +27,7 @@ export class DashboardProfesor implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cursosService: CursosService
+    private cursosService: CursosService,
   ) {}
 
   // Método ngOnInit para cargar datos del usuario
@@ -45,14 +45,8 @@ export class DashboardProfesor implements OnInit {
     if (this.currentUser) {
       this.nombreProfesor = this.currentUser.nombre || 'Profesor';
       this.emailProfesor = this.currentUser.email || '';
-      console.log(
-        'DashboardProfesor - Nombre del profesor:',
-        this.nombreProfesor
-      );
-      console.log(
-        'DashboardProfesor - Email del profesor:',
-        this.emailProfesor
-      );
+      console.log('DashboardProfesor - Nombre del profesor:', this.nombreProfesor);
+      console.log('DashboardProfesor - Email del profesor:', this.emailProfesor);
     } else {
       console.error('DashboardProfesor - No hay usuario autenticado');
     }
@@ -79,24 +73,15 @@ export class DashboardProfesor implements OnInit {
             estudiantes: [], // Por ahora vacío, se puede llenar desde otra API
           }));
         } else {
-          console.warn(
-            'DashboardProfesor - La respuesta de la API no es un array:',
-            cursos
-          );
+          console.warn('DashboardProfesor - La respuesta de la API no es un array:', cursos);
           this.cursosAsignados = [];
         }
 
-        console.log(
-          'DashboardProfesor - Cursos procesados:',
-          this.cursosAsignados
-        );
+        console.log('DashboardProfesor - Cursos procesados:', this.cursosAsignados);
         this.cargandoCursos = false;
       },
       error: (error) => {
-        console.error(
-          'DashboardProfesor - Error al cargar cursos desde API:',
-          error
-        );
+        console.error('DashboardProfesor - Error al cargar cursos desde API:', error);
         console.log('DashboardProfesor - Usando cursos de respaldo locales');
 
         // Fallback a cursos locales si falla la API

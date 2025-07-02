@@ -2,56 +2,62 @@
 <div class="modulo-form-container">
   <div class="header">
     <h2 class="titulo-form">Gestión de Módulos</h2>
-    <button type="button" class="btn-volver" (click)="volverAlDashboard()">⏎ Volver al Dashboard</button>
+    <button type="button" class="btn-volver" (click)="volverAlDashboard()">
+      ⏎ Volver al Dashboard
+    </button>
   </div>
-  
+
   <form class="modulo-form" (ngSubmit)="onSubmit()" #moduloForm="ngForm">
     <div class="form-group">
       <label for="id_curso">Curso</label>
-      <select 
-        id="id_curso" 
-        name="id_curso" 
-        [(ngModel)]="modulo.id_curso" 
-        required 
+      <select
+        id="id_curso"
+        name="id_curso"
+        [(ngModel)]="modulo.id_curso"
+        required
         class="input-form"
-        [disabled]="cargando">
+        [disabled]="cargando"
+      >
         <option value="">-- Selecciona un curso --</option>
-        <option *ngFor="let curso of cursos" [value]="curso.id_curso">{{ curso.nombre_curso }}</option>
+        <option *ngFor="let curso of cursos" [value]="curso.id_curso">
+          {{ curso.nombre_curso }}
+        </option>
       </select>
-      <small *ngIf="cargandoCursos" style="color: #667eea; font-style: italic;">Cargando cursos...</small>
+      <small *ngIf="cargandoCursos" style="color: #667eea; font-style: italic"
+        >Cargando cursos...</small
+      >
     </div>
-    
+
     <div class="form-group">
       <label for="nombre_modulo">Nombre del Módulo</label>
-      <input 
-        type="text" 
-        id="nombre_modulo" 
-        name="nombre_modulo" 
-        [(ngModel)]="modulo.nombre_modulo" 
-        required 
-        maxlength="100" 
-        class="input-form" 
+      <input
+        type="text"
+        id="nombre_modulo"
+        name="nombre_modulo"
+        [(ngModel)]="modulo.nombre_modulo"
+        required
+        maxlength="100"
+        class="input-form"
         placeholder="Nombre del módulo"
-        [disabled]="cargando" />
+        [disabled]="cargando"
+      />
     </div>
-    
+
     <div class="form-group">
       <label for="contenido_modulo">Contenido del Módulo</label>
-      <textarea 
-        id="contenido_modulo" 
-        name="contenido_modulo" 
-        [(ngModel)]="modulo.contenido_modulo" 
-        required 
-        class="input-form" 
-        rows="5" 
+      <textarea
+        id="contenido_modulo"
+        name="contenido_modulo"
+        [(ngModel)]="modulo.contenido_modulo"
+        required
+        class="input-form"
+        rows="5"
         placeholder="Describe el contenido del módulo..."
-        [disabled]="cargando"></textarea>
+        [disabled]="cargando"
+      ></textarea>
     </div>
-    
-    <button 
-      type="submit" 
-      class="btn-guardar" 
-      [disabled]="!moduloForm.form.valid || cargando">
+
+    <button type="submit" class="btn-guardar" [disabled]="!moduloForm.form.valid || cargando">
       {{ cargando ? 'Guardando...' : 'Guardar Módulo' }}
     </button>
   </form>
@@ -68,7 +74,9 @@
       <div *ngFor="let modulo of modulosCreados; let i = index" class="modulo-card">
         <div class="modulo-header">
           <h4>{{ modulo.nombre_modulo }}</h4>
-          <button class="btn-eliminar" (click)="eliminarModulo(modulo, i)" title="Eliminar módulo">🗑️</button>
+          <button class="btn-eliminar" (click)="eliminarModulo(modulo, i)" title="Eliminar módulo">
+            🗑️
+          </button>
         </div>
         <p class="modulo-curso">
           <strong>Curso:</strong> {{ modulo.nombre_curso || 'Curso no especificado' }}

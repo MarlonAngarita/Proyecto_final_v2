@@ -11,14 +11,17 @@
     <div *ngIf="cargando" class="loading-indicator">
       <p>Cargando...</p>
     </div>
-    
+
     <section id="cursos-creados-section">
       <div class="cursos-container">
         <div *ngFor="let curso of cursosCreados" class="curso-card">
           <h3>{{ curso.nombre_curso || curso.nombre }}</h3>
           <p class="curso-descripcion">{{ curso.descripcion_curso || curso.descripcion }}</p>
           <div class="modal-botones">
-            <button class="btn-ver-mas" (click)="abrirModalDetalles(curso); $event.stopPropagation()">
+            <button
+              class="btn-ver-mas"
+              (click)="abrirModalDetalles(curso); $event.stopPropagation()"
+            >
               Detalles
             </button>
             <button class="btn-ver-mas" (click)="editarCurso(curso); $event.stopPropagation()">
@@ -39,16 +42,39 @@
         <h2 class="modal-titulo">Crear Nuevo Curso</h2>
         <form (ngSubmit)="crearCurso()" #cursoForm="ngForm">
           <label for="curso-nombre">Nombre del Curso:</label>
-          <input type="text" id="curso-nombre" [(ngModel)]="nuevoCurso.nombre" name="curso-nombre" required />
+          <input
+            type="text"
+            id="curso-nombre"
+            [(ngModel)]="nuevoCurso.nombre"
+            name="curso-nombre"
+            required
+          />
 
           <label for="curso-descripcion">Descripción:</label>
-          <textarea id="curso-descripcion" [(ngModel)]="nuevoCurso.descripcion" name="curso-descripcion" required></textarea>
+          <textarea
+            id="curso-descripcion"
+            [(ngModel)]="nuevoCurso.descripcion"
+            name="curso-descripcion"
+            required
+          ></textarea>
 
           <label for="fecha-inicio">Fecha de Inicio:</label>
-          <input type="date" id="fecha-inicio" [(ngModel)]="nuevoCurso.fecha_inicio" name="fecha-inicio" required />
+          <input
+            type="date"
+            id="fecha-inicio"
+            [(ngModel)]="nuevoCurso.fecha_inicio"
+            name="fecha-inicio"
+            required
+          />
 
           <label for="fecha-fin">Fecha de Finalización:</label>
-          <input type="date" id="fecha-fin" [(ngModel)]="nuevoCurso.fecha_fin" name="fecha-fin" required />
+          <input
+            type="date"
+            id="fecha-fin"
+            [(ngModel)]="nuevoCurso.fecha_fin"
+            name="fecha-fin"
+            required
+          />
 
           <label for="curso-material">Material de Apoyo:</label>
           <input type="file" id="curso-material" (change)="agregarMaterial($event)" />
@@ -57,7 +83,11 @@
             <button type="button" class="modal-button btn-cancelar" (click)="cerrarModalCrear()">
               Cancelar
             </button>
-            <button type="submit" class="modal-button btn-crear" [disabled]="cargando || !cursoForm.valid">
+            <button
+              type="submit"
+              class="modal-button btn-crear"
+              [disabled]="cargando || !cursoForm.valid"
+            >
               {{ cargando ? 'Creando...' : 'Crear Curso' }}
             </button>
           </div>
@@ -94,9 +124,7 @@
           <button class="modal-button btn-eliminar" (click)="eliminarCurso(cursoSeleccionado)">
             Eliminar
           </button>
-          <button class="modal-button btn-cancelar" (click)="cerrarModalDetalles()">
-            Cerrar
-          </button>
+          <button class="modal-button btn-cancelar" (click)="cerrarModalDetalles()">Cerrar</button>
         </div>
       </div>
     </div>
@@ -118,10 +146,20 @@
           ></textarea>
 
           <label for="fecha-inicio-edit">Fecha de Inicio:</label>
-          <input type="date" [(ngModel)]="cursoSeleccionado.fecha_inicio" name="fecha-inicio-edit" required />
+          <input
+            type="date"
+            [(ngModel)]="cursoSeleccionado.fecha_inicio"
+            name="fecha-inicio-edit"
+            required
+          />
 
           <label for="fecha-fin-edit">Fecha de Finalización:</label>
-          <input type="date" [(ngModel)]="cursoSeleccionado.fecha_fin" name="fecha-fin-edit" required />
+          <input
+            type="date"
+            [(ngModel)]="cursoSeleccionado.fecha_fin"
+            name="fecha-fin-edit"
+            required
+          />
 
           <label for="curso-material">Material de Apoyo:</label>
           <input type="file" (change)="agregarMaterial($event)" />

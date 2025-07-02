@@ -12,7 +12,7 @@
   min-height: 100vh;
   padding: 2rem 1.5rem;
   box-sizing: border-box;
-  background: linear-gradient(to right, #1B1363, #5A397C);
+  background: linear-gradient(to right, #1b1363, #5a397c);
   color: #fff;
   font-family: 'VT323', monospace;
   display: flex;
@@ -29,7 +29,7 @@
 .encabezado h1 {
   font-family: 'Gagalin';
   font-size: 2.5rem;
-  color: #F2921D;
+  color: #f2921d;
   margin: 0;
 }
 
@@ -37,10 +37,10 @@
   width: 100%;
   max-width: 720px;
   background: #ffffff22;
-  border: 2px solid #F2CA52;
+  border: 2px solid #f2ca52;
   border-radius: 12px;
   padding: 2rem;
-  box-shadow: 0 0 12px #F2CA52aa;
+  box-shadow: 0 0 12px #f2ca52aa;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,7 +51,7 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 3px solid #F2CA52;
+  border: 3px solid #f2ca52;
   margin-bottom: 1.2rem;
 }
 
@@ -63,12 +63,12 @@
 .perfil-info p {
   font-size: 1.4rem;
   margin: 1rem 0;
-  color: #F2CA52;
+  color: #f2ca52;
 }
 
 .perfil-info p strong {
   font-family: 'Gagalin', cursive;
-  color: #F2921D;
+  color: #f2921d;
   font-size: 1.5rem;
 }
 
@@ -81,7 +81,7 @@
 .perfil-info label {
   display: block;
   margin-top: 1.3rem;
-  color: #F2CA52;
+  color: #f2ca52;
   font-family: 'Gagalin', cursive;
   font-size: 1.3rem;
   letter-spacing: 0.5px;
@@ -92,10 +92,10 @@
   padding: 0.6rem 0.8rem;
   font-family: 'VT323', monospace;
   font-size: 1.2rem;
-  border: 2px solid #F2CA52;
+  border: 2px solid #f2ca52;
   border-radius: 6px;
   background: #fff;
-  color: #1B1363;
+  color: #1b1363;
   margin-top: 0.3rem;
   box-sizing: border-box;
 }
@@ -118,7 +118,7 @@
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #F2CA52;
+  color: #f2ca52;
   display: flex;
   align-items: center;
 }
@@ -126,12 +126,12 @@
 .icono-svg {
   width: 22px;
   height: 22px;
-  stroke: #F2CA52;
+  stroke: #f2ca52;
 }
 
 .mensaje-error {
   font-size: 0.95rem;
-  color: #F2921D;
+  color: #f2921d;
   margin-top: 0.3rem;
   font-family: 'VT323', monospace;
 }
@@ -145,19 +145,21 @@
 
 .btn-perfil {
   background: transparent;
-  border: 2px solid #F2CA52;
-  color: #F2CA52;
+  border: 2px solid #f2ca52;
+  color: #f2ca52;
   font-family: 'VT323', monospace;
   font-size: 1.2rem;
   padding: 0.4rem 1.2rem;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 .btn-perfil:hover {
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
 }
 
 .btn-cerrar {
@@ -184,14 +186,14 @@
 }
 
 .modal-contenido {
-  background: #5A397C;
-  border: 2px solid #F2CA52;
+  background: #5a397c;
+  border: 2px solid #f2ca52;
   border-radius: 12px;
   padding: 2rem;
   text-align: center;
   color: #fff;
   font-family: 'VT323', monospace;
-  box-shadow: 0 0 12px #F2CA52aa;
+  box-shadow: 0 0 12px #f2ca52aa;
   max-width: 400px;
   width: 90%;
 }
@@ -199,7 +201,7 @@
 .modal-contenido h2 {
   font-family: 'Gagalin', cursive;
   font-size: 2rem;
-  color: #F2CA52;
+  color: #f2ca52;
   margin-bottom: 1rem;
 }
 
@@ -209,8 +211,8 @@
 }
 
 .modal-button {
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
   font-family: 'VT323', monospace;
   font-size: 1.1rem;
   padding: 0.5rem 1.5rem;
@@ -222,5 +224,5 @@
 }
 
 .modal-button:hover {
-  background: #F2921D;
+  background: #f2921d;
 }

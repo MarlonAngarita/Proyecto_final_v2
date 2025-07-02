@@ -1,15 +1,14 @@
 <div class="login-wrapper">
-    
   <div class="login-card">
     <div class="icon-circle">
       <img src="/assets/rojo.png" alt="rojo claro" class="rojo" />
     </div>
 
     <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-      <input 
-        type="email" 
+      <input
+        type="email"
         name="email"
-        placeholder="EMAIL" 
+        placeholder="EMAIL"
         ngModel
         required
         #email="ngModel"
@@ -18,11 +17,11 @@
       <div *ngIf="email.invalid && email.touched" class="error-message">
         El email es obligatorio
       </div>
-      
-      <input 
-        type="password" 
+
+      <input
+        type="password"
         name="password"
-        placeholder="CONTRASEÑA" 
+        placeholder="CONTRASEÑA"
         ngModel
         required
         #password="ngModel"
@@ -31,14 +30,12 @@
       <div *ngIf="password.invalid && password.touched" class="error-message">
         La contraseña es obligatoria
       </div>
-      
+
       <button type="submit" [disabled]="cargando || loginForm.invalid">
         {{ cargando ? 'INICIANDO...' : 'INICIAR SESIÓN' }}
       </button>
-      
-      <div *ngIf="errorLogin" class="error-message">
-        {{ errorLogin }}
-      </div>
+
+      <div *ngIf="errorLogin" class="error-message">{{ errorLogin }}</div>
     </form>
 
     <!-- Enlaces subrayados -->

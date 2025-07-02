@@ -53,7 +53,7 @@ export interface NotificacionMedalla {
 
 /**
  * Servicio de medallas y gamificación para la plataforma Kütsa
- * 
+ *
  * Funcionalidades principales:
  * - Gestión completa del sistema de medallas
  * - Evaluación automática de condiciones de logros
@@ -61,10 +61,10 @@ export interface NotificacionMedalla {
  * - Categorización y estadísticas de progreso
  * - Persistencia de datos en localStorage
  * - Sistema de recompensas y motivación
- * 
+ *
  * El servicio evalúa constantemente el progreso del usuario
  * y otorga medallas automáticamente cuando se cumplen las condiciones.
- * 
+ *
  * @author Sistema Kütsa
  * @version 2.0 - Sistema de gamificación avanzado
  */
@@ -75,7 +75,7 @@ export class MedallasService {
   // ===================================================================================================
   // SUBJECTS REACTIVOS PARA NOTIFICACIONES
   // ===================================================================================================
-  
+
   /** Subject para emitir notificaciones de nuevas medallas */
   private nuevaMedallaSubject = new Subject<NotificacionMedalla>();
   /** Observable público para suscribirse a nuevas medallas */
@@ -89,7 +89,7 @@ export class MedallasService {
   // ===================================================================================================
   // DEFINICIÓN COMPLETA DE MEDALLAS DEL SISTEMA
   // ===================================================================================================
-  
+
   /** Array con todas las medallas disponibles en el sistema */
   private todasLasMedallas: Medalla[] = [
     // ===========================================================================================
@@ -262,21 +262,21 @@ export class MedallasService {
       categoria: 'Especiales',
       dificultad: 'diamante',
       condicion: (estado: any) => estado.diasRegistrado >= 30,
-    }
+    },
   ];
 
   obtenerMedallas(estadoUsuario: any): Medalla[] {
     const medallasObtenidas = this.obtenerMedallasObtenidas();
-    
-    return this.todasLasMedallas.map(medalla => {
+
+    return this.todasLasMedallas.map((medalla) => {
       const obtenida = medalla.condicion(estadoUsuario);
-      const medallaObtenida = medallasObtenidas.find(m => m.id === medalla.id);
-      
+      const medallaObtenida = medallasObtenidas.find((m) => m.id === medalla.id);
+
       return {
         ...medalla,
         obtenida,
         fechaObtencion: medallaObtenida?.fechaObtencion,
-        progreso: this.calcularProgreso(medalla, estadoUsuario)
+        progreso: this.calcularProgreso(medalla, estadoUsuario),
       };
     });
   }
@@ -286,35 +286,52 @@ export class MedallasService {
     if (medalla.obtenida) return 100;
 
     switch (medalla.id) {
-      case 1: return Math.min((estado.rachaDias / 1) * 100, 100);
-      case 2: return Math.min((estado.rachaDias / 3) * 100, 100);
-      case 3: return Math.min((estado.rachaDias / 7) * 100, 100);
-      case 4: return Math.min((estado.rachaDias / 15) * 100, 100);
-      case 5: return Math.min((estado.rachaDias / 30) * 100, 100);
-      case 6: return Math.min((estado.desafiosResueltos / 1) * 100, 100);
-      case 7: return Math.min((estado.desafiosResueltos / 5) * 100, 100);
-      case 8: return Math.min((estado.desafiosResueltos / 15) * 100, 100);
-      case 9: return Math.min((estado.desafiosResueltos / 25) * 100, 100);
-      case 10: return Math.min((estado.cursosInscritos / 1) * 100, 100);
-      case 11: return Math.min((estado.cursosCompletados / 1) * 100, 100);
-      case 12: return Math.min((estado.cursosCompletados / 3) * 100, 100);
-      case 13: return Math.min((estado.cursosCompletados / 5) * 100, 100);
-      case 16: return Math.min((estado.publicacionesForo / 3) * 100, 100);
-      case 17: return Math.min((estado.respuestasForo / 10) * 100, 100);
-      case 18: return Math.min((estado.diasRegistrado / 30) * 100, 100);
-      default: return 0;
+      case 1:
+        return Math.min((estado.rachaDias / 1) * 100, 100);
+      case 2:
+        return Math.min((estado.rachaDias / 3) * 100, 100);
+      case 3:
+        return Math.min((estado.rachaDias / 7) * 100, 100);
+      case 4:
+        return Math.min((estado.rachaDias / 15) * 100, 100);
+      case 5:
+        return Math.min((estado.rachaDias / 30) * 100, 100);
+      case 6:
+        return Math.min((estado.desafiosResueltos / 1) * 100, 100);
+      case 7:
+        return Math.min((estado.desafiosResueltos / 5) * 100, 100);
+      case 8:
+        return Math.min((estado.desafiosResueltos / 15) * 100, 100);
+      case 9:
+        return Math.min((estado.desafiosResueltos / 25) * 100, 100);
+      case 10:
+        return Math.min((estado.cursosInscritos / 1) * 100, 100);
+      case 11:
+        return Math.min((estado.cursosCompletados / 1) * 100, 100);
+      case 12:
+        return Math.min((estado.cursosCompletados / 3) * 100, 100);
+      case 13:
+        return Math.min((estado.cursosCompletados / 5) * 100, 100);
+      case 16:
+        return Math.min((estado.publicacionesForo / 3) * 100, 100);
+      case 17:
+        return Math.min((estado.respuestasForo / 10) * 100, 100);
+      case 18:
+        return Math.min((estado.diasRegistrado / 30) * 100, 100);
+      default:
+        return 0;
     }
   }
 
   marcarMedallaObtenida(medallaId: number): void {
     const medallasObtenidas = this.obtenerMedallasObtenidas();
-    
-    if (!medallasObtenidas.find(m => m.id === medallaId)) {
+
+    if (!medallasObtenidas.find((m) => m.id === medallaId)) {
       medallasObtenidas.push({
         id: medallaId,
-        fechaObtencion: new Date().toISOString()
+        fechaObtencion: new Date().toISOString(),
       });
-      
+
       localStorage.setItem('medallasObtenidas', JSON.stringify(medallasObtenidas));
     }
   }
@@ -329,32 +346,34 @@ export class MedallasService {
 
   obtenerEstadisticas(): any {
     const medallas = this.obtenerMedallas(this.obtenerEstadoUsuario());
-    const obtenidas = medallas.filter(m => m.obtenida);
-    
+    const obtenidas = medallas.filter((m) => m.obtenida);
+
     return {
       total: medallas.length,
       obtenidas: obtenidas.length,
       porcentaje: Math.round((obtenidas.length / medallas.length) * 100),
-      porCategoria: this.obtenerEstadisticasPorCategoria(medallas)
+      porCategoria: this.obtenerEstadisticasPorCategoria(medallas),
     };
   }
 
   private obtenerEstadisticasPorCategoria(medallas: Medalla[]): any {
     const categorias = ['Racha', 'Desafíos', 'Cursos', 'Especiales'];
     const stats: any = {};
-    
-    categorias.forEach(categoria => {
-      const medallasCategoria = medallas.filter(m => m.categoria === categoria);
-      const obtenidas = medallasCategoria.filter(m => m.obtenida);
-      
+
+    categorias.forEach((categoria) => {
+      const medallasCategoria = medallas.filter((m) => m.categoria === categoria);
+      const obtenidas = medallasCategoria.filter((m) => m.obtenida);
+
       stats[categoria] = {
         total: medallasCategoria.length,
         obtenidas: obtenidas.length,
-        porcentaje: medallasCategoria.length > 0 ? 
-          Math.round((obtenidas.length / medallasCategoria.length) * 100) : 0
+        porcentaje:
+          medallasCategoria.length > 0
+            ? Math.round((obtenidas.length / medallasCategoria.length) * 100)
+            : 0,
       };
     });
-    
+
     return stats;
   }
 
@@ -363,11 +382,13 @@ export class MedallasService {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       const cursosInscritos = JSON.parse(localStorage.getItem('cursosInscritos') || '[]');
       const desafiosCompletados = JSON.parse(localStorage.getItem('desafiosCompletados') || '[]');
-      
+
       // Calcular días registrado
       const fechaRegistro = user.fechaRegistro ? new Date(user.fechaRegistro) : new Date();
-      const diasRegistrado = Math.floor((Date.now() - fechaRegistro.getTime()) / (1000 * 60 * 60 * 24));
-      
+      const diasRegistrado = Math.floor(
+        (Date.now() - fechaRegistro.getTime()) / (1000 * 60 * 60 * 24),
+      );
+
       return {
         rachaDias: user.rachaDias || 0,
         desafiosResueltos: desafiosCompletados.length || 0,
@@ -377,7 +398,7 @@ export class MedallasService {
         recuperacionesUsadas: user.recuperacionesUsadas || 0,
         publicacionesForo: user.publicacionesForo || 0,
         respuestasForo: user.respuestasForo || 0,
-        diasRegistrado
+        diasRegistrado,
       };
     } catch (error) {
       return {
@@ -389,7 +410,7 @@ export class MedallasService {
         recuperacionesUsadas: 0,
         publicacionesForo: 0,
         respuestasForo: 0,
-        diasRegistrado: 0
+        diasRegistrado: 0,
       };
     }
   }
@@ -398,24 +419,24 @@ export class MedallasService {
     const estado = this.obtenerEstadoUsuario();
     const medallas = this.obtenerMedallas(estado);
     const nuevasMedallas: Medalla[] = [];
-    
-    medallas.forEach(medalla => {
+
+    medallas.forEach((medalla) => {
       if (medalla.obtenida && !medalla.fechaObtencion) {
         this.marcarMedallaObtenida(medalla.id);
         nuevasMedallas.push(medalla);
-        
+
         // Emitir notificación de nueva medalla
         this.nuevaMedallaSubject.next({
           medalla: medalla,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         });
       }
     });
-    
+
     // Actualizar el subject de medallas obtenidas
-    const todasObtenidas = medallas.filter(m => m.obtenida);
+    const todasObtenidas = medallas.filter((m) => m.obtenida);
     this.medallasObtenidasSubject.next(todasObtenidas);
-    
+
     return nuevasMedallas;
   }
 
@@ -423,13 +444,11 @@ export class MedallasService {
   obtenerNotificacionesRecientes(): NotificacionMedalla[] {
     const notificaciones = localStorage.getItem('notificaciones_medallas');
     if (!notificaciones) return [];
-    
+
     const parsed = JSON.parse(notificaciones);
     // Mantener solo las últimas 10 notificaciones de los últimos 7 días
-    const hace7Dias = Date.now() - (7 * 24 * 60 * 60 * 1000);
-    return parsed
-      .filter((n: NotificacionMedalla) => n.timestamp > hace7Dias)
-      .slice(-10);
+    const hace7Dias = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    return parsed.filter((n: NotificacionMedalla) => n.timestamp > hace7Dias).slice(-10);
   }
 
   // Método para guardar notificación
@@ -442,7 +461,7 @@ export class MedallasService {
   // Método para marcar notificación como leída
   marcarNotificacionLeida(timestamp: number): void {
     const notificaciones = this.obtenerNotificacionesRecientes();
-    const index = notificaciones.findIndex(n => n.timestamp === timestamp);
+    const index = notificaciones.findIndex((n) => n.timestamp === timestamp);
     if (index !== -1) {
       notificaciones.splice(index, 1);
       localStorage.setItem('notificaciones_medallas', JSON.stringify(notificaciones));

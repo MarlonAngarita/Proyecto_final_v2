@@ -11,7 +11,7 @@
 .admin-dashboard {
   min-height: 100vh;
   padding: 2.5rem 1.5rem;
-  background: linear-gradient(90deg, #1B1363, #5A397C);
+  background: linear-gradient(90deg, #1b1363, #5a397c);
   color: #fff;
   font-family: 'VT323', monospace;
 }
@@ -23,18 +23,20 @@
 .tabs button {
   padding: 0.5rem 1.5rem;
   border: none;
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
   font-family: 'VT323', monospace;
   font-size: 1.2rem;
   border-radius: 8px 8px 0 0;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
   font-weight: bold;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
 .tabs button.active {
-  background: #5A397C;
-  color: #F2CA52;
+  background: #5a397c;
+  color: #f2ca52;
 }
 .acciones-usuarios {
   display: flex;
@@ -42,16 +44,17 @@
   margin-bottom: 1.5rem;
   align-items: center;
 }
-.acciones-usuarios input, .acciones-usuarios select {
+.acciones-usuarios input,
+.acciones-usuarios select {
   padding: 0.5rem;
   border-radius: 4px;
-  border: 1.5px solid #F2CA52;
+  border: 1.5px solid #f2ca52;
   background: #fff;
-  color: #1B1363;
+  color: #1b1363;
   font-family: 'VT323', monospace;
 }
 .acciones-usuarios button {
-  background: #F2921D;
+  background: #f2921d;
   color: #fff;
   border: none;
   padding: 0.5rem 1.2rem;
@@ -61,30 +64,31 @@
   font-size: 1.1rem;
   font-weight: bold;
   transition: background 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
 .acciones-usuarios button:hover {
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
 }
 .tabla-usuarios {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 2rem;
-  background: rgba(255,255,255,0.07);
+  background: rgba(255, 255, 255, 0.07);
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
-.tabla-usuarios th, .tabla-usuarios td {
+.tabla-usuarios th,
+.tabla-usuarios td {
   border: none;
   padding: 0.85rem 1rem;
   text-align: left;
   font-size: 1.1rem;
 }
 .tabla-usuarios th {
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
   font-family: 'Gagalin';
   font-size: 1.2rem;
 }
@@ -92,11 +96,11 @@
   background: #ffffff18;
 }
 .tabla-usuarios tr:hover {
-  background: #F2921D33;
+  background: #f2921d33;
 }
 .tabla-usuarios button {
   margin-right: 0.5rem;
-  background: #5A397C;
+  background: #5a397c;
   color: #fff;
   border: none;
   padding: 0.3rem 0.7rem;
@@ -107,8 +111,8 @@
   transition: background 0.2s;
 }
 .tabla-usuarios button:hover {
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
 }
 .estadisticas-cards {
   display: flex;
@@ -116,25 +120,27 @@
   margin-bottom: 2rem;
 }
 .card {
-  background: #F2CA52;
-  color: #5A397C;
+  background: #f2ca52;
+  color: #5a397c;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   min-width: 180px;
   text-align: center;
   font-family: 'VT323', monospace;
   font-size: 1.2rem;
   font-weight: bold;
   border: 2px solid #fff;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 .card h3 {
   font-family: 'Gagalin';
-  color: #1B1363;
+  color: #1b1363;
   font-size: 1.3rem;
   margin-bottom: 0.5rem;
-  text-shadow: 1px 1px 4px #5A397C44;
+  text-shadow: 1px 1px 4px #5a397c44;
 }
 .graficas {
   margin-top: 2rem;
@@ -151,7 +157,10 @@
 }
 .modal-backdrop {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(27, 19, 99, 0.85); /* Fondo más oscuro y morado */
   z-index: 1000;
   display: flex;
@@ -160,7 +169,7 @@
   overflow-y: auto;
 }
 .modal-crear-usuario {
-  background: linear-gradient(135deg, #2d1a6c 80%, #5A397C 100%);
+  background: linear-gradient(135deg, #2d1a6c 80%, #5a397c 100%);
   color: #fff;
   padding: 2.5rem 2rem 2rem 2rem;
   border-radius: 18px;
@@ -168,13 +177,13 @@
   max-width: 95vw;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
   font-family: 'VT323', monospace;
   position: relative;
 }
 .modal-crear-usuario h2 {
   font-family: 'Gagalin';
-  color: #F2921D;
+  color: #f2921d;
   font-size: 2rem;
   margin-bottom: 1.2rem;
   text-align: center;
@@ -187,21 +196,23 @@
 .form-group label {
   font-weight: bold;
   margin-bottom: 0.3rem;
-  color: #F2CA52;
+  color: #f2ca52;
   font-size: 1.1rem;
 }
-.form-group input, .form-group select {
+.form-group input,
+.form-group select {
   padding: 0.5rem;
   border-radius: 6px;
-  border: 1.5px solid #F2CA52;
+  border: 1.5px solid #f2ca52;
   font-family: 'VT323', monospace;
   font-size: 1.1rem;
-  color: #1B1363;
+  color: #1b1363;
   background: #f9f9f9;
   margin-bottom: 0.2rem;
 }
-.form-group input:focus, .form-group select:focus {
-  outline: 2px solid #F2921D;
+.form-group input:focus,
+.form-group select:focus {
+  outline: 2px solid #f2921d;
 }
 .modal-actions {
   display: flex;
@@ -210,7 +221,7 @@
   margin-top: 1.5rem;
 }
 .modal-actions button {
-  background: #F2921D;
+  background: #f2921d;
   color: #fff;
   border: none;
   padding: 0.5rem 1.2rem;
@@ -222,8 +233,8 @@
   transition: background 0.2s;
 }
 .modal-actions button:hover {
-  background: #F2CA52;
-  color: #1B1363;
+  background: #f2ca52;
+  color: #1b1363;
 }
 body.modal-open {
   overflow: hidden !important;

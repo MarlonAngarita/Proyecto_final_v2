@@ -9,7 +9,7 @@ import { isPlatformBrowser } from '@angular/common';
 
 /**
  * Componente de Administración para la plataforma Kütsa
- * 
+ *
  * Funcionalidades principales:
  * - Gestión completa de usuarios del sistema
  * - Panel de estadísticas y analytics
@@ -18,11 +18,11 @@ import { isPlatformBrowser } from '@angular/common';
  * - Gestión de roles y permisos
  * - Dashboards administrativos
  * - Manejo de modales y estados de UI
- * 
+ *
  * Tabs disponibles:
  * - Usuarios: CRUD completo de usuarios
  * - Estadísticas: Analytics y métricas del sistema
- * 
+ *
  * @author Sistema Kütsa
  * @version 2.0 - Panel de administración completo
  */
@@ -31,20 +31,20 @@ import { isPlatformBrowser } from '@angular/common';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './admin.html',
-  styleUrls: ['./admin.css']
+  styleUrls: ['./admin.css'],
 })
 export class AdminComponent implements OnInit, OnDestroy {
   // ===================================================================================================
   // PROPIEDADES DE NAVEGACIÓN Y UI
   // ===================================================================================================
-  
+
   /** Tab actualmente seleccionado en el panel */
   selectedTab: 'usuarios' | 'estadisticas' = 'usuarios';
 
   // ===================================================================================================
   // PROPIEDADES DE GESTIÓN DE USUARIOS
   // ===================================================================================================
-  
+
   /** Lista completa de usuarios del sistema */
   usuarios: any[] = [];
   /** Texto de filtro para búsqueda de usuarios */
@@ -65,7 +65,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     id_rol: '',
     id_tipo_documento: '',
     id_avatar: '',
-    is_active: true
+    is_active: true,
   };
   /** Lista de avatares disponibles */
   avatares: any[] = [];
@@ -77,7 +77,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   // ===================================================================================================
   // PROPIEDADES DE ESTADÍSTICAS
   // ===================================================================================================
-  
+
   /** Número total de usuarios registrados */
   totalUsuarios: number = 0;
   /** Usuarios activos en el día actual */
@@ -101,7 +101,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   /**
    * Constructor del componente de administración
-   * 
+   *
    * @param platformId - ID de la plataforma para verificar SSR
    */
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
@@ -144,7 +144,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   /**
    * Cambia entre los tabs del panel de administración
-   * 
+   *
    * @param tab - Tab a seleccionar ('usuarios' | 'estadisticas')
    */
   seleccionarTab(tab: 'usuarios' | 'estadisticas') {
@@ -166,7 +166,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   /**
    * Filtra usuarios por rol específico
-   * 
+   *
    * @param rol - Rol por el cual filtrar
    */
   filtrarPorRol(rol: string) {
@@ -201,7 +201,15 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
     // Resetear datos del formulario
     this.nuevoUsuario = {
-      username: '', password: '', first_name: '', last_name: '', email: '', id_rol: '', id_tipo_documento: '', id_avatar: '', is_active: true
+      username: '',
+      password: '',
+      first_name: '',
+      last_name: '',
+      email: '',
+      id_rol: '',
+      id_tipo_documento: '',
+      id_avatar: '',
+      is_active: true,
     };
   }
 
@@ -217,7 +225,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   /**
    * Edita un usuario existente
-   * 
+   *
    * @param usuario - Usuario a editar
    */
   editarUsuario(usuario: any) {
@@ -228,7 +236,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   /**
    * Elimina un usuario del sistema
-   * 
+   *
    * @param usuario - Usuario a eliminar
    */
   eliminarUsuario(usuario: any) {
@@ -238,7 +246,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   /**
    * Suspende temporalmente un usuario
-   * 
+   *
    * @param usuario - Usuario a suspender
    */
   suspenderUsuario(usuario: any) {
@@ -248,7 +256,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   /**
    * Restablece la contraseña de un usuario
-   * 
+   *
    * @param usuario - Usuario al que restablecer contraseña
    */
   restablecerPassword(usuario: any) {
@@ -258,7 +266,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   /**
    * Muestra el historial de actividad de un usuario
-   * 
+   *
    * @param usuario - Usuario del que ver historial
    */
   verHistorial(usuario: any) {

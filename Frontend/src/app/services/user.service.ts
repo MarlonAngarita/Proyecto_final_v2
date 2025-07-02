@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   private usuario: any = {
@@ -10,7 +10,7 @@ export class UserService {
     ciudad: 'Bogotá',
     avatar: 'https://api.dicebear.com/9.x/fun-emoji/svg?seed=Pixel1',
     rachaDias: 1,
-    ultimaConexion: new Date()
+    ultimaConexion: new Date(),
   };
 
   private rompióRacha = false;

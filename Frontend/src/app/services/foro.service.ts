@@ -5,11 +5,11 @@ import { catchError, tap, map } from 'rxjs/operators';
 
 /**
  * Interfaz que define la estructura de un Hilo del foro
- * 
+ *
  * @interface Hilo
  * @description Representa un hilo de conversación en el foro comunitario
  *              donde los usuarios pueden hacer preguntas y compartir conocimiento
- * 
+ *
  * @property {number} id - Identificador único del hilo (opcional para nuevos hilos)
  * @property {string} titulo - Título o asunto del hilo
  * @property {string} contenido - Contenido principal del mensaje del hilo
@@ -30,10 +30,10 @@ export interface Hilo {
 
 /**
  * Interfaz que define la estructura de una Respuesta en el foro
- * 
+ *
  * @interface Respuesta
  * @description Representa una respuesta a un hilo del foro
- * 
+ *
  * @property {number} id - Identificador único de la respuesta (opcional)
  * @property {string} contenido - Contenido de la respuesta
  * @property {string} fecha_respuesta - Fecha de la respuesta (opcional)
@@ -52,12 +52,12 @@ export interface Respuesta {
 
 /**
  * Servicio de gestión del Foro comunitario
- * 
+ *
  * @class ForoService
  * @description Maneja todas las operaciones relacionadas con el foro de la plataforma.
  *              Permite a los usuarios crear hilos de discusión, responder a otros usuarios
  *              y participar en la comunidad de aprendizaje.
- *              
+ *
  * Funcionalidades principales:
  * - Gestión de hilos de conversación (CRUD)
  * - Sistema de respuestas anidadas
@@ -65,7 +65,7 @@ export interface Respuesta {
  * - Sistema de fallback con datos locales
  * - Autenticación JWT automática
  * - Asociación automática con usuarios
- * 
+ *
  * @author Sistema Kütsa
  * @version 1.0
  */
@@ -75,16 +75,16 @@ export interface Respuesta {
 export class ForoService {
   /** URL base de la API REST para el foro */
   private apiUrl = 'http://127.0.0.1:8000/api/v1/foro/';
-  
+
   /** Opciones HTTP con headers por defecto incluyendo autenticación JWT */
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('access_token') || ''}`
-    })
+      Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
+    }),
   };
-  
-  /** 
+
+  /**
    * Datos locales de hilos para fallback y desarrollo
    * @description Array de hilos predefinidos que se utilizan cuando la API no está disponible
    *              Incluye ejemplos de hilos con respuestas para testing
@@ -98,7 +98,7 @@ export class ForoService {
       fecha_publicacion: '2024-01-15',
       respuestas: [
         { autor: 'usuario2', contenido: 'Usé un patrón XOR básico.' },
-        { autor: 'usuario3', contenido: '¡Yo también! Fue un reto genial.' }
+        { autor: 'usuario3', contenido: '¡Yo también! Fue un reto genial.' },
       ],
     },
     {
@@ -131,8 +131,8 @@ export class ForoService {
     this.httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('access_token') || ''}`
-      })
+        Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
+      }),
     };
   }
 
@@ -179,11 +179,10 @@ export class ForoService {
    */
   getHilosAPI(): Observable<Hilo[]> {
     this.updateHttpOptions();
-    return this.http.get<Hilo[]>(this.apiUrl, this.httpOptions)
-      .pipe(
-        tap(hilos => console.log('Hilos obtenidos desde API:', hilos)),
-        catchError(this.handleError<Hilo[]>('getHilosAPI', []))
-      );
+    return this.http.get<Hilo[]>(this.apiUrl, this.httpOptions).pipe(
+      tap((hilos) => console.log('Hilos obtenidos desde API:', hilos)),
+      catchError(this.handleError<Hilo[]>('getHilosAPI', [])),
+    );
   }
 
   /**
@@ -196,11 +195,10 @@ export class ForoService {
   obtenerHiloPorIdAPI(id: number): Observable<Hilo | null> {
     this.updateHttpOptions();
     const url = `${this.apiUrl}${id}/`;
-    return this.http.get<Hilo>(url, this.httpOptions)
-      .pipe(
-        tap(hilo => console.log('Hilo obtenido por ID desde API:', hilo)),
-        catchError(this.handleError<Hilo | null>('obtenerHiloPorIdAPI', null))
-      );
+    return this.http.get<Hilo>(url, this.httpOptions).pipe(
+      tap((hilo) => console.log('Hilo obtenido por ID desde API:', hilo)),
+      catchError(this.handleError<Hilo | null>('obtenerHiloPorIdAPI', null)),
+    );
   }
 
   /**
@@ -216,14 +214,13 @@ export class ForoService {
       titulo: hilo.titulo,
       contenido: hilo.contenido,
       fecha_publicacion: new Date().toISOString().split('T')[0], // Fecha actual en formato YYYY-MM-DD
-      id_usuario: this.getCurrentUserId() // ID del usuario logueado
+      id_usuario: this.getCurrentUserId(), // ID del usuario logueado
     };
-    
-    return this.http.post<Hilo>(this.apiUrl, hiloData, this.httpOptions)
-      .pipe(
-        tap(nuevoHilo => console.log('Hilo agregado via API:', nuevoHilo)),
-        catchError(this.handleError<Hilo | null>('agregarHiloAPI', null))
-      );
+
+    return this.http.post<Hilo>(this.apiUrl, hiloData, this.httpOptions).pipe(
+      tap((nuevoHilo) => console.log('Hilo agregado via API:', nuevoHilo)),
+      catchError(this.handleError<Hilo | null>('agregarHiloAPI', null)),
+    );
   }
 
   /**
@@ -236,12 +233,11 @@ export class ForoService {
   eliminarHiloAPI(id: number): Observable<boolean> {
     this.updateHttpOptions();
     const url = `${this.apiUrl}${id}/`;
-    return this.http.delete(url, this.httpOptions)
-      .pipe(
-        tap(() => console.log('Hilo eliminado via API:', id)),
-        map(() => true), // Mapea respuesta exitosa a true
-        catchError(() => of(false)) // En caso de error retorna false
-      );
+    return this.http.delete(url, this.httpOptions).pipe(
+      tap(() => console.log('Hilo eliminado via API:', id)),
+      map(() => true), // Mapea respuesta exitosa a true
+      catchError(() => of(false)), // En caso de error retorna false
+    );
   }
 
   // ===================================
@@ -262,10 +258,10 @@ export class ForoService {
    * @description Genera un ID único basado en timestamp e inicializa array de respuestas vacío
    */
   agregarHilo(hilo: any): void {
-    this.hilos.push({ 
-      ...hilo, 
+    this.hilos.push({
+      ...hilo,
       id: Date.now(), // ID único basado en timestamp
-      respuestas: [] // Inicializa array de respuestas vacío
+      respuestas: [], // Inicializa array de respuestas vacío
     });
   }
 
@@ -276,7 +272,7 @@ export class ForoService {
    * @description Busca el hilo por ID y agrega la respuesta a su array de respuestas
    */
   responder(hiloId: number, respuesta: any): void {
-    const hilo = this.hilos.find(h => h.id === hiloId);
+    const hilo = this.hilos.find((h) => h.id === hiloId);
     if (hilo) {
       hilo.respuestas.push({ ...respuesta });
     }
@@ -288,6 +284,6 @@ export class ForoService {
    * @description Filtra el array removiendo el hilo con el ID especificado
    */
   eliminarHilo(id: number): void {
-    this.hilos = this.hilos.filter(h => h.id !== id);
+    this.hilos = this.hilos.filter((h) => h.id !== id);
   }
 }

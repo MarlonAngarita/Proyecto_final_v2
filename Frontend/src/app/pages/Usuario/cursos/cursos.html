@@ -2,10 +2,18 @@
   <div class="encabezado">
     <h1>👨‍🏫Mis Cursos</h1>
     <div class="perfil-btn-wrapper">
-      <button (click)="mostrarDisponibles()" class="btn-perfil" [class.active]="vistaActual === 'disponibles'">
+      <button
+        (click)="mostrarDisponibles()"
+        class="btn-perfil"
+        [class.active]="vistaActual === 'disponibles'"
+      >
         Cursos disponibles
       </button>
-      <button (click)="mostrarInscritos()" class="btn-perfil" [class.active]="vistaActual === 'inscritos'">
+      <button
+        (click)="mostrarInscritos()"
+        class="btn-perfil"
+        [class.active]="vistaActual === 'inscritos'"
+      >
         Cursos inscritos
       </button>
     </div>
@@ -36,10 +44,12 @@
           <p class="curso-categoria" *ngIf="curso.categoria">
             <strong>Categoría:</strong> {{ curso.categoria }}
           </p>
-          <button class="btn-ver-mas" (click)="abrirDetalles(curso); $event.stopPropagation()">Ver más</button>
+          <button class="btn-ver-mas" (click)="abrirDetalles(curso); $event.stopPropagation()">
+            Ver más
+          </button>
         </div>
       </div>
-      
+
       <div *ngIf="!cargando && cursosDisponibles.length === 0" class="sin-datos">
         <h2>No hay cursos disponibles en este momento</h2>
       </div>
@@ -67,10 +77,18 @@
         <button class="modal-cerrar" (click)="cerrarModal()">X</button>
         <h2>{{ cursoSeleccionado?.titulo || cursoSeleccionado?.nombre }}</h2>
         <p><strong>Descripción:</strong> {{ cursoSeleccionado?.descripcion }}</p>
-        <p *ngIf="cursoSeleccionado?.contenido"><strong>Contenido:</strong> {{ cursoSeleccionado?.contenido }}</p>
-        <p *ngIf="cursoSeleccionado?.categoria"><strong>Categoría:</strong> {{ cursoSeleccionado?.categoria }}</p>
-        <p *ngIf="cursoSeleccionado?.fecha_inicio"><strong>Fecha de inicio:</strong> {{ cursoSeleccionado?.fecha_inicio }}</p>
-        <p *ngIf="cursoSeleccionado?.fecha_fin"><strong>Fecha de fin:</strong> {{ cursoSeleccionado?.fecha_fin }}</p>
+        <p *ngIf="cursoSeleccionado?.contenido">
+          <strong>Contenido:</strong> {{ cursoSeleccionado?.contenido }}
+        </p>
+        <p *ngIf="cursoSeleccionado?.categoria">
+          <strong>Categoría:</strong> {{ cursoSeleccionado?.categoria }}
+        </p>
+        <p *ngIf="cursoSeleccionado?.fecha_inicio">
+          <strong>Fecha de inicio:</strong> {{ cursoSeleccionado?.fecha_inicio }}
+        </p>
+        <p *ngIf="cursoSeleccionado?.fecha_fin">
+          <strong>Fecha de fin:</strong> {{ cursoSeleccionado?.fecha_fin }}
+        </p>
         <div class="modal-botones">
           <button (click)="inscribirseCurso()">Inscribirme</button>
           <button class="ver-mas-button" (click)="verMasCurso()">Ver Detalle</button>
@@ -84,7 +102,9 @@
         <button class="modal-cerrar" (click)="cerrarModalConfirmacion()">X</button>
         <h2>Inscripción Exitosa</h2>
         <p>Te has inscrito en el curso:</p>
-        <h3 class="curso-inscrito-nombre">{{ cursoSeleccionado?.titulo || cursoSeleccionado?.nombre }}</h3>
+        <h3 class="curso-inscrito-nombre">
+          {{ cursoSeleccionado?.titulo || cursoSeleccionado?.nombre }}
+        </h3>
         <div class="modal-botones">
           <button class="modal-button" (click)="cerrarModalConfirmacion()">Aceptar</button>
         </div>
@@ -97,7 +117,9 @@
         <button class="modal-cerrar" (click)="cerrarModalAlerta()">X</button>
         <h2>¡Atención!</h2>
         <p>Ya te encuentras inscrita en el curso:</p>
-        <h3 class="curso-inscrito-nombre">{{ cursoSeleccionado?.titulo || cursoSeleccionado?.nombre }}</h3>
+        <h3 class="curso-inscrito-nombre">
+          {{ cursoSeleccionado?.titulo || cursoSeleccionado?.nombre }}
+        </h3>
         <div class="modal-botones">
           <button class="modal-button" (click)="cerrarModalAlerta()">Aceptar</button>
         </div>
