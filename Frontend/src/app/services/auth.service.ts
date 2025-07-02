@@ -103,7 +103,9 @@ export class AuthService {
   // ===================================================================================================
 
   /** URL base de la API del backend */
-  private apiUrl = 'http://localhost:8000/api/v1';
+  private apiUrl = window.location.hostname === 'localhost'
+    ? 'http://localhost:8000/api/v1'
+    : 'http://4.203.104.63:8000/api/v1';
 
   /** Subject para manejar el estado reactivo del usuario actual */
   private currentUserSubject = new BehaviorSubject<Usuario | null>(null);

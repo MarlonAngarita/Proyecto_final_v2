@@ -53,7 +53,9 @@ export class ModulosService {
   // ===================================================================================================
 
   /** URL base de la API para operaciones de módulos */
-  private apiUrl = 'http://127.0.0.1:8000/api/v1/modulos/';
+  private apiUrl = window.location.hostname === 'localhost'
+    ? 'http://localhost:8000/api/v1/modulos/'
+    : 'http://4.203.104.63:8000/api/v1/modulos/';
 
   /** Inserted by Angular inject() migration for backwards compatibility */
   constructor(...args: unknown[]);
