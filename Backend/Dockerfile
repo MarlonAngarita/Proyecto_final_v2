@@ -7,5 +7,6 @@ RUN apt-get update && apt-get install -y gcc default-libmysqlclient-dev pkg-conf
 COPY requirements.txt ./
 RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . .
+COPY ../kustsa ../kustsa
 EXPOSE 8000
 CMD ["gunicorn", "kustsa.wsgi:application", "--bind", "0.0.0.0:8000"]
