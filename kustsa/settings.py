@@ -138,8 +138,11 @@ DATABASES = {
         'NAME': 'kutsadb',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': 'db',  # Cambiado de 'localhost' a 'db' para Docker Compose
+        'HOST': 'db',  # Este debe coincidir con el nombre del servicio en docker-compose.yml
         'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
