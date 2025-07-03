@@ -11,5 +11,5 @@ WORKDIR /app
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package*.json ./
 RUN npm ci --omit=dev
-EXPOSE 4200
+EXPOSE 4000
 CMD ["node", "dist/angular/server/server.mjs"]
