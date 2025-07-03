@@ -122,6 +122,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',  # Para Angular
     'http://4.203.104.63:4200',  # IP pública de Azure (puerto 4200)
     'http://4.203.104.63',  # Frontend en Azure sin puerto
+    'http://4.203.104.63:4000',  # Frontend SSR en Azure (puerto 4000)
 ]
 CORS_ALLOW_CREDENTIALS = True  # Permitir credenciales si es necesario
 
