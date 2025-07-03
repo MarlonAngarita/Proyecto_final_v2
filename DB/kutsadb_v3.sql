@@ -121,8 +121,26 @@
 -- ALTER TABLE `desafios_usuario` ADD CONSTRAINT `desafios_usuario_id_usuario_4de034b5_fk_usuarios_id` FOREIGN KEY (`id_usuario`) REFERENCES 
 -- `usuarios` (`id`);
 
--- SOLO DEJA LOS INSERTS, ELIMINA O COMENTA LOS CREATE TABLE Y ALTER TABLE
-
+SET FOREIGN_KEY_CHECKS=0;
+TRUNCATE TABLE avatares;
+TRUNCATE TABLE cursos;
+TRUNCATE TABLE desafios;
+TRUNCATE TABLE medallas;
+TRUNCATE TABLE niveles;
+TRUNCATE TABLE roles;
+TRUNCATE TABLE tipo_documento;
+TRUNCATE TABLE modulos;
+TRUNCATE TABLE quiz;
+TRUNCATE TABLE usuarios;
+TRUNCATE TABLE rachas_usuario;
+TRUNCATE TABLE gamificacion;
+TRUNCATE TABLE foro;
+TRUNCATE TABLE cursos_nivel;
+TRUNCATE TABLE progreso_usuario;
+TRUNCATE TABLE niveles_usuario;
+TRUNCATE TABLE medallas_usuario;
+TRUNCATE TABLE desafios_usuario;
+SET FOREIGN_KEY_CHECKS=1;
 --
 -- Insert data into Avatares
 --
