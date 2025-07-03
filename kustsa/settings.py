@@ -138,7 +138,7 @@ DATABASES = {
         'NAME': 'kutsadb_v3',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': 'localhost',
+        'HOST': 'db',  # Cambiado de 'localhost' a 'db' para Docker Compose
         'PORT': '3306',
     }
 }
