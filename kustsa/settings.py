@@ -135,7 +135,7 @@ WSGI_APPLICATION = 'kustsa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kutsadb_v3',
+        'NAME': 'kutsadb',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'db',  # Cambiado de 'localhost' a 'db' para Docker Compose
